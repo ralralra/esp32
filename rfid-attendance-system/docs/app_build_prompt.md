@@ -90,8 +90,10 @@ ESP32 RFID 리더기(학생증 태그)와 연동되는 출결 관리 시스템�
 - [+ 학생증 등록] 버튼 → 등록 모달:
   (a) 입력 폼: 이름(필수), 학년, 반, 번호
   (b) [등록 시작] 버튼:
-      GET RELAY_URL?action=start&mode=register&device=DEV001&name=이름&grade=학년&klass=반&number=번호&timeout=30
-      → 대기 모달 (출석체크와 같은 30초 카운트다운, "새 학생증을 리더기에 태그해주세요")
+      GET RELAY_URL?action=start&mode=register&device=DEV001&name=이름&grade=학년&klass=반&number=번호&timeout=120
+      → 대기 모달 ("새 학생증을 리더기에 태그해주세요")
+      등록은 카드 꺼내고 준비하는 시간이 필요해서 120초로 넉넉하게.
+      카운트다운은 응답의 timeout 값(초)으로 진행바를 맞춰줘
   (c) 1초마다 status 폴링 (출석체크와 동일):
       - result.ok === true → "OO 학생의 학생증이 등록되었습니다" (UID 표시)
       - result.reason === "dup" → "이미 OO 학생으로 등록된 카드입니다"
@@ -115,6 +117,8 @@ ESP32 RFID 리더기(학생증 태그)와 연동되는 출결 관리 시스템�
   (pin 없이 호출하면 보호 여부만 알려줌. protected:false면 로그인 불필요)
 - ?action=start&mode=attend|register&device=&period=&name=&grade=&klass=&number=&lateAfter=&timeout=&pin=
   → {ok:true, timeout:30, lateAfter:"09:10"}   (세션 생성. 리더기 1대당 1개, timeout 후 자동 만료)
+  서버는 등록(register) 세션에 최소 120초를 보장하므로, 카운트다운은 요청에 보낸 값이
+  아니라 응답의 timeout 값으로 맞춰야 화면과 실제 만료 시각이 어긋나지 않아
 - ?action=status&device=  → {state:"none"|"waiting"|"done", mode, result}
   result 성공: {ok:true, name, status:"출석"|"지각", time:"HH:mm:ss"}  (등록은 {ok:true, name, uid})
   result 실패: {ok:false, reason:"unknown"|"mismatch"|"dup"|"already", name?, time?, uid?}

@@ -32,6 +32,8 @@ async function startAttendance() {
     timeout: "30",          // 앱 화면의 30초 카운트다운과 맞춤
   });
 }
+// 참고: 등록(mode: "register") 세션은 서버가 최소 120초를 보장합니다.
+// 카운트다운은 요청에 보낸 값이 아니라 응답의 timeout 값(초)으로 맞추세요.
 
 // ② 대기 화면에서 1초마다 결과 확인 → done이 되면 결과 화면 표시
 function waitForResult(onDone, onTimeout) {

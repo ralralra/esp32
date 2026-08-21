@@ -15,7 +15,7 @@
  *   ▸ 앱이 부르는 것
  *   login    : 교사 비밀번호 확인. pin                                → JSON
  *   start    : 세션 시작. mode=attend|register, device, [name, grade, klass, number,
- *              period, lateAfter(HH:MM), timeout(초, 기본 30), pin]   → JSON
+ *              period, lateAfter(HH:MM), timeout(초, 기본 30 — 등록은 최소 120 보장), pin] → JSON
  *   status   : 세션 상태/결과 조회. device                            → JSON
  *   cancel   : 세션 취소. device                                      → JSON
  *   students : 등록된 학생 목록. [pin]                                → JSON
@@ -139,6 +139,10 @@ function startSession(p) {
     return json({ ok: false, error: '등록 모드는 name(학생 이름)이 필요합니다' });
   }
   var timeout = Math.min(Math.max(parseInt(p.timeout || '30', 10), 10), 300);
+  // 등록은 학생 정보 입력 → 카드 꺼내기 → 태그까지 시간이 걸려서 30초로는 부족하다.
+  // 앱이 짧은 값을 보내도 등록 세션은 최소 120초를 보장한다.
+  // (앱은 응답의 timeout 값으로 카운트다운을 맞추면 된다)
+  if (p.mode === 'register') timeout = Math.max(timeout, 120);
 
   // 지각 기준: 파라미터로 안 주면 교시설정 시트에서 찾는다
   var lateAfter = p.lateAfter || '';

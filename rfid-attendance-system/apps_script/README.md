@@ -83,5 +83,7 @@
 | `?action=login&pin=` | 교사 비밀번호 확인 `{ok, protected}` (pin 없이 호출하면 보호 여부만 반환) |
 
 - 세션은 리더기 1대당 1개이며 `timeout`(기본 30초) 후 자동 만료됩니다.
+  등록(`mode=register`) 세션은 카드 준비 시간이 필요해 **최소 120초**를 보장합니다
+  (앱이 더 짧은 값을 보내도 서버가 120초로 늘립니다. 실제 적용값은 응답의 `timeout`).
 - **비밀번호 보호**: `설정` 시트의 `비밀번호보호`를 `ON`으로 두면 `start`·`cancel`·`students`·`records`에 `&pin=` 이 필요합니다. ESP32가 쓰는 `poll`·`tag`와 `periods`·`attended`·`status`는 잠기지 않습니다.
 - 지각 기준: `start`에 `lateAfter`(HH:MM)를 직접 넘기거나, 생략하면 `period`로 **교시설정 시트**에서 자동으로 찾습니다.
