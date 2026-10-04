@@ -1,4 +1,4 @@
-"""배선 점검 — 베이스보드 배선표를 ESP32 핀 규칙·전압·전류 예산에 비춰 자동 검사한다.
+"""배선 점검 — 베이스보드 / Wemos D1 R32+센서쉴드 배선표를 ESP32 핀 규칙·전압·전류 예산에 비춰 자동 검사한다.
 
 전류 값은 부품 데이터시트의 대표값(최악 쪽으로 반올림)이며, 실제 제품마다 다를 수 있다.
 """
@@ -11,6 +11,10 @@ UART0 = {1, 3}
 ADC1 = {32, 33, 34, 35, 36, 39}
 HEADER_PINS = {15, 2, 4, 16, 17, 5, 18, 19, 21, 3, 1, 22, 23,          # 베이스보드 왼쪽 줄
                13, 12, 14, 27, 26, 25, 33, 32, 35, 34, 39, 36}         # 오른쪽 줄
+# Wemos D1 R32 + 센서쉴드 V5: 실드에 인쇄된 우노 라벨 → GPIO
+WEMOS_LABEL = {"0": 3, "1": 1, "2": 26, "3": 25, "4": 17, "5": 16, "6": 27, "7": 14, "8": 12, "9": 13,
+               "10": 5, "11": 23, "12": 19, "13": 18, "A0": 2, "A1": 4, "A2": 35, "A3": 34, "A4": 36, "A5": 39}
+WEMOS_PINS = set(WEMOS_LABEL.values())
 ESP32_MA = 240   # 와이파이 송신 순간 최대 (ESP32 데이터시트 802.11b TX)
 
 # (부품, GPIO, 방향, 전원 위치, 전원 전압, 부품→ESP32 신호 최대 전압, 5V 전류 mA, 3.3V 전류 mA, 비고)
@@ -28,8 +32,21 @@ V2 = [
 ]
 
 
-def check(name, parts, adapter_ma):
-    print(f"\n════ {name} 배선 점검 (전압 점퍼 {JUMPER_V:g}V) ════")
+# Wemos 판 — 실드 V줄은 5V(V1: SEL 꽂음 = 보드 5V, V2: SEL 뺌 = EXT PWR 5V), 조도 VCC는 Bluetooth 헤더 3V3
+WEMOS_V1 = [
+    ("릴레이 모듈",   WEMOS_LABEL["2"],  "out", "실드 2번 V", 5.0, None, 90, 0, "코일 5V"),
+    ("PIR HC-SR501", WEMOS_LABEL["3"],  "in",  "실드 3번 V", 5.0, 3.3, 1, 0, ""),
+    ("조도센서",      WEMOS_LABEL["A3"], "adc", "Bluetooth 3V3", 3.3, 3.3, 0, 5, ""),
+]
+WEMOS_V2 = [
+    ("네오픽셀 링 16구", WEMOS_LABEL["6"],  "out", "실드 6번 V (EXT)", 5.0, None, round(NEO_MA), 0, "밝기 상한 128/255 기준"),
+    ("PIR HC-SR501",    WEMOS_LABEL["3"],  "in",  "실드 3번 V (EXT)", 5.0, 3.3, 1, 0, ""),
+    ("조도센서",         WEMOS_LABEL["A3"], "adc", "Bluetooth 3V3", 3.3, 3.3, 0, 5, ""),
+]
+
+
+def check(name, parts, adapter_ma, header_pins=HEADER_PINS, power_note=f"전압 점퍼 {JUMPER_V:g}V"):
+    print(f"\n════ {name} 배선 점검 ({power_note}) ════")
     ok = True
     used = {}
     for part, pin, kind, where, vpow, vsig, ma5, ma3, note in parts:
@@ -37,8 +54,8 @@ def check(name, parts, adapter_ma):
         if pin in used:
             msgs.append(f"❌ GPIO{pin}을 {used[pin]}와 같이 씀")
         used[pin] = part
-        if pin not in HEADER_PINS:
-            msgs.append("❌ 베이스보드에 해당 헤더 없음")
+        if pin not in header_pins:
+            msgs.append("❌ 보드/실드에 해당 헤더 없음")
         if kind == "out" and pin in INPUT_ONLY:
             msgs.append("❌ 입력 전용 핀에 출력")
         if pin in STRAPPING | UART0:
@@ -74,7 +91,40 @@ def check(name, parts, adapter_ma):
     return ok
 
 
+def firmware_pins(path):
+    import re
+    src = open(path, encoding="utf-8").read()
+    return {m[0]: int(m[1]) for m in re.findall(r"const int (\w+_PIN)\s*=\s*(\d+);", src)}
+
+
+def check_firmware():
+    """배선표의 GPIO와 펌웨어 상수가 같은지 — 같으면 보드를 바꿔도 코드 수정 없음"""
+    import os
+    here = os.path.dirname(os.path.abspath(__file__))
+    v1 = firmware_pins(os.path.join(here, "../v1_relay_bulb/firmware/step3_auto_lamp/step3_auto_lamp.ino"))
+    v2 = firmware_pins(os.path.join(here, "../v2_neopixel_color/firmware/step2_auto_mood_lamp/step2_auto_mood_lamp.ino"))
+    pairs = [("V1 RELAY_PIN", v1.get("RELAY_PIN"), [V1[0][1], WEMOS_V1[0][1]]),
+             ("V1 PIR_PIN", v1.get("PIR_PIN"), [V1[1][1], WEMOS_V1[1][1]]),
+             ("V1 LIGHT_PIN", v1.get("LIGHT_PIN"), [V1[2][1], WEMOS_V1[2][1]]),
+             ("V2 LED_PIN", v2.get("LED_PIN"), [V2[0][1], WEMOS_V2[0][1]]),
+             ("V2 PIR_PIN", v2.get("PIR_PIN"), [V2[1][1], WEMOS_V2[1][1]]),
+             ("V2 LIGHT_PIN", v2.get("LIGHT_PIN"), [V2[2][1], WEMOS_V2[2][1]])]
+    print("\n════ 펌웨어 ↔ 배선표 핀 일치 (DevKit · Wemos) ════")
+    ok = True
+    for name, fw, tables in pairs:
+        same = all(fw == x for x in tables)
+        ok &= same
+        print(f"  {'✅' if same else '❌'} {name} = {fw}  (배선표: DevKit {tables[0]} · Wemos {tables[1]})")
+    print(f"  결과: {'통과 — 두 보드 모두 같은 코드' if ok else '수정 필요'}")
+    return ok
+
+
 if __name__ == "__main__":
-    a = check("V1 릴레이 전구형", V1, 1000)
-    b = check("V2 네오픽셀 컬러형", V2, 2000)
-    raise SystemExit(0 if a and b else 1)
+    results = [
+        check("DevKit V1 릴레이 전구형", V1, 1000),
+        check("DevKit V2 네오픽셀 컬러형", V2, 2000),
+        check("Wemos V1 릴레이 전구형", WEMOS_V1, 1000, WEMOS_PINS, "센서쉴드 SEL 꽂음 · 보드 5V"),
+        check("Wemos V2 네오픽셀 컬러형", WEMOS_V2, 2400, WEMOS_PINS, "센서쉴드 SEL 뺌 · EXT PWR 5V"),
+    ]
+    results.append(check_firmware())
+    raise SystemExit(0 if all(results) else 1)
