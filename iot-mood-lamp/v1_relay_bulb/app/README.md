@@ -1,6 +1,6 @@
 # V1 앱 — AI Studio 프롬프트
 
-> ⏳ 준비 중 — 완성 프롬프트(`ai_studio_prompt.md`)는 이 폴더에 추가 예정
+> ✅ 완성 프롬프트는 V1·V2 공용으로 **[`../../app/ai_studio_prompt.md`](../../app/ai_studio_prompt.md)** 에 있습니다 (화면 디자인 시안 포함).
 
 ## 화면 구성 (초안)
 - 큰 전구 아이콘 + 현재 상태(켜짐/꺼짐 · 자동/수동)
