@@ -7,9 +7,9 @@
 > 📌 **상태: 준비 단계** — 폴더 구조와 설계 결정 사항을 먼저 정리해 두었습니다.
 > 각 단계 폴더의 README에 목표·확인 방법이 적혀 있고, 코드는 단계별로 채워 나갑니다.
 
-| 위에서 본 모습 | 소켓과 흰 고리 (네오픽셀 자리) | 옆에서 본 모습 |
+| 위에서 본 모습 | 소켓과 흰 고리 (네오픽셀 자리) | 뒤집힌 모습 |
 |:---:|:---:|:---:|
-| ![위](docs/images/lamp_top_view.jpg) | ![소켓](docs/images/lamp_socket_ring.jpg) | ![옆](docs/images/lamp_side_view.jpg) |
+| ![위](docs/images/lamp_top_view.jpg) | ![소켓](docs/images/lamp_socket_ring.jpg) | ![거꾸로](docs/images/lamp_side_view.jpg) |
 
 ## 두 가지 버전
 
