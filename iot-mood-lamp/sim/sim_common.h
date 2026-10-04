@@ -28,11 +28,11 @@ static void check(bool ok, const char* what) {
   ok ? passCount++ : failCount++;
 }
 static void section(const char* title) { std::printf("\n▶ %s\n", title); }
-static void sendLine(const char* s) { while (*s) sim::serialIn.push_back(*s++); sim::serialIn.push_back('\n'); }
+[[maybe_unused]] static void sendLine(const char* s) { while (*s) sim::serialIn.push_back(*s++); sim::serialIn.push_back('\n'); }
 [[maybe_unused]] static std::string fmtTime(uint32_t ms) {
   char b[32]; std::snprintf(b, sizeof b, "%u:%02u.%01u", ms / 60000, (ms / 1000) % 60, (ms % 1000) / 100); return b;
 }
-static void printSerialSince(size_t from) {
+[[maybe_unused]] static void printSerialSince(size_t from) {
   for (size_t i = from; i < sim::serialOut.size(); i++) std::printf("     │ %s\n", sim::serialOut[i].c_str());
 }
 static int finish(const char* name) {

@@ -44,6 +44,21 @@ WEMOS_V2 = [
     ("조도센서",         WEMOS_LABEL["A3"], "adc", "Bluetooth 3V3", 3.3, 3.3, 0, 5, ""),
 ]
 
+# Wemos 직결 (쉴드 없이) — 보드 5V 핀 두 개를 부품마다 하나씩, 조도는 3V3
+#   네오픽셀 전류가 보드를 거쳐 나가므로 밝기 상한을 64로 낮춘다 (보드 5V 경로는 1A로 보수적으로 가정)
+NEO_MA_64 = 16 * 4 * 20 * 64 / 255
+DIRECT_PINS = {2, 4, 36, 34, 39, 15, 33, 32, 18, 19, 23, 5, 13, 12, 14, 27, 16, 17, 25, 26}  # D1 R32 헤더 IO 인쇄
+DIRECT_V1 = [
+    ("릴레이 모듈",   26, "out", "보드 5V ①", 5.0, None, 90, 0, ""),
+    ("PIR HC-SR501", 25, "in",  "보드 5V ②", 5.0, 3.3, 1, 0, ""),
+    ("조도센서",      34, "adc", "보드 3V3", 3.3, 3.3, 0, 5, ""),
+]
+DIRECT_V2 = [
+    ("네오픽셀 링 16구", 27, "out", "보드 5V ①", 5.0, None, round(NEO_MA_64), 0, "밝기 상한 64/255"),
+    ("PIR HC-SR501",    25, "in",  "보드 5V ②", 5.0, 3.3, 1, 0, ""),
+    ("조도센서",         34, "adc", "보드 3V3", 3.3, 3.3, 0, 5, ""),
+]
+
 
 def check(name, parts, adapter_ma, header_pins=HEADER_PINS, power_note=f"전압 점퍼 {JUMPER_V:g}V"):
     print(f"\n════ {name} 배선 점검 ({power_note}) ════")
@@ -103,19 +118,19 @@ def check_firmware():
     here = os.path.dirname(os.path.abspath(__file__))
     v1 = firmware_pins(os.path.join(here, "../v1_relay_bulb/firmware/step3_auto_lamp/step3_auto_lamp.ino"))
     v2 = firmware_pins(os.path.join(here, "../v2_neopixel_color/firmware/step2_auto_mood_lamp/step2_auto_mood_lamp.ino"))
-    pairs = [("V1 RELAY_PIN", v1.get("RELAY_PIN"), [V1[0][1], WEMOS_V1[0][1]]),
-             ("V1 PIR_PIN", v1.get("PIR_PIN"), [V1[1][1], WEMOS_V1[1][1]]),
-             ("V1 LIGHT_PIN", v1.get("LIGHT_PIN"), [V1[2][1], WEMOS_V1[2][1]]),
-             ("V2 LED_PIN", v2.get("LED_PIN"), [V2[0][1], WEMOS_V2[0][1]]),
-             ("V2 PIR_PIN", v2.get("PIR_PIN"), [V2[1][1], WEMOS_V2[1][1]]),
-             ("V2 LIGHT_PIN", v2.get("LIGHT_PIN"), [V2[2][1], WEMOS_V2[2][1]])]
-    print("\n════ 펌웨어 ↔ 배선표 핀 일치 (DevKit · Wemos) ════")
+    pairs = [("V1 RELAY_PIN", v1.get("RELAY_PIN"), [V1[0][1], WEMOS_V1[0][1], DIRECT_V1[0][1]]),
+             ("V1 PIR_PIN", v1.get("PIR_PIN"), [V1[1][1], WEMOS_V1[1][1], DIRECT_V1[1][1]]),
+             ("V1 LIGHT_PIN", v1.get("LIGHT_PIN"), [V1[2][1], WEMOS_V1[2][1], DIRECT_V1[2][1]]),
+             ("V2 LED_PIN", v2.get("LED_PIN"), [V2[0][1], WEMOS_V2[0][1], DIRECT_V2[0][1]]),
+             ("V2 PIR_PIN", v2.get("PIR_PIN"), [V2[1][1], WEMOS_V2[1][1], DIRECT_V2[1][1]]),
+             ("V2 LIGHT_PIN", v2.get("LIGHT_PIN"), [V2[2][1], WEMOS_V2[2][1], DIRECT_V2[2][1]])]
+    print("\n════ 펌웨어 ↔ 배선표 핀 일치 (DevKit · Wemos 쉴드 · Wemos 직결) ════")
     ok = True
     for name, fw, tables in pairs:
         same = all(fw == x for x in tables)
         ok &= same
-        print(f"  {'✅' if same else '❌'} {name} = {fw}  (배선표: DevKit {tables[0]} · Wemos {tables[1]})")
-    print(f"  결과: {'통과 — 두 보드 모두 같은 코드' if ok else '수정 필요'}")
+        print(f"  {'✅' if same else '❌'} {name} = {fw}  (배선표: DevKit {tables[0]} · 쉴드 {tables[1]} · 직결 {tables[2]})")
+    print(f"  결과: {'통과 — 세 가지 배선 모두 같은 코드' if ok else '수정 필요'}")
     return ok
 
 
@@ -125,6 +140,10 @@ if __name__ == "__main__":
         check("DevKit V2 네오픽셀 컬러형", V2, 2000),
         check("Wemos V1 릴레이 전구형", WEMOS_V1, 1000, WEMOS_PINS, "센서쉴드 SEL 꽂음 · 보드 5V"),
         check("Wemos V2 네오픽셀 컬러형", WEMOS_V2, 2400, WEMOS_PINS, "센서쉴드 SEL 뺌 · EXT PWR 5V"),
+        check("Wemos 직결 V1 (쉴드 없이)", DIRECT_V1, 1000, DIRECT_PINS, "보드 5V 두 핀 · 3V3"),
+        check("Wemos 직결 V2 (쉴드 없이)", DIRECT_V2, 1000, DIRECT_PINS, "보드 5V 경로 1A로 보수적 가정 · 밝기 상한 64"),
     ]
+    over = ESP32_MA + round(NEO_MA) + 1
+    print(f"\n  참고: 직결 V2를 밝기 상한 128로 쓰면 최대 약 {over} mA — 보드 5V 경로 1A 가정의 {over // 10}% (80% 초과) → 64로 낮추는 이유")
     results.append(check_firmware())
     raise SystemExit(0 if all(results) else 1)

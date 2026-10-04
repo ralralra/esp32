@@ -5,15 +5,18 @@
 
 ```bash
 cd iot-mood-lamp/sim
-make run        # 배선 점검 + V1 시뮬레이션 + V2 시뮬레이션
+make run        # 배선 점검 + 오프라인 V1·V2 + 앱 연동 V1·V2 + Apps Script 테스트
 ```
 
 ## 무엇을 검사하나
 
 | 파일 | 검사 내용 |
 |---|---|
-| `check_wiring.py` | DevKit 베이스보드·**Wemos D1 R32 + 센서쉴드** 배선표 점검, **펌웨어 핀 = 배선표 핀** 확인 — 입력 전용 핀에 출력하지 않는지, 부팅 관여 핀(0·2·5·12·15)·USB 핀(1·3) 회피, 아날로그는 ADC1, ESP32로 들어오는 신호 ≤ 3.3V, PIR·릴레이 전원 전압, 어댑터 전류 예산 |
+| `check_wiring.py` | DevKit 베이스보드·**Wemos 센서쉴드·Wemos 직결** 배선표 점검, **펌웨어 핀 = 배선표 핀** 확인 — 입력 전용 핀에 출력하지 않는지, 부팅 관여 핀(0·2·5·12·15)·USB 핀(1·3) 회피, 아날로그는 ADC1, ESP32로 들어오는 신호 ≤ 3.3V, PIR·릴레이 전원 전압, 어댑터 전류 예산 |
 | `sim_v1.cpp` | V1 `step3_auto_lamp.ino` — 부팅 깜빡임 없음, 밝으면 안 켜짐, 히스테리시스, 어두움+사람 → 50ms 안에 켜짐, 자기 빛에 안 꺼짐, 5분 뒤 자동 끄기, 시리얼 수동 명령 |
+| `sim_v1_app.cpp` | V1 `step4_app_lamp.ino` + **가짜 서버** — 첫 보고, 앱 명령이 폴링 한 번 안에 반영, 다른 팀 명령 무시, CONFIG 적용·저장·재부팅 후 유지, 와이파이 끊겨도 자동 동작, 서버 오류 시 재시도 간격, 30초 하트비트 |
+| `sim_v2_app.cpp` | V2 `step3_app_mood_lamp.ino` + 가짜 서버 — 색 이름·색 코드·무지개(링 둘레·시간에 따라 변함), 밝기 연타 합치기, CONFIG 자동 끄기 페이드, 마지막 색·밝기 기억 |
+| `../apps_script/test/gs_test.js` | **실제 `mood_lamp.gs`** 를 구글 서비스 흉내 위에서 실행 — 12팀 분리, 명령 합치기, 10분 만료, 캐시 복구 등 24가지 |
 | `sim_v2.cpp` | V2 `step2_auto_mood_lamp.ino` — 부팅 시 전부 꺼짐, 1초 페이드, 웜화이트(W 채널), 색·밝기 명령, 밝기 상한, 링 전류 추정, 5분 뒤 서서히 끄기, 수동 명령 |
 
 실행 중에도 가상 보드가 **전기 규칙 위반**(입력 전용 핀 출력, 플래시 핀 사용, ADC2 아날로그 읽기)을 잡아냅니다.
@@ -23,7 +26,7 @@ make run        # 배선 점검 + V1 시뮬레이션 + V2 시뮬레이션
 
 - 실제 전압·노이즈, 릴레이 접점, 네오픽셀 타이밍(3.3V 신호 경계값)은 **실물에서 확인**해야 합니다.
 - 조도 기준값(1200/1500)과 PIR 감도는 교실마다 다르므로 V1 2단계에서 **실측**해 상수를 바꿉니다.
-- 와이파이·앱 연동(V1 4단계, V2 3단계)은 아직 포함하지 않았습니다.
+- 가짜 서버는 실제 Apps Script와 같은 규칙으로 만들었지만, 실제 구글 서버의 응답 지연·할당량은 흉내 내지 않습니다.
 
 ## 배선도 다시 그리기
 
@@ -32,7 +35,8 @@ make run        # 배선 점검 + V1 시뮬레이션 + V2 시뮬레이션
 ```bash
 cd ../docs/images
 python3 draw_board_wiring.py      # DevKit 판 SVG 생성
-python3 draw_wemos_wiring.py      # Wemos 판 SVG 생성
+python3 draw_wemos_wiring.py      # Wemos + 센서쉴드 판 SVG 생성
+python3 draw_wemos_direct.py      # Wemos 직결(쉴드 없이) 판 SVG 생성
 HS=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell   # 또는 크롬
 $HS --headless --hide-scrollbars --window-size=1500,1190 --screenshot=$PWD/wiring_v1_relay.png file://$PWD/wiring_v1_relay.svg
 ```

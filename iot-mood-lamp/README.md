@@ -41,11 +41,22 @@ V2는 V1의 릴레이 자리를 네오픽셀로 바꾸고 색·밝기 명령만 
 **ESP32 DevKit 30핀 + 확장 베이스보드**를 씁니다. 핀마다 G·V·S 헤더가 있어 센서를 **브레드보드 없이 바로** 꽂습니다.
 전압 점퍼는 5V, 조도센서만 V선을 3.3V 헤더로 따로 연결합니다. → **[`docs/board.md`](docs/board.md)**
 
-> 🔁 **Wemos D1 R32 + 센서쉴드 V5로도 됩니다** — 코드는 그대로, 꽂는 자리와 전원만 다릅니다 → **[`docs/board_wemos.md`](docs/board_wemos.md)**
+> 🔁 **Wemos D1 R32로도 됩니다** — 쉴드 없이 직결하거나 센서쉴드 V5에 꽂기. 코드는 그대로, 꽂는 자리와 전원만 다릅니다 → **[`docs/board_wemos.md`](docs/board_wemos.md)**
 
 | V1 배선도 | V2 배선도 |
 |:---:|:---:|
 | ![V1](docs/images/wiring_v1_relay.png) | ![V2](docs/images/wiring_v2_neopixel.png) |
+
+## 수업 진행 (12명 · 시트 1개)
+
+| 누가 | 할 일 | 문서 |
+|---|---|---|
+| 선생님 (한 번) | 구글 시트 1개 + Apps Script 배포 → `/exec` 주소를 학생에게 | [`apps_script/README.md`](apps_script/README.md) |
+| 학생 | 펌웨어 4줄(와이파이 · 주소 · **TEAM_ID**) 고쳐서 업로드 | V1 [`step4_app_lamp`](v1_relay_bulb/firmware/step4_app_lamp/) · V2 [`step3_app_mood_lamp`](v2_neopixel_color/firmware/step3_app_mood_lamp/) |
+| 학생 | 프롬프트의 `[웹앱 URL]`을 바꿔 AI Studio로 앱 만들기 → 설정 탭에서 내 팀 선택 | [`app/ai_studio_prompt.md`](app/ai_studio_prompt.md) |
+
+- 팀 번호는 **TEAM01 ~ TEAM12**, 학생마다 다르게. 같은 번호를 쓰면 서로의 램프가 같이 움직입니다.
+- 시트 `state` 탭에서 12팀의 현재 상태를, `log` 탭에서 누가 어떤 명령을 보냈는지 볼 수 있습니다 (인체감지 기록은 남기지 않음).
 
 ## 왜 중계 서버가 필요한가
 
@@ -71,7 +82,9 @@ AI Studio 앱은 **HTTPS** 주소에서 실행되고, ESP32는 교실 와이파�
 | 폴더 | 내용 |
 |---|---|
 | [`docs/board.md`](docs/board.md) | 보드(DevKit + 확장 베이스보드) 쓰는 법 — 전압 점퍼 · 꽂는 줄 · 전원 |
-| [`docs/board_wemos.md`](docs/board_wemos.md) | **Wemos D1 R32 + 센서쉴드 판** — 꽂는 자리 · SEL 점퍼 · 배선도 |
+| [`docs/board_wemos.md`](docs/board_wemos.md) | **Wemos D1 R32 판** — 쉴드 없이 직결 / 센서쉴드 V5 · 꽂는 자리 · 전원 · 배선도 |
+| [`apps_script/`](apps_script/README.md) | **중계 서버** — 구글 시트 1개로 12팀(TEAM01~12) · 주소 약속 · PC 테스트 |
+| [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안(조명 · 전구 · 자동화·음성) + 그대로 붙여넣는 프롬프트 |
 | [`sim/`](sim/README.md) | **시뮬레이터** — 보드 없이 PC에서 펌웨어·배선 점검 (`make run`) |
 | [`docs/parts.md`](docs/parts.md) | 부품 목록과 고른 이유 — 버전별 필요 부품 표시 |
 | [`docs/power.md`](docs/power.md) | V1은 플러그 2개, V2는 1개인 이유 · 어댑터 용량 |

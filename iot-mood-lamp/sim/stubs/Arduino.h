@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 #include <deque>
+#include <map>
+#include <cstdlib>
 
 #define LOW    0
 #define HIGH   1
@@ -67,6 +69,9 @@ class String {
   String(const std::string& v) : s(v) {}
   String(char c) : s(1, c) {}
   String(int v) { s = std::to_string(v); }
+  String(unsigned v) { s = std::to_string(v); }
+  String(long v) { s = std::to_string(v); }
+  String(unsigned long v) { s = std::to_string(v); }
 
   unsigned length() const { return static_cast<unsigned>(s.size()); }
   const char* c_str() const { return s.c_str(); }
@@ -76,6 +81,11 @@ class String {
     s = (a == std::string::npos) ? "" : s.substr(a, b - a + 1);
   }
   void toLowerCase() { for (auto& c : s) c = static_cast<char>(std::tolower((unsigned char)c)); }
+  void toUpperCase() { for (auto& c : s) c = static_cast<char>(std::toupper((unsigned char)c)); }
+  char operator[](unsigned i) const { return i < s.size() ? s[i] : 0; }
+  int indexOf(char c, int from = 0) const { size_t p = s.find(c, from); return p == std::string::npos ? -1 : (int)p; }
+  int indexOf(const String& v, int from = 0) const { size_t p = s.find(v.s, from); return p == std::string::npos ? -1 : (int)p; }
+  String substring(int a, int b) const { if (a >= (int)s.size()) return String(""); return String(s.substr(a, b - a)); }
   String substring(int a) const { return a >= (int)s.size() ? String("") : String(s.substr(a)); }
   bool startsWith(const char* v) const { return s.rfind(v, 0) == 0; }
   long toInt() const { try { return std::stol(s); } catch (...) { return 0; } }
@@ -85,6 +95,35 @@ class String {
   bool operator==(const char* o) const { return s == o; }
   bool operator==(const String& o) const { return s == o.s; }
 };
+inline String operator+(const String& a, const String& b) { return String(a.s + b.s); }
+inline String operator+(const String& a, const char* b) { return String(a.s + b); }
+inline String operator+(const char* a, const String& b) { return String(std::string(a) + b.s); }
+inline String operator+(const String& a, int b) { return String(a.s + std::to_string(b)); }
+inline String operator+(const String& a, unsigned long b) { return String(a.s + std::to_string(b)); }
+
+// ── FreeRTOS 흉내 (ESP32의 Arduino.h는 FreeRTOS를 함께 불러온다) ──────────
+#define pdTRUE 1
+#define pdFALSE 0
+#define pdMS_TO_TICKS(ms) (ms)
+typedef int BaseType_t;
+struct QueueSim { size_t item; size_t cap; std::deque<std::string> q; };
+typedef QueueSim* QueueHandle_t;
+inline QueueHandle_t xQueueCreate(size_t n, size_t item) { return new QueueSim{item, n, {}}; }
+inline BaseType_t xQueueSend(QueueHandle_t h, const void* p, int) {
+  if (h->q.size() >= h->cap) return pdFALSE;
+  h->q.emplace_back((const char*)p, h->item); return pdTRUE;
+}
+inline BaseType_t xQueueReceive(QueueHandle_t h, void* p, int) {
+  if (h->q.empty()) return pdFALSE;
+  std::memcpy(p, h->q.front().data(), h->item); h->q.pop_front(); return pdTRUE;
+}
+inline int uxQueueSpacesAvailable(QueueHandle_t h) { return (int)(h->cap - h->q.size()); }
+inline BaseType_t xTaskCreatePinnedToCore(void (*)(void*), const char*, int, void*, int, void*, int) { return pdTRUE; }
+inline void vTaskDelay(int) {}
+typedef int portMUX_TYPE;
+#define portMUX_INITIALIZER_UNLOCKED 0
+#define portENTER_CRITICAL(m) ((void)(m))
+#define portEXIT_CRITICAL(m) ((void)(m))
 
 // ── Serial 흉내 ─────────────────────────────────────────────
 class SerialSim {

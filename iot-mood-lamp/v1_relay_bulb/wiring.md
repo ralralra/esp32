@@ -65,6 +65,8 @@ pinMode(RELAY_PIN, OUTPUT);      // 그다음 출력으로 전환
 
 ## Wemos D1 R32로 할 때
 
-코드는 그대로이고 **센서쉴드 V5**에 꽂습니다 → [`../docs/board_wemos.md`](../docs/board_wemos.md)
+코드는 그대로이고 **쉴드 없이 직결**하거나 **센서쉴드 V5**에 꽂습니다 → [`../docs/board_wemos.md`](../docs/board_wemos.md)
 
-![Wemos 배선도](../docs/images/wiring_wemos_v1_relay.png)
+| 쉴드 없이 직결 | 센서쉴드 V5 |
+|:---:|:---:|
+| ![직결](../docs/images/wiring_wemos_direct_v1.png) | ![쉴드](../docs/images/wiring_wemos_v1_relay.png) |
