@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="682" viewBox="0 0 1240 682" font-family="Pretendard, Noto Sans CJK KR, sans-serif">
+<rect width="1240" height="682" fill="#ffffff"/>
+<text x="620.0" y="52" font-size="26" font-weight="bold" fill="#1b2536" text-anchor="middle">7세그먼트 숫자표시기(TM1637) 연결 — DIO · CLK 2신호</text>
+<text x="620.0" y="82" font-size="15" fill="#56677e" text-anchor="middle">점퍼선 4가닥: GND · VCC → 3V3 · DIO → D6(GPIO27) · CLK → D7(GPIO14)</text>
+<rect x="760" y="130" width="400" height="310" rx="16" fill="#1b2536"/>
+<text x="1000.0" y="168" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">Wemos D1 R32</text>
+<text x="1000.0" y="190" font-size="13" fill="#aab6c8" text-anchor="middle">(ESP32 · 우노 모양 보드)</text>
+<rect x="746" y="210" width="210" height="46" rx="8" fill="#e8edf3" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="232" font-size="17" font-weight="bold" fill="#1b2536" text-anchor="start">GND</text>
+<rect x="746" y="270" width="210" height="46" rx="8" fill="#e8edf3" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="292" font-size="17" font-weight="bold" fill="#1b2536" text-anchor="start">3V3</text>
+<text x="772" y="310" font-size="12" fill="#56677e" text-anchor="start">전원 3.3V</text>
+<rect x="746" y="330" width="210" height="46" rx="8" fill="#f5d75d" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="352" font-size="17" font-weight="bold" fill="#3a3000" text-anchor="start">D6  →  GPIO 27</text>
+<text x="772" y="370" font-size="12" fill="#5a4a00" text-anchor="start">DIO</text>
+<rect x="746" y="390" width="210" height="46" rx="8" fill="#f5d75d" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="412" font-size="17" font-weight="bold" fill="#3a3000" text-anchor="start">D7  →  GPIO 14</text>
+<text x="772" y="430" font-size="12" fill="#5a4a00" text-anchor="start">CLK</text>
+<rect x="80" y="130" width="300" height="230" rx="12" fill="#2e7d5b"/>
+<text x="210" y="166" font-size="17" font-weight="bold" fill="#ffffff" text-anchor="middle">7세그 모듈 (TM1637)</text>
+<rect x="310" y="181" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="201" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">GND</text>
+<path d="M380 196 C 563.0 196, 563.0 233.0, 746 233.0" fill="none" stroke="#222222" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<rect x="310" y="221" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="241" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">VCC</text>
+<path d="M380 236 C 563.0 236, 563.0 293.0, 746 293.0" fill="none" stroke="#d32f2f" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<rect x="310" y="261" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="281" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">DIO</text>
+<path d="M380 276 C 563.0 276, 563.0 353.0, 746 353.0" fill="none" stroke="#e07b00" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<rect x="310" y="301" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="321" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">CLK</text>
+<path d="M380 316 C 563.0 316, 563.0 413.0, 746 413.0" fill="none" stroke="#1e88e5" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<text x="80" y="458" font-size="13" fill="#56677e" text-anchor="start">선 색: 검정 = GND · 빨강 = 전원 · 주황/파랑 = 신호   (센서 쪽 암 · 보드 쪽 수 — 암-수 점퍼선)</text>
+<rect x="80" y="476" width="1080" height="38" rx="8" fill="#f2f5f9"/>
+<text x="100" y="502" font-size="15" fill="#1b2536" text-anchor="start">① DIO·CLK는 디지털 핀 아무 두 곳이나 — 예시처럼 D6·D7 → 코드에 27·14</text>
+<rect x="80" y="520" width="1080" height="38" rx="8" fill="#f2f5f9"/>
+<text x="100" y="546" font-size="15" fill="#1b2536" text-anchor="start">② 라이브러리 관리에서 'TM1637' 검색 → TM1637 by Avishay Orpaz 설치</text>
+<rect x="80" y="564" width="1080" height="38" rx="8" fill="#f2f5f9"/>
+<text x="100" y="590" font-size="15" fill="#1b2536" text-anchor="start">③ display.showNumberDecEx(1234, 0b01000000) — 가운데 콜론(:)까지, 시계·타이머에 딱!</text>
+<rect x="80" y="608" width="1080" height="38" rx="8" fill="#fdecea"/>
+<text x="100" y="634" font-size="15" font-weight="bold" fill="#9a1c12" text-anchor="start">⚠ 숫자가 안 나오면: DIO·CLK 순서 바꿔 시도 + setBrightness(7) 확인 — 모듈 뒷면 라벨과 대조!</text>
+</svg>
