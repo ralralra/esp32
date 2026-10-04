@@ -24,6 +24,19 @@ class Adafruit_NeoPixel {
     if (type != NEO_GRBW && w) sim::violation("RGB 링에 W 채널 값을 씀");
     buf[i] = {r, g, b, w};
   }
+  void setPixelColor(int i, uint32_t c) {
+    if (i < 0 || i >= count) return;
+    buf[i] = {uint8_t(c >> 16), uint8_t(c >> 8), uint8_t(c), uint8_t(c >> 24)};
+  }
+  static uint32_t Color(uint8_t r, uint8_t g, uint8_t b) { return (uint32_t(r) << 16) | (uint32_t(g) << 8) | b; }
+  static uint32_t ColorHSV(uint16_t hue) {          // 색상환 6구간 근사 (실물 라이브러리와 색 순서 같음)
+    uint32_t h = (uint32_t(hue) * 1530 + 32768) / 65536, r, g, b;
+    if (h < 255) { r = 255; g = h; b = 0; } else if (h < 510) { r = 510 - h; g = 255; b = 0; }
+    else if (h < 765) { r = 0; g = 255; b = h - 510; } else if (h < 1020) { r = 0; g = 1020 - h; b = 255; }
+    else if (h < 1275) { r = h - 1020; g = 0; b = 255; } else { r = 255; g = 0; b = h < 1530 ? 1530 - h : 0; }
+    return Color(r, g, b);
+  }
+  static uint32_t gamma32(uint32_t c) { return c; }
   void setBrightness(uint8_t b) { brightness = b; }
   void show() { shown = buf; shownBrightness = brightness; showCalls++; }
 
