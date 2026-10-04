@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="622" viewBox="0 0 1240 622" font-family="Pretendard, Noto Sans CJK KR, sans-serif">
+<rect width="1240" height="622" fill="#ffffff"/>
+<text x="620.0" y="52" font-size="26" font-weight="bold" fill="#1b2536" text-anchor="middle">아날로그 센서 연결 — 빛 · 소리 · 토양습도</text>
+<text x="620.0" y="82" font-size="15" fill="#56677e" text-anchor="middle">점퍼선 3가닥: G → GND · V → 3V3 · S → A2~A5 핀 중 하나 (예: A3 = GPIO34)</text>
+<rect x="760" y="130" width="400" height="250" rx="16" fill="#1b2536"/>
+<text x="1000.0" y="168" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">Wemos D1 R32</text>
+<text x="1000.0" y="190" font-size="13" fill="#aab6c8" text-anchor="middle">(ESP32 · 우노 모양 보드)</text>
+<rect x="746" y="210" width="210" height="46" rx="8" fill="#e8edf3" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="232" font-size="17" font-weight="bold" fill="#1b2536" text-anchor="start">GND</text>
+<rect x="746" y="270" width="210" height="46" rx="8" fill="#e8edf3" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="292" font-size="17" font-weight="bold" fill="#1b2536" text-anchor="start">3V3</text>
+<text x="772" y="310" font-size="12" fill="#56677e" text-anchor="start">전원 3.3V (5V 금지)</text>
+<rect x="746" y="330" width="210" height="46" rx="8" fill="#f5d75d" stroke="#0f2240" stroke-width="2"/>
+<text x="772" y="352" font-size="17" font-weight="bold" fill="#3a3000" text-anchor="start">A3  →  GPIO 34</text>
+<text x="772" y="370" font-size="12" fill="#5a4a00" text-anchor="start">입력 전용 · ADC1</text>
+<rect x="80" y="130" width="300" height="190" rx="12" fill="#2e7d5b"/>
+<text x="210" y="166" font-size="17" font-weight="bold" fill="#ffffff" text-anchor="middle">빛 · 소리 · 토양습도 센서</text>
+<rect x="310" y="181" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="201" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">G</text>
+<path d="M380 196 C 563.0 196, 563.0 233.0, 746 233.0" fill="none" stroke="#222222" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<rect x="310" y="221" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="241" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">V</text>
+<path d="M380 236 C 563.0 236, 563.0 293.0, 746 293.0" fill="none" stroke="#d32f2f" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<rect x="485.0" y="248.5" width="156" height="30" rx="6" fill="#fff3e0" stroke="#e07b00"/>
+<text x="563.0" y="269.5" font-size="13" font-weight="bold" fill="#8a4b00" text-anchor="middle">꼭 3V3!</text>
+<rect x="310" y="261" width="70" height="28" rx="5" fill="#ffffff"/>
+<text x="345" y="281" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">S</text>
+<path d="M380 276 C 563.0 276, 563.0 353.0, 746 353.0" fill="none" stroke="#e07b00" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+<text x="80" y="398" font-size="13" fill="#56677e" text-anchor="start">선 색: 검정 = GND · 빨강 = 전원 · 주황/파랑 = 신호   (센서 쪽 암 · 보드 쪽 수 — 암-수 점퍼선)</text>
+<rect x="80" y="416" width="1080" height="38" rx="8" fill="#f2f5f9"/>
+<text x="100" y="442" font-size="15" fill="#1b2536" text-anchor="start">① A2~A5 핀 중 하나 — A2=35 · A3=34 · A4=36 · A5=39 (모두 WiFi와 함께 아날로그 읽기 가능)</text>
+<rect x="80" y="460" width="1080" height="38" rx="8" fill="#f2f5f9"/>
+<text x="100" y="486" font-size="15" fill="#1b2536" text-anchor="start">② 코드의 핀 번호를 꽂은 핀의 GPIO로: #define SIG 34  →  analogRead(SIG)  (0~4095)</text>
+<rect x="80" y="504" width="1080" height="38" rx="8" fill="#f2f5f9"/>
+<text x="100" y="530" font-size="15" fill="#1b2536" text-anchor="start">③ 시리얼 모니터(115200)로 값 관찰 — 손으로 가리기 / 소리 지르기 / 물에 담그기!</text>
+<rect x="80" y="548" width="1080" height="38" rx="8" fill="#fdecea"/>
+<text x="100" y="574" font-size="15" font-weight="bold" fill="#9a1c12" text-anchor="start">⚠ A0·A1(GPIO 2·4)은 WiFi를 켜면 아날로그를 못 읽어요 · V를 5V에 꽂으면 3.3V를 넘는 신호가 들어갈 수 있어요</text>
+</svg>
