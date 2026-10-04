@@ -10,7 +10,7 @@
 | [smartFarm_IoT ↗](https://github.com/ralralra/smartFarm_IoT) | **스마트팜 프로젝트** (별도 저장소로 이동) — 스마트팜 키트 + Wemos D1 R32 + Apps Script + AI Studio 앱 |
 | [`esp32-cam-practice/`](esp32-cam-practice/) | ESP32-CAM 실습 자료 |
 | [`rfid-attendance-system/`](rfid-attendance-system/README.md) | **스마트 출석체크** — WROOM-32 + RC522로 학생증(NFC) 태그 → 웹앱 실시간 출석 확인 (학생증 등록 기능 포함, Apps Script 중계) |
-| [`iot-mood-lamp/`](iot-mood-lamp/README.md) | **IoT 무드등** (준비 단계) — ESP32 DevKit + 릴레이 전구(V1) / 전구 + 네오픽셀 색·밝기(V2), 조도·인체감지 자동, AI Studio 앱 + 음성제어 |
+| [`iot-mood-lamp/`](iot-mood-lamp/README.md) | **IoT 무드등** (준비 단계) — ESP32 DevKit + 릴레이 전구(V1) / 5V 네오픽셀 색·밝기(V2), 조도·인체감지 자동, AI Studio 앱 + 음성제어 |
 
 ## 시작하기
 

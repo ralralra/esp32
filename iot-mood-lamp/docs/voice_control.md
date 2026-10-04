@@ -6,7 +6,7 @@
 
 브라우저에 내장된 음성 인식으로 말을 글자로 바꾸고, 정해 둔 단어가 들어 있으면 명령을 보냅니다.
 
-| 들린 말에 포함된 단어 | 보낼 명령 (→ [V1](../v1_relay_bulb/apps_script/README.md) · [V2](../v2_bulb_neopixel/apps_script/README.md) 명령 약속) |
+| 들린 말에 포함된 단어 | 보낼 명령 (→ [V1](../v1_relay_bulb/apps_script/README.md) · [V2](../v2_neopixel_color/apps_script/README.md) 명령 약속) |
 |---|---|
 | 켜 | `cmd=ON` |
 | 꺼 | `cmd=OFF` |
