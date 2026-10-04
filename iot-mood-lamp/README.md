@@ -36,6 +36,15 @@ V2는 V1의 릴레이 자리를 네오픽셀로 바꾸고 색·밝기 명령만 
 
 자세한 이유 → **[`docs/power.md`](docs/power.md)**
 
+## 보드
+
+**ESP32 DevKit 30핀 + 확장 베이스보드**를 씁니다. 핀마다 G·V·S 헤더가 있어 센서를 **브레드보드 없이 바로** 꽂습니다.
+전압 점퍼는 5V, 조도센서만 V선을 3.3V 헤더로 따로 연결합니다. → **[`docs/board.md`](docs/board.md)**
+
+| V1 배선도 | V2 배선도 |
+|:---:|:---:|
+| ![V1](docs/images/wiring_v1_relay.png) | ![V2](docs/images/wiring_v2_neopixel.png) |
+
 ## 왜 중계 서버가 필요한가
 
 AI Studio 앱은 **HTTPS** 주소에서 실행되고, ESP32는 교실 와이파이 안의 **HTTP** 주소(`192.168.x.x`)를 씁니다.
@@ -59,6 +68,8 @@ AI Studio 앱은 **HTTPS** 주소에서 실행되고, ESP32는 교실 와이파�
 
 | 폴더 | 내용 |
 |---|---|
+| [`docs/board.md`](docs/board.md) | 보드(DevKit + 확장 베이스보드) 쓰는 법 — 전압 점퍼 · 꽂는 줄 · 전원 |
+| [`sim/`](sim/README.md) | **시뮬레이터** — 보드 없이 PC에서 펌웨어·배선 점검 (`make run`) |
 | [`docs/parts.md`](docs/parts.md) | 부품 목록과 고른 이유 — 버전별 필요 부품 표시 |
 | [`docs/power.md`](docs/power.md) | V1은 플러그 2개, V2는 1개인 이유 · 어댑터 용량 |
 | [`docs/voice_control.md`](docs/voice_control.md) | 음성제어 방법 (Web Speech API · Gemini · Siri 단축어) |
