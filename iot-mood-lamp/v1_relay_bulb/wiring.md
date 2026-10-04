@@ -62,3 +62,9 @@
 digitalWrite(RELAY_PIN, HIGH);   // 먼저 '꺼짐' 값을 써 두고
 pinMode(RELAY_PIN, OUTPUT);      // 그다음 출력으로 전환
 ```
+
+## Wemos D1 R32로 할 때
+
+코드는 그대로이고 **센서쉴드 V5**에 꽂습니다 → [`../docs/board_wemos.md`](../docs/board_wemos.md)
+
+![Wemos 배선도](../docs/images/wiring_wemos_v1_relay.png)

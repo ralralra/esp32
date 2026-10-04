@@ -233,12 +233,12 @@ def capacitor(x, y):
             t(x, y + 46, "+극 → 5V", 11, "#56677e")]
 
 
-def adapter(x, y, label):
+def adapter(x, y, label, sub="USB-C 케이블"):
     return [f'<rect x="{x}" y="{y}" width="150" height="74" rx="12" fill="#f4f6f8" stroke="#9aa5b1" stroke-width="2"/>',
             f'<rect x="{x+150}" y="{y+18}" width="26" height="12" fill="#b0b6bc"/>',
             f'<rect x="{x+150}" y="{y+42}" width="26" height="12" fill="#b0b6bc"/>',
             t(x + 75, y + 32, label, 15, "#1b2536", "bold"),
-            t(x + 75, y + 54, "USB-C 케이블", 12, "#56677e")]
+            t(x + 75, y + 54, sub, 12, "#56677e")]
 
 
 def notes(y0, items, warn):

@@ -50,3 +50,9 @@
 > **두 곳에 동시에 전원을 넣지 않습니다.** 제품에 따라 전원이 거꾸로 흘러 PC USB 포트나 어댑터가 상할 수 있습니다.
 > DC 잭(6.5~16V)은 보드 안 레귤레이터가 열을 많이 내므로, 네오픽셀을 쓰는 V2는 **USB-C 5V 입력**을 권합니다.
 > 16구보다 LED가 많아 전류가 커지면, 네오픽셀 5V·GND는 G·V·S 헤더 대신 **위쪽 5V·GND 전원 헤더**에서 받습니다.
+
+## Wemos D1 R32로 할 때
+
+코드는 그대로이고 **센서쉴드 V5**에 꽂습니다 → [`../docs/board_wemos.md`](../docs/board_wemos.md)
+
+![Wemos 배선도](../docs/images/wiring_wemos_v2_neopixel.png)
