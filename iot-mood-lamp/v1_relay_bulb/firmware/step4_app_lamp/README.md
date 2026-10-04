@@ -1,6 +1,6 @@
 # V1 · 4단계 — 앱·음성 연동 완성 펌웨어
 
-> ✅ 코드: [`step4_app_lamp.ino`](step4_app_lamp.ino) — PC 시뮬레이터(가짜 서버 포함)로 검증
+> ✅ 코드: [`step4_app_lamp.ino`](step4_app_lamp.ino) — PC 시뮬레이터(가짜 서버 포함)로 검증 · ESP32 컴파일 확인(esp32 코어 3.3.12, 경고 없음)
 
 ## 업로드 전에 바꿀 4줄
 
