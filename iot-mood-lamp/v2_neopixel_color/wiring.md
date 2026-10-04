@@ -53,6 +53,10 @@
 
 ## Wemos D1 R32로 할 때
 
-코드는 그대로이고 **센서쉴드 V5**에 꽂습니다 → [`../docs/board_wemos.md`](../docs/board_wemos.md)
+코드는 그대로이고 **쉴드 없이 직결**하거나 **센서쉴드 V5**에 꽂습니다 → [`../docs/board_wemos.md`](../docs/board_wemos.md)
 
-![Wemos 배선도](../docs/images/wiring_wemos_v2_neopixel.png)
+> 쉴드 없이 직결할 때는 펌웨어의 `MAX_BRIGHTNESS`를 128 → **64**로 낮추세요.
+
+| 쉴드 없이 직결 | 센서쉴드 V5 |
+|:---:|:---:|
+| ![직결](../docs/images/wiring_wemos_direct_v2.png) | ![쉴드](../docs/images/wiring_wemos_v2_neopixel.png) |

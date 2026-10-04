@@ -12,7 +12,7 @@ make run        # 배선 점검 + V1 시뮬레이션 + V2 시뮬레이션
 
 | 파일 | 검사 내용 |
 |---|---|
-| `check_wiring.py` | DevKit 베이스보드·**Wemos D1 R32 + 센서쉴드** 배선표 점검, **펌웨어 핀 = 배선표 핀** 확인 — 입력 전용 핀에 출력하지 않는지, 부팅 관여 핀(0·2·5·12·15)·USB 핀(1·3) 회피, 아날로그는 ADC1, ESP32로 들어오는 신호 ≤ 3.3V, PIR·릴레이 전원 전압, 어댑터 전류 예산 |
+| `check_wiring.py` | DevKit 베이스보드·**Wemos 센서쉴드·Wemos 직결** 배선표 점검, **펌웨어 핀 = 배선표 핀** 확인 — 입력 전용 핀에 출력하지 않는지, 부팅 관여 핀(0·2·5·12·15)·USB 핀(1·3) 회피, 아날로그는 ADC1, ESP32로 들어오는 신호 ≤ 3.3V, PIR·릴레이 전원 전압, 어댑터 전류 예산 |
 | `sim_v1.cpp` | V1 `step3_auto_lamp.ino` — 부팅 깜빡임 없음, 밝으면 안 켜짐, 히스테리시스, 어두움+사람 → 50ms 안에 켜짐, 자기 빛에 안 꺼짐, 5분 뒤 자동 끄기, 시리얼 수동 명령 |
 | `sim_v2.cpp` | V2 `step2_auto_mood_lamp.ino` — 부팅 시 전부 꺼짐, 1초 페이드, 웜화이트(W 채널), 색·밝기 명령, 밝기 상한, 링 전류 추정, 5분 뒤 서서히 끄기, 수동 명령 |
 
@@ -32,7 +32,8 @@ make run        # 배선 점검 + V1 시뮬레이션 + V2 시뮬레이션
 ```bash
 cd ../docs/images
 python3 draw_board_wiring.py      # DevKit 판 SVG 생성
-python3 draw_wemos_wiring.py      # Wemos 판 SVG 생성
+python3 draw_wemos_wiring.py      # Wemos + 센서쉴드 판 SVG 생성
+python3 draw_wemos_direct.py      # Wemos 직결(쉴드 없이) 판 SVG 생성
 HS=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell   # 또는 크롬
 $HS --headless --hide-scrollbars --window-size=1500,1190 --screenshot=$PWD/wiring_v1_relay.png file://$PWD/wiring_v1_relay.svg
 ```

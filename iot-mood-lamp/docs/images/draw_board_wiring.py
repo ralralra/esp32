@@ -251,14 +251,14 @@ def notes(y0, items, warn):
     return o
 
 
-def legend(y, ac=True):
+def legend(y, ac=True, wires="모든 연결은 암-암 점퍼선 · 브레드보드 없음"):
     o = [t(50, y, "선 색", 13, "#56677e", "bold", "start")]
     x = 100
     items = [(C_SIG, "신호(S)"), (C_5V, "5V (V)"), (C_3V, "3.3V"), (C_GND, "GND (G)")] + ([(C_AC, "220V (교사 작업)")] if ac else [])
     for c, lab in items:
         o += [f'<path d="M{x} {y-5} h34" stroke="{c}" stroke-width="6" stroke-linecap="round"/>', t(x + 42, y, lab, 13, "#1b2536", anchor="start")]
         x += 150
-    o.append(t(W - 50, y, "모든 연결은 암-암 점퍼선 · 브레드보드 없음", 13, "#56677e", anchor="end"))
+    o.append(t(W - 50, y, wires, 13, "#56677e", anchor="end"))
     return o
 
 
