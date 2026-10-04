@@ -1,6 +1,7 @@
 # V2 · 2단계 — 자동 무드등 (와이파이 없이)
 
-> ⏳ 준비 중 — 코드(`step2_auto_mood_lamp.ino`)는 이 폴더에 추가 예정
+> ✅ 코드: [`step2_auto_mood_lamp.ino`](step2_auto_mood_lamp.ino) — PC 시뮬레이터로 시나리오 검증 완료 ([`sim/`](../../../sim/README.md), `make run`)
+> 조도 기준값·릴레이 방향 등 코드 위쪽 상수는 실측 후 바꾸세요.
 
 ## 목표
 [V1 3단계 자동 무드등](../../../v1_relay_bulb/firmware/step3_auto_lamp/)의 **릴레이 자리를 네오픽셀로 바꿔**,
