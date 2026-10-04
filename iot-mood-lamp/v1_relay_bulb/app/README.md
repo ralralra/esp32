@@ -11,4 +11,4 @@
 ## 연결
 - 명령·상태 주소는 [`../apps_script/README.md`](../apps_script/README.md) 의 약속을 그대로 사용
 - 마이크 사용 시 `metadata.json` 의 `requestFramePermissions` 에 `"microphone"` 추가
-- 프롬프트 작성 요령은 수업 가이드 [`ai_studio_webapp_guide.md`](../../../esp32-class-projects/01_docs/ai_studio_webapp_guide.md) 참고
+- 프롬프트 작성 요령: 화면 구성 · 디자인 규칙 · 동작 규칙의 3단으로 쓰고, 주소는 실제 Apps Script URL(끝이 `/exec`)로 바꾼 뒤 생성
