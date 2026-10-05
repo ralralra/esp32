@@ -154,25 +154,29 @@ def badge(x, y, n, text, color="#1758a8", width=None):
 
 # ── 부품 ────────────────────────────────────────────────────────────
 def relay_module(x, y):
-    o = [f'<rect x="{x}" y="{y}" width="300" height="150" rx="8" fill="#1f5fae" stroke="#0e3a70" stroke-width="2"/>',
-         f'<rect x="{x+95}" y="{y+22}" width="120" height="96" rx="4" fill="#2f7fd8" stroke="#1a4f8f"/>',
-         t(x + 155, y + 62, "SRD-05VDC", 12, "#eaf2ff", "bold"),
-         t(x + 155, y + 80, "-SL-C", 12, "#eaf2ff", "bold"),
-         t(x + 155, y + 100, "10A 250VAC", 10, "#cfe1ff"),
-         f'<rect x="{x+228}" y="{y+18}" width="62" height="114" rx="3" fill="#2a9d4b" stroke="#1d6d34"/>']
-    for i, lab in enumerate(["NO", "COM", "NC"]):
-        cy = y + 38 + i * 37
+    """KY-019형 1채널 릴레이 — 검은 기판, 왼쪽 핀 S·+·−, 오른쪽 터미널 NC·COM·NO"""
+    o = [f'<rect x="{x}" y="{y}" width="300" height="150" rx="8" fill="#1a1a1a" stroke="#000" stroke-width="2"/>']
+    for cx, cy in [(x + 14, y + 14), (x + 286, y + 14), (x + 14, y + 136), (x + 286, y + 136)]:
+        o.append(f'<circle cx="{cx}" cy="{cy}" r="7" fill="#ffffff"/>')
+    o += [f'<rect x="{x+78}" y="{y+30}" width="134" height="96" rx="4" fill="#2f7fd8" stroke="#1a4f8f"/>',
+          t(x + 145, y + 56, "TONGLING", 12, "#eaf2ff", "bold"),
+          t(x + 145, y + 76, "5VDC", 13, "#ffffff", "bold"),
+          t(x + 145, y + 94, "10A 250VAC", 10, "#cfe1ff"),
+          t(x + 145, y + 112, "JQC-3FF-S-Z", 10, "#cfe1ff"),
+          f'<rect x="{x+228}" y="{y+22}" width="62" height="112" rx="3" fill="#2a5fd0" stroke="#1a3f90"/>']
+    for i, lab in enumerate(["NC", "COM", "NO"]):
+        cy = y + 42 + i * 36
         o += [f'<circle cx="{x+259}" cy="{cy}" r="11" fill="#c8ccd0" stroke="#666"/>',
               f'<path d="M{x+252} {cy} h14" stroke="#555" stroke-width="3"/>',
-              t(x + 210, cy + 4, lab, 10, "#ffffff", "bold")]
-    o += [f'<rect x="{x+40}" y="{y+108}" width="34" height="14" rx="2" fill="#111"/>',
-          t(x + 57, y + 140, "H/L 점퍼", 10, "#dfe9f7"),
-          f'<circle cx="{x+60}" cy="{y+24}" r="5" fill="#ff5252"/>',
-          t(x + 150, y - 10, "릴레이 모듈 (5V 1채널, 포토커플러 절연)", 14, "#1b2536", "bold")]
-    pins = {"IN": (x - 2, y + 40), "VCC": (x - 2, y + 75), "GND": (x - 2, y + 110)}
+              t(x + 222, cy + 4, lab, 10, "#ffffff", "bold", "end")]
+    o += [f'<rect x="{x+96}" y="{y+8}" width="40" height="8" rx="3" fill="#444"/>',          # 다이오드
+          f'<rect x="{x+150}" y="{y+6}" width="14" height="12" rx="2" fill="#333"/>',         # 트랜지스터
+          f'<circle cx="{x+60}" cy="{y+28}" r="5" fill="#ff5252"/>', t(x + 60, y + 18, "LED", 8, "#aaa"),
+          t(x + 150, y - 10, "릴레이 모듈 KY-019형 (5V · HIGH 트리거)", 14, "#1b2536", "bold")]
+    pins = {"S": (x - 2, y + 48), "+": (x - 2, y + 75), "−": (x - 2, y + 102)}
     for lab, (px, py) in pins.items():
         o += module_pin(px, py, lab)
-    terms = {"NO": (x + 259, y + 38), "COM": (x + 259, y + 75)}
+    terms = {"NO": (x + 259, y + 114), "COM": (x + 259, y + 78)}
     return o, pins, terms
 
 
@@ -314,9 +318,9 @@ def v1():
     o = board("5V")
     ro, rp, rt = relay_module(830, 360)
     # 릴레이 — D26 줄
-    o += wire(pin_xy("D26", "S"), rp["IN"], C_SIG)
-    o += wire(pin_xy("D26", "V"), rp["VCC"], C_5V)
-    o += wire(pin_xy("D26", "G"), rp["GND"], C_GND)
+    o += wire(pin_xy("D26", "S"), rp["S"], C_SIG)
+    o += wire(pin_xy("D26", "V"), rp["+"], C_5V)
+    o += wire(pin_xy("D26", "G"), rp["−"], C_GND)
     o += ro
     for kind in ("G", "V", "S"):
         o += dupont(*pin_xy("D26", kind))
@@ -341,12 +345,12 @@ def v1():
     # 전원
     power_in(o, "5V 1A 충전기")
     jumper_callout(o)
-    o += badge(830, 312, "2", "릴레이 → D26 줄 (IN·VCC·GND)")
+    o += badge(830, 312, "2", "릴레이 → D26 줄 (S·+·−)")
     o += badge(1130, 700, "3", "PIR → D25 줄")
     o += badge(1100, 930, "4", "조도 → D34 줄 + VCC는 3.3V 헤더")
     row_tags(o, ["D26", "D25", "D34"])
     o += legend(1040)
-    o += notes(1085, ["① 모듈 핀 이름을 보고 S·V·G에 한 가닥씩 — PIR처럼 핀 순서가 헤더와 다른 모듈이 많아요",
+    o += notes(1085, ["① 모듈 핀 이름을 보고 S·V·G에 한 가닥씩 — 릴레이(S·+·−)는 순서가 같지만 PIR은 다르니 확인",
                       "② 업로드는 DevKit USB(PC)만, 완성 후에는 베이스보드 USB-C(충전기)만 — 두 곳 동시 연결 금지"],
                  "⚠ 릴레이 단자(COM·NO)와 220V 램프 코드는 교사가 연결하고 절연 — 학생은 보드 쪽 저전압 배선만")
     return svg_doc(o, "IoT 무드등 V1 — 릴레이 전구형 실물 배선도",

@@ -130,9 +130,9 @@ def ldr_and_pir(o):
 def v1():
     o = board()
     ro, rp, rt = relay_module(1040, 190)
-    o += wire(PIN["IO26"], rp["IN"], C_SIG)
-    o += wire(PIN["GND_R"], rp["GND"], C_GND)
-    o += route(PIN["5V_1"], rp["VCC"], C_5V, 440, 112)
+    o += wire(PIN["IO26"], rp["S"], C_SIG)
+    o += wire(PIN["GND_R"], rp["−"], C_GND)
+    o += route(PIN["5V_1"], rp["+"], C_5V, 440, 112)
     o += ro
     for k in ("IO26", "GND_R", "5V_1"):
         o += dupont(*PIN[k])
@@ -152,7 +152,7 @@ def v1():
     ux, uy = P(522, 115)
     o += adapter(170, 150, "5V 1A 충전기", "micro USB 케이블")
     o += [f'<path d="M320 187 C {ux:.0f} 187, {ux:.0f} 150, {ux:.0f} {uy:.0f}" fill="none" stroke="#333" stroke-width="7" stroke-linecap="round"/>']
-    o += badge(1040, 150, "2", "릴레이 → IO26 · 5V① · GND")
+    o += badge(1040, 150, "2", "릴레이 S→IO26 · +→5V① · −→GND")
     power_table(o, [("5V ①", "릴레이 VCC", C_5V), ("5V ②", "PIR VCC", C_5V), ("3V3", "조도센서 VCC", C_3V),
                     ("GND ×3", "릴레이(오른쪽 GND) · PIR · 조도(왼쪽 GND 둘)", C_GND)])
     o += legend(1040, wires="모든 연결은 암-수 점퍼선 (보드 쪽 수) · 쉴드·브레드보드 없음")

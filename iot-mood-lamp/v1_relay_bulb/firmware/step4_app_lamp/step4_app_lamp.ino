@@ -7,7 +7,7 @@
      TEAM_ID                : 내 팀 번호 TEAM01 ~ TEAM12 (반 전체가 시트 하나를 같이 써서 꼭 달라야 해요)
 
   보드: ESP32 DevKit + 베이스보드 / Wemos D1 R32 (+센서쉴드) — 핀 번호 같음
-    릴레이   → GPIO26   PIR → GPIO25   조도센서 → GPIO34 (VCC는 3.3V)
+    릴레이(KY-019형, HIGH 트리거) → GPIO26   PIR → GPIO25   조도센서 → GPIO34 (VCC는 3.3V)
 
   동작
     - 2초마다 서버에서 내 팀 명령을 하나씩 가져와 실행 (ON · OFF · AUTO · CONFIG)
@@ -36,7 +36,7 @@ const int PIR_PIN   = 25;
 const int LIGHT_PIN = 34;   // ADC1 — 와이파이를 켜도 읽힘
 
 // ── 부품에 맞춰 바꾸는 설정 ──────────────────────────
-const bool RELAY_ACTIVE_LOW = true;   // LOW에서 켜지는 릴레이면 true
+const bool RELAY_ACTIVE_LOW = false;  // KY-019형(HIGH에서 켜짐) = false · LOW에서 켜지는 모듈이면 true
 const bool DARK_IS_HIGH     = false;  // 어두울수록 값이 커지는 조도 모듈이면 true
 const int  DARK_HYST        = 8;      // 어두움 기준 + 8%가 되어야 '밝음'으로 (경계에서 깜빡임 방지)
 

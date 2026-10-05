@@ -122,37 +122,43 @@
 <rect x="98" y="460" width="34" height="34" rx="4" fill="#d8dcdf"/>
 <circle cx="115" cy="477" r="10" fill="#2b2b2b"/>
 <text x="115.0" y="512.0" font-size="10" fill="#ffd9d4" text-anchor="middle">RESET</text>
-<path d="M568.0 352.0 C 685.0 352.0, 711.0 210.0, 828.0 210.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
-<path d="M568.0 352.0 C 685.0 352.0, 711.0 210.0, 828.0 210.0" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round"/>
+<path d="M568.0 352.0 C 685.0 352.0, 711.0 218.0, 828.0 218.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M568.0 352.0 C 685.0 352.0, 711.0 218.0, 828.0 218.0" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round"/>
 <path d="M568.0 376.0 C 685.0 376.0, 711.0 245.0, 828.0 245.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
 <path d="M568.0 376.0 C 685.0 376.0, 711.0 245.0, 828.0 245.0" fill="none" stroke="#d93025" stroke-width="5" stroke-linecap="round"/>
-<path d="M568.0 400.0 C 685.0 400.0, 711.0 280.0, 828.0 280.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
-<path d="M568.0 400.0 C 685.0 400.0, 711.0 280.0, 828.0 280.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
-<rect x="830" y="170" width="300" height="150" rx="8" fill="#1f5fae" stroke="#0e3a70" stroke-width="2"/>
-<rect x="925" y="192" width="120" height="96" rx="4" fill="#2f7fd8" stroke="#1a4f8f"/>
-<text x="985.0" y="232.0" font-size="12" font-weight="bold" fill="#eaf2ff" text-anchor="middle">SRD-05VDC</text>
-<text x="985.0" y="250.0" font-size="12" font-weight="bold" fill="#eaf2ff" text-anchor="middle">-SL-C</text>
-<text x="985.0" y="270.0" font-size="10" fill="#cfe1ff" text-anchor="middle">10A 250VAC</text>
-<rect x="1058" y="188" width="62" height="114" rx="3" fill="#2a9d4b" stroke="#1d6d34"/>
-<circle cx="1089" cy="208" r="11" fill="#c8ccd0" stroke="#666"/>
-<path d="M1082 208 h14" stroke="#555" stroke-width="3"/>
-<text x="1040.0" y="212.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">NO</text>
-<circle cx="1089" cy="245" r="11" fill="#c8ccd0" stroke="#666"/>
-<path d="M1082 245 h14" stroke="#555" stroke-width="3"/>
-<text x="1040.0" y="249.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">COM</text>
-<circle cx="1089" cy="282" r="11" fill="#c8ccd0" stroke="#666"/>
-<path d="M1082 282 h14" stroke="#555" stroke-width="3"/>
-<text x="1040.0" y="286.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">NC</text>
-<rect x="870" y="278" width="34" height="14" rx="2" fill="#111"/>
-<text x="887.0" y="310.0" font-size="10" fill="#dfe9f7" text-anchor="middle">H/L 점퍼</text>
-<circle cx="890" cy="194" r="5" fill="#ff5252"/>
-<text x="980.0" y="160.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">릴레이 모듈 (5V 1채널, 포토커플러 절연)</text>
-<rect x="821" y="206" width="14" height="8" fill="#d4af37"/>
-<text x="842.0" y="214.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">IN</text>
+<path d="M568.0 400.0 C 685.0 400.0, 711.0 272.0, 828.0 272.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M568.0 400.0 C 685.0 400.0, 711.0 272.0, 828.0 272.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<rect x="830" y="170" width="300" height="150" rx="8" fill="#1a1a1a" stroke="#000" stroke-width="2"/>
+<circle cx="844" cy="184" r="7" fill="#ffffff"/>
+<circle cx="1116" cy="184" r="7" fill="#ffffff"/>
+<circle cx="844" cy="306" r="7" fill="#ffffff"/>
+<circle cx="1116" cy="306" r="7" fill="#ffffff"/>
+<rect x="908" y="200" width="134" height="96" rx="4" fill="#2f7fd8" stroke="#1a4f8f"/>
+<text x="975.0" y="226.0" font-size="12" font-weight="bold" fill="#eaf2ff" text-anchor="middle">TONGLING</text>
+<text x="975.0" y="246.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">5VDC</text>
+<text x="975.0" y="264.0" font-size="10" fill="#cfe1ff" text-anchor="middle">10A 250VAC</text>
+<text x="975.0" y="282.0" font-size="10" fill="#cfe1ff" text-anchor="middle">JQC-3FF-S-Z</text>
+<rect x="1058" y="192" width="62" height="112" rx="3" fill="#2a5fd0" stroke="#1a3f90"/>
+<circle cx="1089" cy="212" r="11" fill="#c8ccd0" stroke="#666"/>
+<path d="M1082 212 h14" stroke="#555" stroke-width="3"/>
+<text x="1052.0" y="216.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="end">NC</text>
+<circle cx="1089" cy="248" r="11" fill="#c8ccd0" stroke="#666"/>
+<path d="M1082 248 h14" stroke="#555" stroke-width="3"/>
+<text x="1052.0" y="252.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="end">COM</text>
+<circle cx="1089" cy="284" r="11" fill="#c8ccd0" stroke="#666"/>
+<path d="M1082 284 h14" stroke="#555" stroke-width="3"/>
+<text x="1052.0" y="288.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="end">NO</text>
+<rect x="926" y="178" width="40" height="8" rx="3" fill="#444"/>
+<rect x="980" y="176" width="14" height="12" rx="2" fill="#333"/>
+<circle cx="890" cy="198" r="5" fill="#ff5252"/>
+<text x="890.0" y="188.0" font-size="8" fill="#aaa" text-anchor="middle">LED</text>
+<text x="980.0" y="160.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">릴레이 모듈 KY-019형 (5V · HIGH 트리거)</text>
+<rect x="821" y="214" width="14" height="8" fill="#d4af37"/>
+<text x="842.0" y="222.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">S</text>
 <rect x="821" y="241" width="14" height="8" fill="#d4af37"/>
-<text x="842.0" y="249.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">VCC</text>
-<rect x="821" y="276" width="14" height="8" fill="#d4af37"/>
-<text x="842.0" y="284.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">GND</text>
+<text x="842.0" y="249.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">+</text>
+<rect x="821" y="268" width="14" height="8" fill="#d4af37"/>
+<text x="842.0" y="276.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">−</text>
 <rect x="560" y="344" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
 <rect x="560" y="368" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
 <rect x="560" y="392" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
@@ -206,8 +212,8 @@
 <circle cx="1105" cy="818" r="11" fill="#ffffff"/>
 <text x="1105.0" y="823.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">4</text>
 <text x="1122.0" y="823.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">조도 → A3 (GPIO34) + VCC는 3V3</text>
-<path d="M1089 245 C 1230 245, 1250 400, 1330 400" fill="none" stroke="#8d5524" stroke-width="6"/>
-<path d="M1089 208 C 1230 208, 1260 180, 1358 182" fill="none" stroke="#8d5524" stroke-width="6"/>
+<path d="M1089 248 C 1230 248, 1250 400, 1330 400" fill="none" stroke="#8d5524" stroke-width="6"/>
+<path d="M1089 284 C 1230 284, 1260 180, 1358 182" fill="none" stroke="#8d5524" stroke-width="6"/>
 <path d="M1390 378 C 1440 290, 1440 230, 1382 182" fill="none" stroke="#3b6ea5" stroke-width="6" stroke-dasharray="14 8"/>
 <circle cx="1370" cy="120" r="40" fill="#fff6c8" stroke="#d4b100" stroke-width="3"/>
 <rect x="1355" y="158" width="30" height="26" rx="4" fill="#9aa1a8"/>
@@ -231,10 +237,10 @@
 <circle cx="265" cy="688" r="11" fill="#ffffff"/>
 <text x="265.0" y="693.0" font-size="13" font-weight="bold" fill="#b8860b" text-anchor="middle">1</text>
 <text x="282.0" y="693.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">SEL 점퍼 꽂기 (보드 5V 사용)</text>
-<rect x="830" y="113" width="306" height="30" rx="15" fill="#1758a8"/>
+<rect x="830" y="113" width="345" height="30" rx="15" fill="#1758a8"/>
 <circle cx="845" cy="128" r="11" fill="#ffffff"/>
 <text x="845.0" y="133.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">2</text>
-<text x="862.0" y="133.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">릴레이 → 실드 2번 (GPIO26)</text>
+<text x="862.0" y="133.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">릴레이 S·+·− → 실드 2번 S·V·G</text>
 <rect x="544" y="419" width="48" height="21" rx="4" fill="#f5d75d" stroke="#3a3000"/>
 <text x="568.0" y="434.0" font-size="12" font-weight="bold" fill="#3a3000" text-anchor="middle">2번</text>
 <rect x="488" y="419" width="48" height="21" rx="4" fill="#f5d75d" stroke="#3a3000"/>

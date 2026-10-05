@@ -3,7 +3,7 @@
 
   보드: ESP32 DevKit 30핀 + 확장 베이스보드 (전압 점퍼 5V)
   배선: ../../wiring.md
-    릴레이   → D26 줄 (IN→S, VCC→V, GND→G)
+    릴레이(KY-019형) → D26 줄 (S→S, 가운데(+)→V, −→G)
     PIR      → D25 줄 (OUT→S, VCC→V, GND→G)
     조도센서 → D34 줄 (AO→S, GND→G), VCC만 위쪽 3.3V 헤더
 
@@ -22,7 +22,7 @@ const int PIR_PIN   = 25;
 const int LIGHT_PIN = 34;   // ADC1 — 와이파이를 켜도 읽힘
 
 // ── 설정 (2단계에서 실측한 값으로 바꾸기) ─────────────
-const bool RELAY_ACTIVE_LOW = true;   // LOW에서 켜지는 릴레이면 true
+const bool RELAY_ACTIVE_LOW = false;  // KY-019형(HIGH에서 켜짐) = false · LOW에서 켜지는 모듈이면 true
 const bool DARK_IS_HIGH     = false;  // 어두울수록 값이 커지는 모듈이면 true
 const int  DARK_ON_LEVEL    = 1200;   // 이보다 어두우면 '어둡다'
 const int  DARK_OFF_LEVEL   = 1500;   // 이보다 밝아져야 '밝다' (히스테리시스)
