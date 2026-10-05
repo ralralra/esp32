@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1190" viewBox="0 0 1500 1190" font-family="Pretendard, 'Noto Sans CJK KR', 'WenQuanYi Zen Hei', sans-serif">
 <rect width="1500" height="1190" fill="#ffffff"/>
 <text x="750.0" y="40.0" font-size="28" font-weight="bold" fill="#1b2536" text-anchor="middle">IoT 무드등 V1 — Wemos D1 R32 직결 배선도 (쉴드 없이)</text>
-<text x="750.0" y="68.0" font-size="15" fill="#56677e" text-anchor="middle">릴레이 IO26 · PIR IO25 · 조도 IO34 · 5V 두 핀을 하나씩 — 시뮬레이션 검증 완료</text>
+<text x="750.0" y="68.0" font-size="15" fill="#56677e" text-anchor="middle">릴레이 IO26 · PIR IO25 · 조도 IO34 · 5V 두 핀을 하나씩 — 동작 검증 완료</text>
 <g transform="translate(470,80.0) scale(0.6)">
 <path d="M0 115 H740 V990 L700 1050 H0 Z" fill="#0f0f10"/>
 <rect x="62" y="40" width="120" height="210" rx="6" fill="#111" stroke="#444" stroke-width="2"/>

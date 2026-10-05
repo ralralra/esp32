@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1190" viewBox="0 0 1500 1190" font-family="Pretendard, 'Noto Sans CJK KR', 'WenQuanYi Zen Hei', sans-serif">
 <rect width="1500" height="1190" fill="#ffffff"/>
 <text x="750.0" y="40.0" font-size="28" font-weight="bold" fill="#1b2536" text-anchor="middle">IoT 무드등 V2 — Wemos D1 R32 + 센서쉴드 배선도</text>
-<text x="750.0" y="68.0" font-size="15" fill="#56677e" text-anchor="middle">네오픽셀 GPIO27(실드 6) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) — DevKit 판과 같은 코드, 시뮬레이션 검증 완료</text>
+<text x="750.0" y="68.0" font-size="15" fill="#56677e" text-anchor="middle">네오픽셀 GPIO27(실드 6) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) — DevKit 판과 같은 코드</text>
 <rect x="44" y="282" width="690" height="540" rx="14" fill="#14385f"/>
 <rect x="14" y="380" width="70" height="56" rx="4" fill="#c9ced3" stroke="#8a9096"/>
 <rect x="26" y="396" width="34" height="22" rx="3" fill="#5a5f64"/>

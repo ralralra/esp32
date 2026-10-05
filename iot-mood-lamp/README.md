@@ -85,7 +85,6 @@ AI Studio 앱은 **HTTPS** 주소에서 실행되고, ESP32는 교실 와이파�
 | [`docs/board_wemos.md`](docs/board_wemos.md) | **Wemos D1 R32 판** — 쉴드 없이 직결 / 센서쉴드 V5 · 꽂는 자리 · 전원 · 배선도 |
 | [`apps_script/`](apps_script/README.md) | **중계 서버** — 구글 시트 1개로 12팀(TEAM01~12) · 주소 약속 · PC 테스트 |
 | [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안(조명 · 전구 · 자동화·음성) + 그대로 붙여넣는 프롬프트 |
-| [`sim/`](sim/README.md) | **시뮬레이터** — 보드 없이 PC에서 펌웨어·배선 점검 (`make run`) |
 | [`docs/parts.md`](docs/parts.md) | 부품 목록과 고른 이유 — 버전별 필요 부품 표시 |
 | [`docs/power.md`](docs/power.md) | V1은 플러그 2개, V2는 1개인 이유 · 어댑터 용량 |
 | [`docs/voice_control.md`](docs/voice_control.md) | 음성제어 방법 (Web Speech API · Gemini · Siri 단축어) |

@@ -156,7 +156,7 @@ def v1():
                       "② 실드의 V는 5V예요 → 조도센서 VCC만 Bluetooth 헤더의 3V3 핀으로 따로 연결"],
                  "⚠ 릴레이 단자(COM·NO)와 220V 램프 코드는 교사가 연결하고 절연 — 학생은 실드 쪽 저전압 배선만")
     return svg_doc(o, "IoT 무드등 V1 — Wemos D1 R32 + 센서쉴드 배선도",
-                   "릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) — DevKit 판과 같은 코드, 시뮬레이션 검증 완료")
+                   "릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) — DevKit 판과 같은 코드")
 
 
 def v2():
@@ -195,7 +195,7 @@ def v2():
                       "② 링 패드에 암 커넥터 선 납땜 · DIN 선 중간 330Ω · 링 5V–GND에 1000µF · 조도센서 VCC만 3V3"],
                  "⚠ SEL 점퍼를 꽂은 채로 EXT PWR에 전원을 넣지 마세요 — 보드 전원과 합선됩니다")
     return svg_doc(o, "IoT 무드등 V2 — Wemos D1 R32 + 센서쉴드 배선도",
-                   "네오픽셀 GPIO27(실드 6) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) — DevKit 판과 같은 코드, 시뮬레이션 검증 완료")
+                   "네오픽셀 GPIO27(실드 6) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) — DevKit 판과 같은 코드")
 
 
 if __name__ == "__main__":

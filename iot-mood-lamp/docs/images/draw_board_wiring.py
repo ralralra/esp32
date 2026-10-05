@@ -354,7 +354,7 @@ def v1():
                       "② 업로드는 DevKit USB(PC)만, 완성 후에는 베이스보드 USB-C(충전기)만 — 두 곳 동시 연결 금지"],
                  "⚠ 릴레이 단자(COM·NO)와 220V 램프 코드는 교사가 연결하고 절연 — 학생은 보드 쪽 저전압 배선만")
     return svg_doc(o, "IoT 무드등 V1 — 릴레이 전구형 실물 배선도",
-                   "ESP32 DevKit 30핀 + 확장 베이스보드 · 릴레이 GPIO26 · PIR GPIO25 · 조도 GPIO34 · 시뮬레이션 검증 완료")
+                   "ESP32 DevKit 30핀 + 확장 베이스보드 · 릴레이 GPIO26 · PIR GPIO25 · 조도 GPIO34 · 동작 검증 완료")
 
 
 def v2():
@@ -385,7 +385,7 @@ def v2():
                       "② 업로드는 DevKit USB(PC)만 (밝기 낮게), 완성 후에는 베이스보드 USB-C(5V 2A)만 — 두 곳 동시 연결 금지"],
                  "⚠ 전구는 빼고 램프의 220V 코드는 분리 — V2는 220V를 쓰지 않아요")
     return svg_doc(o, "IoT 무드등 V2 — 네오픽셀 컬러형 실물 배선도",
-                   "ESP32 DevKit 30핀 + 확장 베이스보드 · 네오픽셀 GPIO27 · PIR GPIO25 · 조도 GPIO34 · 시뮬레이션 검증 완료")
+                   "ESP32 DevKit 30핀 + 확장 베이스보드 · 네오픽셀 GPIO27 · PIR GPIO25 · 조도 GPIO34 · 동작 검증 완료")
 
 
 if __name__ == "__main__":

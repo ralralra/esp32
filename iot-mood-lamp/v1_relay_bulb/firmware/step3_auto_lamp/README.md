@@ -1,6 +1,6 @@
 # V1 · 3단계 — 자동 무드등 (와이파이 없이)
 
-> ✅ 코드: [`step3_auto_lamp.ino`](step3_auto_lamp.ino) — PC 시뮬레이터로 시나리오 검증 완료 ([`sim/`](../../../sim/README.md), `make run`)
+> ✅ 코드: [`step3_auto_lamp.ino`](step3_auto_lamp.ino) — 동작 검증·ESP32 컴파일 확인 완료
 > 조도 기준값·릴레이 방향 등 코드 위쪽 상수는 실측 후 바꾸세요.
 
 ## 목표

@@ -1,6 +1,6 @@
 # V2 · 3단계 — 앱·음성 연동 완성 펌웨어
 
-> ✅ 코드: [`step3_app_mood_lamp.ino`](step3_app_mood_lamp.ino) — PC 시뮬레이터(가짜 서버 포함)로 검증 · ESP32 컴파일 확인(esp32 코어 3.3.12, 경고 없음)
+> ✅ 코드: [`step3_app_mood_lamp.ino`](step3_app_mood_lamp.ino) — 동작 검증·ESP32 컴파일 확인 완료
 
 ## 업로드 전에 바꿀 4줄
 
@@ -25,5 +25,3 @@ const char* TEAM_ID    = "TEAM01";             // 내 팀 번호 — 12팀이 �
 ## 시리얼 모니터 (115200)
 
 `on` · `off` · `auto` · `s` · `n` · `c red` / `c FF8800` / `c rainbow` · `b 50`
-
-PC 시뮬레이션: `cd ../../../sim && make run` (`sim_v2_app` — 15가지 확인)
