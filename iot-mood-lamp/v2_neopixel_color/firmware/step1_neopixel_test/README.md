@@ -7,6 +7,7 @@
 
 ## 진행
 1. Arduino IDE 라이브러리 관리자에서 **Adafruit NeoPixel** 설치
+   - LED 개수는 **24** (`LED_COUNT = 24`, 24구 링)
 2. RGBW 링이면 `NEO_GRBW + NEO_KHZ800`, RGB 링이면 `NEO_GRB + NEO_KHZ800`
 3. 빨강 → 초록 → 파랑 → 흰색(W) 순서로 켜 보기 — **색 순서가 다르면 GRBW/RGBW 설정 문제**
 4. `setBrightness()` 로 최대 밝기 상한 정하기 (어댑터 용량 안에서)

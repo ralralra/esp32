@@ -27,9 +27,9 @@ const int PIR_PIN   = 25;
 const int LIGHT_PIN = 34;
 
 // ── 네오픽셀 설정 ─────────────────────────────────
-const int  LED_COUNT      = 16;
+const int  LED_COUNT      = 24;    // 24구 링
 const bool LED_RGBW       = true;   // RGBW 링이면 true, RGB 링이면 false
-const int  MAX_BRIGHTNESS = 128;    // 0~255 — 어댑터 용량 보호 상한 (5V 2A 기준)
+const int  MAX_BRIGHTNESS = 128;    // 0~255 — 어댑터 보호 상한 (24구 RGBW·5V 2A 기준: 네오픽셀 최대 약 1A)
 const unsigned long FADE_MS = 1000; // 켜고 끌 때 걸리는 시간
 
 // ── 자동 판단 설정 (V1과 같음) ──────────────────────

@@ -39,9 +39,9 @@ const int PIR_PIN   = 25;
 const int LIGHT_PIN = 34;
 
 // ── 네오픽셀 설정 ─────────────────────────────────
-const int  LED_COUNT      = 16;
+const int  LED_COUNT      = 24;    // 24구 링
 const bool LED_RGBW       = true;   // RGBW 링이면 true, RGB 링이면 false
-const int  MAX_BRIGHTNESS = 128;    // 0~255 — 어댑터 보호 상한 (Wemos 직결은 64)
+const int  MAX_BRIGHTNESS = 128;    // 0~255 — 어댑터 보호 상한 (24구·2A 기준, Wemos 직결은 64)
 const unsigned long FADE_MS = 1000;
 
 // ── 부품에 맞춰 바꾸는 설정 ──────────────────────────

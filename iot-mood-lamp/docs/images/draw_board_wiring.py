@@ -208,13 +208,13 @@ def ldr_module(x, y):
 def neopixel_ring(cx, cy, r=105):
     o = [f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#1a1a1a" stroke="#000" stroke-width="2"/>',
          f'<circle cx="{cx}" cy="{cy}" r="{r-38}" fill="#ffffff"/>']
-    for i in range(16):
-        a = 2 * math.pi * i / 16 - math.pi / 2
+    for i in range(24):
+        a = 2 * math.pi * i / 24 - math.pi / 2
         lx, ly = cx + (r - 19) * math.cos(a), cy + (r - 19) * math.sin(a)
-        o.append(f'<rect x="{lx-10:.1f}" y="{ly-10:.1f}" width="20" height="20" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate({math.degrees(a):.1f} {lx:.1f} {ly:.1f})"/>')
-        o.append(f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="5" fill="#ffd36b"/>')
+        o.append(f'<rect x="{lx-8:.1f}" y="{ly-8:.1f}" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate({math.degrees(a):.1f} {lx:.1f} {ly:.1f})"/>')
+        o.append(f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4" fill="#ffd36b"/>')
     o.append(t(cx, cy - 6, "네오픽셀 링", 14, "#1b2536", "bold"))
-    o.append(t(cx, cy + 14, "16구 RGBW", 12, "#56677e"))
+    o.append(t(cx, cy + 14, "24구 RGBW", 12, "#56677e"))
     pads = {"DIN": (cx - 70, cy + r + 18), "5V": (cx - 20, cy + r + 18), "GND": (cx + 30, cy + r + 18)}
     for lab, (px, py) in pads.items():
         o += [f'<rect x="{px-9}" y="{py-24}" width="18" height="18" rx="3" fill="#d4af37"/>',
