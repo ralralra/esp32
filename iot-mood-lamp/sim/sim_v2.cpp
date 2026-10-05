@@ -62,7 +62,31 @@ int main() {
   run(20 * 1000);
   check(!lampOn && lit() == 0, "5분 10초 시점: 완전히 꺼짐");
 
-  section("6. 수동 모드");
+  section("6. 'sensor' — 센서 값 확인 출력");
+  size_t m0 = sim::serialOut.size();
+  sendLine("sensor"); run(50);
+  check(sim::serialOut.size() > m0 && sim::serialOut.back().find("[센서] 조도=") != std::string::npos, "'sensor' 입력 즉시 센서 한 줄 출력");
+  size_t m1 = sim::serialOut.size();
+  run(3000);
+  int lines = 0;
+  for (size_t i = m1; i < sim::serialOut.size(); i++) if (sim::serialOut[i].rfind("[센서] 조도=", 0) == 0) lines++;
+  check(lines == 3, "3초 동안 1초마다 3줄");
+  sim::analogIn[LIGHT] = 500; run(1100);
+  check(sim::serialOut.back().find("어두움") != std::string::npos && sim::serialOut.back().find("기준: 켜짐≤1200 꺼짐≥1500") != std::string::npos, "조도 500 → '어두움' + 기준값 표시");
+  size_t m2 = sim::serialOut.size();
+  sim::inLevel[PIR] = HIGH; run(20);
+  bool edge = false;
+  for (size_t i = m2; i < sim::serialOut.size(); i++) if (sim::serialOut[i].find("PIR 감지됨") != std::string::npos) edge = true;
+  check(edge, "PIR가 바뀌는 순간 바로 '감지됨' 알림");
+  sim::inLevel[PIR] = LOW; run(20);
+  sendLine("sensor"); run(50);
+  size_t m3 = sim::serialOut.size();
+  run(3000);
+  check(sim::serialOut.size() == m3, "'sensor' 다시 입력 → 출력 멈춤");
+  printSerialSince(m0 > 2 ? m0 : 0);
+  sim::analogIn[LIGHT] = 3000; run(3000);
+
+  section("7. 수동 모드");
   sim::analogIn[LIGHT] = 3000;
   size_t mark = sim::serialOut.size();
   sendLine("on"); run(1200);
