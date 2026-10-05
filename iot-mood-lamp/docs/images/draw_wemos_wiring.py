@@ -123,9 +123,9 @@ def pir_and_ldr(o):
 def v1():
     o = shield(sel_on=True)
     ro, rp, rt = relay_module(830, 170)
-    o += wire(dig(2, "S"), rp["IN"], C_SIG)
-    o += wire(dig(2, "V"), rp["VCC"], C_5V)
-    o += wire(dig(2, "G"), rp["GND"], C_GND)
+    o += wire(dig(2, "S"), rp["S"], C_SIG)
+    o += wire(dig(2, "V"), rp["+"], C_5V)
+    o += wire(dig(2, "G"), rp["−"], C_GND)
     o += ro
     for k in ("S", "V", "G"):
         o += dupont(*dig(2, k))
@@ -148,7 +148,7 @@ def v1():
     o += [f'<path d="M140 224 C 140 300, 20 330, 40 380" fill="none" stroke="#333" stroke-width="7" stroke-linecap="round"/>']
     o += [f'<circle cx="{SEL_XY[0]+12}" cy="{SEL_XY[1]}" r="34" fill="none" stroke="#f5d75d" stroke-width="4"/>']
     o += badge(250, 690, "1", "SEL 점퍼 꽂기 (보드 5V 사용)", "#b8860b")
-    o += badge(830, 130, "2", "릴레이 → 실드 2번 (GPIO26)")
+    o += badge(830, 130, "2", "릴레이 S·+·− → 실드 2번 S·V·G")
     tags(o, [((dig(2, "G")[0], DIG_Y["G"] + 30), "2번"), ((dig(3, "G")[0] - 26, DIG_Y["G"] + 30), "3번"),
              ((ana(3, "G")[0], ANA_Y["G"] - 30), "A3")])
     o += legend(1040)

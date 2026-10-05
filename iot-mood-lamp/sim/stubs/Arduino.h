@@ -129,6 +129,7 @@ typedef int portMUX_TYPE;
 class SerialSim {
  public:
   void begin(unsigned long) {}
+  void println() { sim::serialOut.push_back(""); }
   void println(const char* v) { sim::serialOut.push_back(v); }
   void println(const String& v) { sim::serialOut.push_back(v.s); }
   void printf(const char* fmt, ...) {

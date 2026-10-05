@@ -12,6 +12,8 @@
 
   시리얼 명령 (115200, 줄바꿈 포함):
     on / off / auto / s(상태)
+    sensor           센서 값 1초마다 찍기 켜기/끄기 (조도 원시값·%·어두움 판정, PIR, 자동 꺼짐까지 남은 시간)
+                     → 조도 기준값(DARK_ON_LEVEL·DARK_OFF_LEVEL)을 정할 때 이걸 켜 두고 교실 불을 껐다 켜 보세요
     c warm | white | red | orange | yellow | green | blue | purple | pink
     c 255 120 0      (R G B — 0~255)
     b 60             (밝기 0~100 %)
@@ -36,6 +38,7 @@ const int  DARK_ON_LEVEL  = 1200;
 const int  DARK_OFF_LEVEL = 1500;
 const unsigned long AUTO_OFF_MS   = 5UL * 60 * 1000;
 const unsigned long LIGHT_READ_MS = 200;
+const unsigned long SENSOR_PRINT_MS = 1000;   // 'sensor' 켰을 때 찍는 간격
 
 Adafruit_NeoPixel ring(LED_COUNT, LED_PIN, (LED_RGBW ? NEO_GRBW : NEO_GRB) + NEO_KHZ800);
 
@@ -46,6 +49,9 @@ bool isDark = false;
 int  lightAvg = 0;
 unsigned long lastMotionMs = 0;
 unsigned long lastLightMs = 0;
+unsigned long lastSensorPrintMs = 0;
+bool sensorPrint = false;             // 'sensor' 명령으로 켜고 끔
+bool lastMotion = false;
 
 uint8_t colR = 0, colG = 0, colB = 0, colW = 255;  // 기본: 웜화이트(W 채널)
 String  colName = "warm";
@@ -120,6 +126,19 @@ void printStatus() {
                 lightAvg, isDark ? "예" : "아니오", digitalRead(PIR_PIN));
 }
 
+// 센서 값 한 줄 — 기준값을 정할 때 보는 화면
+//   조도: 원시값(0~4095)과 %, 지금 '어두움'으로 보는지, 켜짐/꺼짐 기준값
+//   PIR : 0/1, 마지막 감지 후 지난 시간, 자동 꺼짐까지 남은 시간
+void printSensors(unsigned long now) {
+  int pct = (long)lightAvg * 100 / 4095;
+  unsigned long since = (now - lastMotionMs) / 1000;
+  char remain[32] = "";
+  if (lampOn && autoMode) snprintf(remain, sizeof(remain), " | 자동 꺼짐까지 %lds", (long)(AUTO_OFF_MS / 1000) - (long)since);
+  Serial.printf("[센서] 조도=%4d (%3d%%) %s  기준: 켜짐≤%d 꺼짐≥%d | PIR=%d 마지막 감지 %lus 전%s\n",
+                lightAvg, pct, isDark ? "어두움" : "밝음  ", DARK_ON_LEVEL, DARK_OFF_LEVEL,
+                digitalRead(PIR_PIN), since, remain);
+}
+
 void handleCommand(String cmd) {
   cmd.trim();
   cmd.toLowerCase();
@@ -127,6 +146,11 @@ void handleCommand(String cmd) {
   else if (cmd == "off")  { autoMode = false; setLamp(false); Serial.println("수동 끄기"); }
   else if (cmd == "auto") { autoMode = true;  lastMotionMs = millis(); Serial.println("자동 모드"); }
   else if (cmd == "s")    { printStatus(); }
+  else if (cmd == "sensor") {
+    sensorPrint = !sensorPrint;
+    Serial.println(sensorPrint ? "센서 값 1초마다 표시 — 'sensor'를 다시 입력하면 멈춤" : "센서 값 표시 끔");
+    if (sensorPrint) printSensors(millis());
+  }
   else if (cmd.startsWith("c ")) {
     String arg = cmd.substring(2);
     arg.trim();
@@ -146,7 +170,7 @@ void handleCommand(String cmd) {
     startFade();
     Serial.printf("밝기 → %d%%\n", brightPct);
   }
-  else if (cmd.length()) { Serial.println("명령: on / off / auto / s / c <색> / b <0~100>"); }
+  else if (cmd.length()) { Serial.println("명령: on / off / auto / s / sensor / c <색> / b <0~100>"); }
 }
 
 void readSerial() {
@@ -180,6 +204,14 @@ void loop() {
 
   bool motion = digitalRead(PIR_PIN) == HIGH;
   if (motion) lastMotionMs = now;
+  if (motion != lastMotion) {                 // PIR가 바뀌는 순간은 간격과 상관없이 바로 알림
+    lastMotion = motion;
+    if (sensorPrint) Serial.println(motion ? "[센서] PIR 감지됨 ▲" : "[센서] PIR 해제 ▽");
+  }
+  if (sensorPrint && now - lastSensorPrintMs >= SENSOR_PRINT_MS) {
+    lastSensorPrintMs = now;
+    printSensors(now);
+  }
 
   if (autoMode) {
     if (!lampOn) {

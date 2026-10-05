@@ -13,12 +13,13 @@
 
 | 부품 | 꽂는 곳 | 부품 핀 → 헤더 | 이유 |
 |---|:---:|---|---|
-| 릴레이 | **D26 줄** | IN → S · VCC → V · GND → G | 부팅에 관여하지 않는 일반 출력 핀, 코일은 5V |
+| 릴레이 (KY-019형) | **D26 줄** | **S → S · 가운데(+) → V · − → G** | 부팅에 관여하지 않는 일반 출력 핀, 코일은 5V. 모듈 핀 순서가 헤더(S·V·G)와 같아 3핀을 나란히 꽂음 |
 | 인체감지(PIR) | **D25 줄** | OUT → S · VCC → V · GND → G | HC-SR501은 5V 전원, 출력은 3.3V라 그대로 연결 가능 |
 | 조도센서 | **D34 줄** + 3.3V 헤더 | AO → S · GND → G · **VCC → 위쪽 3.3V 헤더** | ADC1 — 와이파이를 켜도 아날로그 읽기 가능. 출력이 3.3V를 넘지 않도록 V만 3.3V |
 
 - 모듈 핀 이름을 보고 **한 가닥씩** S·V·G에 맞춰 꽂습니다 (모듈마다 핀 순서가 다름).
-- 릴레이 모듈의 High/Low 트리거 점퍼는 1단계에서 확인한 방식에 맞춰 둡니다.
+- 이 모듈은 **HIGH 트리거**(신호를 주면 켜짐)입니다. 펌웨어의 `RELAY_ACTIVE_LOW = false`가 이 모듈 기준입니다.
+- 포토커플러 절연이 없는 모듈이라, 릴레이 단자(COM·NO) 쪽 220V 절연을 더 꼼꼼히 합니다.
 
 ## 전원
 
@@ -56,11 +57,13 @@
 
 ## 코드에서 주의할 점
 
-**부팅 순간 전구가 깜빡이지 않게:** active-LOW 릴레이(LOW에서 켜짐)라면 `pinMode` 보다 **먼저** 끈 상태를 써 둡니다.
+**부팅 순간 전구가 깜빡이지 않게:** 켜고 끄는 신호 방향은 `RELAY_ACTIVE_LOW` 한 줄로 정하고,
+`pinMode` 보다 **먼저** '꺼짐' 값을 써 둡니다. KY-019형(HIGH 트리거)은 `false`, LOW에서 켜지는 모듈은 `true`.
 
 ```cpp
-digitalWrite(RELAY_PIN, HIGH);   // 먼저 '꺼짐' 값을 써 두고
-pinMode(RELAY_PIN, OUTPUT);      // 그다음 출력으로 전환
+const bool RELAY_ACTIVE_LOW = false;                     // KY-019형
+digitalWrite(RELAY_PIN, RELAY_ACTIVE_LOW ? HIGH : LOW);  // 먼저 '꺼짐' 값을 써 두고
+pinMode(RELAY_PIN, OUTPUT);                              // 그다음 출력으로 전환
 ```
 
 ## Wemos D1 R32로 할 때
