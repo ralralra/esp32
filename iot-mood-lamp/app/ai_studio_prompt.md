@@ -2,7 +2,7 @@
 
 ![앱 화면 디자인 시안](app_design.webp)
 
-V1(전구·릴레이)과 V2(네오픽셀)를 **앱 하나**로 제어합니다. 화면은 시안대로 3개입니다.
+V1(네오픽셀)과 V2(전구·릴레이)를 **앱 하나**로 제어합니다. 화면은 시안대로 3개입니다.
 **01 네오픽셀 조명** · **02 전구·릴레이** · **03 자동화·음성**, 아래 탭은 **조명 · 자동화 · 설정**입니다.
 반 전체가 **구글 시트 1개(서버 주소 1개)** 를 같이 쓰고, 앱에서 **내 팀(TEAM01~TEAM12)** 을 골라 씁니다.
 
@@ -149,5 +149,5 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
 ## 함께 보는 문서
 
 - 서버 주소 약속: [`../apps_script/README.md`](../apps_script/README.md)
-- 보드 펌웨어: [V1 전구](../v1_relay_bulb/firmware/step4_app_lamp/) · [V2 네오픽셀](../v2_neopixel_color/firmware/step3_app_mood_lamp/)
+- 보드 펌웨어: [V1 네오픽셀](../v1_neopixel/firmware/step4_app_mood_lamp/) · [V2 전구](../v2_relay_bulb/firmware/step4_app_lamp/)
 - 음성 규칙: [`../docs/voice_control.md`](../docs/voice_control.md)

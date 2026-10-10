@@ -6,12 +6,12 @@
 
 브라우저에 내장된 음성 인식으로 말을 글자로 바꾸고, 정해 둔 단어가 들어 있으면 명령을 보냅니다.
 
-| 들린 말에 포함된 단어 | 보낼 명령 (→ [V1](../v1_relay_bulb/apps_script/README.md) · [V2](../v2_neopixel_color/apps_script/README.md) 명령 약속) |
+| 들린 말에 포함된 단어 | 보낼 명령 (→ [명령 약속](../apps_script/README.md)) |
 |---|---|
 | 켜 | `cmd=ON` |
 | 꺼 | `cmd=OFF` |
-| 빨강 / 노랑 / 파랑 / 따뜻 … (V2) | `cmd=COLOR&value=…` |
-| 밝게 / 어둡게 (V2) | `cmd=BRIGHT&value=…` (현재값 ± 단계) |
+| 빨강 / 노랑 / 파랑 / 따뜻 … (V1 네오픽셀) | `cmd=COLOR&value=…` |
+| 밝게 / 어둡게 (V1 네오픽셀) | `cmd=BRIGHT&value=…` (현재값 ± 단계) |
 | 자동 | `cmd=AUTO` |
 
 AI Studio 지시문 예시:
