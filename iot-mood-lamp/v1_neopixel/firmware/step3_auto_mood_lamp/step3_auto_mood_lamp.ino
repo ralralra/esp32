@@ -2,10 +2,10 @@
   IoT 무드등 V1 · 3단계 — 센서 받고 출력하기 (조도·PIR → 네오픽셀, 와이파이 없이)
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
-    네오픽셀 링 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27   (DIN에 330Ω, 링 5V–GND에 1000µF)
+    네오픽셀 스트립 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27   (DIN에 330Ω, 링 5V–GND에 1000µF)
     PIR          → 실드 3번                        = GPIO25
     조도센서     → 실드 A3 (VCC는 Bluetooth 헤더 3V3) = GPIO34
-  라이브러리: Adafruit NeoPixel
+  라이브러리: Adafruit NeoPixel — 설정(NEO_GRB + NEO_KHZ800, 16구, GPIO27)은 동작 확인된 샘플(strandtest)과 같음
 
   규칙 (자동 모드)
     켜짐: 주변 밝기가 DARK_LEVEL 보다 어두움 + (USE_PIR이면) 움직임 감지  → 마지막 색으로 서서히 켜짐
@@ -34,15 +34,14 @@ const bool USE_PIR      = true;   // false면 PIR 없이 조도만으로 켜고 
 const unsigned long AUTO_OFF_MS = 5UL * 60 * 1000;   // 움직임이 없으면 이 시간 뒤 끔 (USE_PIR일 때)
 
 // ── 네오픽셀 ─────────────────────────────────────
-const int  LED_COUNT      = 24;    // 24구 링
-const bool LED_RGBW       = true;  // RGBW 링이면 true
-const int  MAX_BRIGHTNESS = 128;   // 어댑터 보호 상한 (24구 RGBW · 5V 2A 기준 약 1A)
+#define LED_COUNT 16                // 스트립을 자른 LED 개수 (동작 확인된 샘플과 같음)
+const int  MAX_BRIGHTNESS = 128;   // 어댑터 보호 상한 (16구 RGB · 상한 128에서 약 0.5A)
 const unsigned long FADE_MS = 1000;
 
 const unsigned long LIGHT_READ_MS   = 200;
 const unsigned long SENSOR_PRINT_MS = 1000;
 
-Adafruit_NeoPixel ring(LED_COUNT, LED_PIN, (LED_RGBW ? NEO_GRBW : NEO_GRB) + NEO_KHZ800);
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);   // 동작 확인된 샘플(strandtest)과 같은 설정
 
 // ── 상태 ─────────────────────────────────────────
 bool lampOn = false, autoMode = true, isDark = false;
@@ -50,13 +49,13 @@ bool motion = false, sensorPrint = false;
 int  lightAvg = 0, lightPct = 0;
 unsigned long lastMotionMs = 0, lastLightMs = 0, lastSensorPrintMs = 0;
 
-uint8_t colR = 0, colG = 0, colB = 0, colW = 255;   // 기본: 웜화이트
+uint8_t colR = 255, colG = 170, colB = 80;          // 기본: 웜화이트 (RGB 혼합)
 String  colName = "warm";
 bool    rainbow = false;
 int     brightPct = 60;
 int     fadeFrom = 0, fadeTo = 0, level = 0;
 unsigned long fadeStart = 0, lastRainbowMs = 0;
-uint16_t rainbowHue = 0;
+long rainbowHue = 0;                    // 샘플 rainbow(): 10ms마다 256씩
 String inputLine;
 
 // ─────────────────────────────────────────────────
@@ -80,13 +79,10 @@ void startFade()   { fadeFrom = level; fadeTo = targetLevel(); fadeStart = milli
 void setLamp(bool on) { lampOn = on; startFade(); }
 
 void showRing() {
-  for (int i = 0; i < LED_COUNT; i++) {
-    if (rainbow)       ring.setPixelColor(i, ring.gamma32(ring.ColorHSV(rainbowHue + i * 65536L / LED_COUNT)));
-    else if (LED_RGBW) ring.setPixelColor(i, colR, colG, colB, colW);
-    else               ring.setPixelColor(i, colR, colG, colB);
-  }
-  ring.setBrightness(level);
-  ring.show();
+  if (rainbow) strip.rainbow(rainbowHue);                          // 샘플과 같은 무지개
+  else for (int i = 0; i < LED_COUNT; i++) strip.setPixelColor(i, colR, colG, colB);
+  strip.setBrightness(level);
+  strip.show();
 }
 
 void updateLights(unsigned long now) {              // 서서히 켜고 끄기 — delay() 없이
@@ -96,24 +92,25 @@ void updateLights(unsigned long now) {              // 서서히 켜고 끄기 �
     level = t >= FADE_MS ? fadeTo : fadeFrom + (long)(fadeTo - fadeFrom) * (long)t / (long)FADE_MS;
     dirty = true;
   }
-  if (rainbow && level > 0 && now - lastRainbowMs >= 30) { lastRainbowMs = now; rainbowHue += 200; dirty = true; }
+  if (rainbow && level > 0 && now - lastRainbowMs >= 10) {         // 샘플 rainbow(10)과 같은 속도
+    lastRainbowMs = now; rainbowHue += 256; if (rainbowHue >= 5 * 65536L) rainbowHue = 0; dirty = true;
+  }
   if (dirty) showRing();
 }
 
 bool setColor(String v) {
-  struct Preset { const char* n; uint8_t r, g, b, w; };
+  struct Preset { const char* n; uint8_t r, g, b; };
   static const Preset presets[] = {
-    {"warm", 0, 0, 0, 255},    {"white", 120, 120, 120, 255}, {"red", 255, 0, 0, 0},
-    {"orange", 255, 90, 0, 0}, {"yellow", 255, 200, 0, 0},    {"green", 0, 255, 0, 0},
-    {"blue", 0, 60, 255, 0},   {"purple", 150, 0, 255, 0},    {"pink", 255, 60, 120, 0},
+    {"warm", 255, 170, 80}, {"white", 255, 255, 255}, {"red", 255, 0, 0},
+    {"orange", 255, 90, 0}, {"yellow", 255, 200, 0},  {"green", 0, 255, 0},
+    {"blue", 0, 60, 255},   {"purple", 150, 0, 255},  {"pink", 255, 60, 120},
   };
   v.trim();
   v.toLowerCase();
   if (v == "rainbow") { rainbow = true; colName = "rainbow"; return true; }
   for (const Preset& p : presets) {
     if (v == p.n) {
-      colR = p.r; colG = p.g; colB = p.b; colW = p.w;
-      if (!LED_RGBW && colW) { bool white = (v == "white"); colR = 255; colG = white ? 255 : 170; colB = white ? 255 : 80; colW = 0; }
+      colR = p.r; colG = p.g; colB = p.b;
       rainbow = false; colName = p.n;
       return true;
     }
@@ -121,7 +118,7 @@ bool setColor(String v) {
   if (v.length() == 6) {
     for (unsigned i = 0; i < 6; i++) if (!isxdigit((unsigned char)v[i])) return false;
     long rgb = strtol(v.c_str(), nullptr, 16);
-    colR = (rgb >> 16) & 0xFF; colG = (rgb >> 8) & 0xFF; colB = rgb & 0xFF; colW = 0;
+    colR = (rgb >> 16) & 0xFF; colG = (rgb >> 8) & 0xFF; colB = rgb & 0xFF;
     rainbow = false; v.toUpperCase(); colName = v;
     return true;
   }
@@ -179,9 +176,9 @@ void readSerial() {
 void setup() {
   pinMode(PIR_PIN, INPUT);
   Serial.begin(115200);
-  ring.begin();
-  ring.clear();
-  ring.show();                                   // 부팅 직후 모두 끄기
+  strip.begin();
+  strip.clear();
+  strip.show();                                   // 부팅 직후 모두 끄기
   lightAvg = analogRead(LIGHT_PIN);
   lightPct = lightPercent(lightAvg);
   updateDarkness();

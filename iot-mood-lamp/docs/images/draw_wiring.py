@@ -101,13 +101,13 @@ def ldr_module(x, y):
 def neopixel_ring(cx, cy, r=105):
     o = [f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#1a1a1a" stroke="#000" stroke-width="2"/>',
          f'<circle cx="{cx}" cy="{cy}" r="{r-38}" fill="#ffffff"/>']
-    for i in range(24):
-        a = 2 * math.pi * i / 24 - math.pi / 2
+    for i in range(16):
+        a = 2 * math.pi * i / 16 - math.pi / 2
         lx, ly = cx + (r - 19) * math.cos(a), cy + (r - 19) * math.sin(a)
         o.append(f'<rect x="{lx-8:.1f}" y="{ly-8:.1f}" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate({math.degrees(a):.1f} {lx:.1f} {ly:.1f})"/>')
         o.append(f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4" fill="#ffd36b"/>')
-    o.append(t(cx, cy - 6, "네오픽셀 링", 14, "#1b2536", "bold"))
-    o.append(t(cx, cy + 14, "24구 RGBW", 12, "#56677e"))
+    o.append(t(cx, cy - 6, "네오픽셀 스트립", 14, "#1b2536", "bold"))
+    o.append(t(cx, cy + 14, "16구 RGB · 소켓에 감음", 12, "#56677e"))
     pads = {"DIN": (cx - 70, cy + r + 18), "5V": (cx - 20, cy + r + 18), "GND": (cx + 30, cy + r + 18)}
     for lab, (px, py) in pads.items():
         o += [f'<rect x="{px-9}" y="{py-24}" width="18" height="18" rx="3" fill="#d4af37"/>',
@@ -309,7 +309,7 @@ def v1():
              ((ana(3, "G")[0], ANA_Y["G"] - 30), "A3")])
     o += legend(1040, ac=False)
     o += notes(1085, ["① 네오픽셀 전류는 USB 전원선 → 실드 EXT PWR로 (SEL 점퍼를 빼야 디지털 줄 V가 외부 5V로 바뀜) · 보드는 micro USB로",
-                      "② 링 패드에 암 커넥터 선 납땜 · DIN 선 중간 330Ω · 링 5V–GND에 1000µF · 조도센서 VCC만 Bluetooth 헤더 3V3"],
+                      "② 스트립 패드(화살표 시작 쪽)에 암 커넥터 선 납땜 · DIN 선 중간 330Ω · 5V–GND에 1000µF · 조도센서 VCC만 Bluetooth 헤더 3V3"],
                  "⚠ SEL 점퍼를 꽂은 채로 EXT PWR에 전원을 넣지 마세요 — 보드 전원과 합선됩니다 · 전구는 빼고 램프 220V 코드는 분리")
     return svg_doc(o, "IoT 무드등 V1 — 네오픽셀 배선도 (Wemos D1 R32 + 센서쉴드 V5)",
                    "네오픽셀 GPIO27(실드 6) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) · 220V 없음 — 학생이 전부 배선")
