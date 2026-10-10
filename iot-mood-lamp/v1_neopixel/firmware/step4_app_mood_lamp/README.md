@@ -12,7 +12,7 @@ const char* SERVER_URL = "https://script.google.com/macros/s/배포ID/exec";   /
 const char* TEAM_ID    = "TEAM01";             // 내 팀 번호 — 12팀이 모두 달라야 해요
 
 const int  DARK_LEVEL   = 30;      // 1단계에서 정한 숫자
-const bool DARK_IS_HIGH = false;   // 1단계에서 확인한 방향
+const bool DARK_IS_HIGH = true;    // 1단계에서 확인한 방향 (이번 모듈은 어두울수록 값이 큼)
 ```
 
 ## 동작
