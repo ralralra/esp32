@@ -3,121 +3,121 @@
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
     네오픽셀 스트립 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27
-    DIN 선 중간에 330Ω, 링 5V–GND에 1000µF
-    SEL 점퍼 빼고 EXT PWR에 5V (2포트 충전기) — 업로드할 때 PC USB만 꽂았다면 밝기를 낮게
+    DIN 선 중간에 330Ω, 5V–GND에 1000µF · SEL 점퍼 빼고 EXT PWR에 5V
+
+  설정은 동작이 확인된 라이브러리 샘플(strandtest)과 같다:
+    Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);   // WS2812B RGB
+    strip.setBrightness(50);
 
   하는 일
-    켜자마자 빨강 → 초록 → 파랑 → 흰색(W) 순서로 한 바퀴 보여 주고, 웜화이트로 켜 둔다.
-    색 순서가 다르게 나오면 LED_RGBW 설정이 스트립과 다른 것.
-    (초록·빨강·파랑·꺼짐이 한 칸씩 번갈아 켜지면 RGB 스트립에 RGBW 데이터를 보낸 것 → LED_RGBW = false)
-
-  시리얼(115200) 명령
-    c warm | white | red | orange | yellow | green | blue | purple | pink | rainbow | FF8800(색 코드)
-    b 0~100     밝기 %
-    on / off    켜기 / 끄기
-    test        색 순서 한 바퀴 다시
+    켜자마자 샘플과 같은 무지개가 스트립을 따라 흐른다 (strip.rainbow 사용).
+    시리얼(115200) 명령으로 색·밝기를 바꿔 본다.
+      c warm | white | red | orange | yellow | green | blue | purple | pink | FF8800(색 코드)
+      rainbow      무지개 흐르기 (샘플의 rainbow)
+      chase        샘플의 theaterChaseRainbow 한 번 (약 15초, 끝나면 이전 상태로)
+      b 0~255      밝기 (setBrightness 값 그대로 · 샘플 기본 50)
+      test         빨강 → 초록 → 파랑 순서 확인 (이름과 색이 다르면 NEO_GRB → NEO_RGB)
+      off / on     끄기 / 켜기
 */
 
 #include <Adafruit_NeoPixel.h>
 
-const int  LED_PIN        = 27;    // 실드 6번
-const int  LED_COUNT      = 16;    // 스트립을 자른 LED 개수 (이번 부품: 16구)
-const bool LED_RGBW       = false; // 이번 부품은 RGB(WS2812B) 스트립 = false · 흰 칩이 따로 있는 RGBW(SK6812)면 true
-const int  MAX_BRIGHTNESS = 128;   // 0~255 — 어댑터 보호 상한 (16구 RGB · 상한 128에서 약 0.5A)
+#define LED_PIN    27      // 실드 6번
+#define LED_COUNT  16      // 스트립을 자른 LED 개수
 
-Adafruit_NeoPixel ring(LED_COUNT, LED_PIN, (LED_RGBW ? NEO_GRBW : NEO_GRB) + NEO_KHZ800);
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
-uint8_t colR = 0, colG = 0, colB = 0, colW = 255;   // 기본: 웜화이트(W 채널)
-String  colName = "warm";
-bool    rainbow = false;
-bool    lampOn = true;
-int     brightPct = 50;
-uint16_t rainbowHue = 0;
+uint8_t  brightness = 50;                 // 샘플 기본값 (max 255)
+uint8_t  colR = 255, colG = 170, colB = 80;   // 웜화이트 (RGB 혼합)
+String   colName = "warm";
+bool     rainbowOn = true;                // 켜자마자 무지개
+bool     lampOn = true;
+long     firstPixelHue = 0;
 unsigned long lastRainbowMs = 0;
-String inputLine;
+String   inputLine;
 
-void fill(uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
-  for (int i = 0; i < LED_COUNT; i++) {
-    if (LED_RGBW) ring.setPixelColor(i, r, g, b, w);
-    else          ring.setPixelColor(i, r, g, b);
-  }
-  ring.show();
+void fill(uint8_t r, uint8_t g, uint8_t b) {
+  for (int i = 0; i < strip.numPixels(); i++) strip.setPixelColor(i, strip.Color(r, g, b));
+  strip.show();
 }
 
-void showRing() {
-  if (!lampOn) { ring.clear(); ring.show(); return; }
-  ring.setBrightness((long)MAX_BRIGHTNESS * brightPct / 100);
-  if (rainbow) {
-    for (int i = 0; i < LED_COUNT; i++)
-      ring.setPixelColor(i, ring.gamma32(ring.ColorHSV(rainbowHue + i * 65536L / LED_COUNT)));
-    ring.show();
-  } else fill(colR, colG, colB, colW);
+void showStrip() {
+  strip.setBrightness(lampOn ? brightness : 0);
+  if (rainbowOn) strip.rainbow(firstPixelHue);   // 샘플과 같은 무지개
+  else           fill(colR, colG, colB);
+  strip.show();
 }
 
 bool setColor(String v) {
-  struct Preset { const char* n; uint8_t r, g, b, w; };
+  struct Preset { const char* n; uint8_t r, g, b; };
   static const Preset presets[] = {
-    {"warm", 0, 0, 0, 255},    {"white", 120, 120, 120, 255}, {"red", 255, 0, 0, 0},
-    {"orange", 255, 90, 0, 0}, {"yellow", 255, 200, 0, 0},    {"green", 0, 255, 0, 0},
-    {"blue", 0, 60, 255, 0},   {"purple", 150, 0, 255, 0},    {"pink", 255, 60, 120, 0},
+    {"warm", 255, 170, 80}, {"white", 255, 255, 255}, {"red", 255, 0, 0},
+    {"orange", 255, 90, 0}, {"yellow", 255, 200, 0},  {"green", 0, 255, 0},
+    {"blue", 0, 60, 255},   {"purple", 150, 0, 255},  {"pink", 255, 60, 120},
   };
   v.trim();
   v.toLowerCase();
-  if (v == "rainbow") { rainbow = true; colName = "rainbow"; return true; }
-  for (const Preset& p : presets) {
-    if (v == p.n) {
-      colR = p.r; colG = p.g; colB = p.b; colW = p.w;
-      if (!LED_RGBW && colW) {                     // RGB 스트립에는 흰 칩이 없어서 섞어서 흉내
-        bool white = (v == "white");
-        colR = 255; colG = white ? 255 : 170; colB = white ? 255 : 80; colW = 0;
-      }
-      rainbow = false; colName = p.n;
-      return true;
-    }
-  }
+  for (const Preset& p : presets)
+    if (v == p.n) { colR = p.r; colG = p.g; colB = p.b; colName = p.n; rainbowOn = false; return true; }
   if (v.length() == 6) {                           // 6자리 색 코드 (# 없이)
     for (unsigned i = 0; i < 6; i++) if (!isxdigit((unsigned char)v[i])) return false;
     long rgb = strtol(v.c_str(), nullptr, 16);
-    colR = (rgb >> 16) & 0xFF; colG = (rgb >> 8) & 0xFF; colB = rgb & 0xFF; colW = 0;
-    rainbow = false; v.toUpperCase(); colName = v;
+    colR = (rgb >> 16) & 0xFF; colG = (rgb >> 8) & 0xFF; colB = rgb & 0xFF;
+    v.toUpperCase(); colName = v; rainbowOn = false;
     return true;
   }
   return false;
 }
 
-void colorTest() {                                 // 색 순서 확인 — 이름과 색이 맞아야 함
-  ring.setBrightness(MAX_BRIGHTNESS / 2);
-  Serial.println("빨강"); fill(255, 0, 0, 0); delay(700);
-  Serial.println("초록"); fill(0, 255, 0, 0); delay(700);
-  Serial.println("파랑"); fill(0, 0, 255, 0); delay(700);
-  if (LED_RGBW) { Serial.println("흰색(W 채널)"); fill(0, 0, 0, 255); delay(700); }
-  Serial.println("→ 이름과 색이 다르거나 LED마다 색이 다르면 LED_RGBW 설정을 스트립에 맞추세요");
-  showRing();
+// 샘플의 theaterChaseRainbow 그대로 (약 15초 동안 멈춰서 돌아감)
+void theaterChaseRainbow(int wait) {
+  int firstHue = 0;
+  for (int a = 0; a < 30; a++) {
+    for (int b = 0; b < 3; b++) {
+      strip.clear();
+      for (int c = b; c < strip.numPixels(); c += 3) {
+        int hue = firstHue + c * 65536L / strip.numPixels();
+        strip.setPixelColor(c, strip.gamma32(strip.ColorHSV(hue)));
+      }
+      strip.show();
+      delay(wait);
+      firstHue += 65536 / 90;
+    }
+  }
+}
+
+void colorTest() {                                 // 색 순서 확인
+  strip.setBrightness(brightness);
+  Serial.println("빨강"); fill(255, 0, 0); delay(700);
+  Serial.println("초록"); fill(0, 255, 0); delay(700);
+  Serial.println("파랑"); fill(0, 0, 255); delay(700);
+  Serial.println("→ 이름과 색이 다르면 NEO_GRB를 NEO_RGB로 바꾸세요");
+  showStrip();
 }
 
 void handle(String line) {
   line.trim();
   String lower = line; lower.toLowerCase();
-  if (lower == "on")        { lampOn = true;  Serial.println("켜기"); }
-  else if (lower == "off")  { lampOn = false; Serial.println("끄기"); }
-  else if (lower == "test") { colorTest(); return; }
+  if (lower == "on")            { lampOn = true;  Serial.println("켜기"); }
+  else if (lower == "off")      { lampOn = false; Serial.println("끄기"); }
+  else if (lower == "rainbow")  { rainbowOn = true; lampOn = true; colName = "rainbow"; Serial.println("무지개"); }
+  else if (lower == "chase")    { Serial.println("theaterChaseRainbow — 약 15초"); theaterChaseRainbow(50); }
+  else if (lower == "test")     { colorTest(); return; }
   else if (lower.startsWith("c ")) {
-    if (!setColor(line.substring(2))) { Serial.println("색: warm white red orange yellow green blue purple pink rainbow 또는 FF8800"); return; }
+    if (!setColor(line.substring(2))) { Serial.println("색: warm white red orange yellow green blue purple pink 또는 FF8800"); return; }
     lampOn = true; Serial.println("색 → " + colName);
   }
-  else if (lower.startsWith("b ")) { brightPct = constrain(lower.substring(2).toInt(), 0, 100); Serial.printf("밝기 → %d%%\n", brightPct); }
-  else { if (line.length()) Serial.println("명령: c <색> / b <0~100> / on / off / test"); return; }
-  showRing();
+  else if (lower.startsWith("b ")) { brightness = constrain(lower.substring(2).toInt(), 0, 255); Serial.printf("밝기 → %d/255\n", brightness); }
+  else { if (line.length()) Serial.println("명령: c <색> / rainbow / chase / b <0~255> / test / on / off"); return; }
+  showStrip();
 }
 
 void setup() {
   Serial.begin(115200);
-  ring.begin();
-  ring.clear();
-  ring.show();                                     // 부팅 직후 모두 끄기
-  setColor("warm");                                // 기본 색을 스트립 종류(RGB/RGBW)에 맞춰 준비
-  Serial.printf("네오픽셀 테스트 — %d구 %s, 밝기 상한 %d/255\n", LED_COUNT, LED_RGBW ? "RGBW" : "RGB", MAX_BRIGHTNESS);
-  colorTest();
+  strip.begin();                 // INITIALIZE NeoPixel strip object (REQUIRED)
+  strip.show();                  // Turn OFF all pixels ASAP
+  strip.setBrightness(brightness);
+  Serial.printf("네오픽셀 테스트 — %d구 RGB (NEO_GRB), 밝기 %d/255 · 무지개 흐르는 중\n", LED_COUNT, brightness);
 }
 
 void loop() {
@@ -126,9 +126,10 @@ void loop() {
     if (ch == '\n' || ch == '\r') { handle(inputLine); inputLine = ""; }
     else inputLine += ch;
   }
-  if (rainbow && lampOn && millis() - lastRainbowMs >= 30) {   // 색상환이 천천히 한 바퀴 (약 10초)
+  if (rainbowOn && lampOn && millis() - lastRainbowMs >= 10) {   // 샘플 rainbow(10): 10ms마다 hue += 256
     lastRainbowMs = millis();
-    rainbowHue += 200;
-    showRing();
+    firstPixelHue += 256;
+    if (firstPixelHue >= 5 * 65536L) firstPixelHue = 0;
+    showStrip();
   }
 }
