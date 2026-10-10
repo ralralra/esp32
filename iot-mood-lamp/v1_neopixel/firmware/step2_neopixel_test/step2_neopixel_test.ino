@@ -1,14 +1,15 @@
 /*
-  IoT 무드등 V1 · 2단계 — 출력 테스트 (네오픽셀 링 24구)
+  IoT 무드등 V1 · 2단계 — 출력 테스트 (네오픽셀 스트립 16구)
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
-    네오픽셀 링 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27
+    네오픽셀 스트립 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27
     DIN 선 중간에 330Ω, 링 5V–GND에 1000µF
     SEL 점퍼 빼고 EXT PWR에 5V (2포트 충전기) — 업로드할 때 PC USB만 꽂았다면 밝기를 낮게
 
   하는 일
     켜자마자 빨강 → 초록 → 파랑 → 흰색(W) 순서로 한 바퀴 보여 주고, 웜화이트로 켜 둔다.
-    색 순서가 다르게 나오면 LED_RGBW 또는 NEO_GRBW 설정이 링과 다른 것.
+    색 순서가 다르게 나오면 LED_RGBW 설정이 스트립과 다른 것.
+    (초록·빨강·파랑·꺼짐이 한 칸씩 번갈아 켜지면 RGB 스트립에 RGBW 데이터를 보낸 것 → LED_RGBW = false)
 
   시리얼(115200) 명령
     c warm | white | red | orange | yellow | green | blue | purple | pink | rainbow | FF8800(색 코드)
@@ -20,9 +21,9 @@
 #include <Adafruit_NeoPixel.h>
 
 const int  LED_PIN        = 27;    // 실드 6번
-const int  LED_COUNT      = 24;    // 24구 링
-const bool LED_RGBW       = true;  // RGBW(SK6812) 링이면 true, RGB 링이면 false
-const int  MAX_BRIGHTNESS = 128;   // 0~255 — 어댑터 보호 상한 (24구 RGBW · 5V 2A 기준 약 1A)
+const int  LED_COUNT      = 16;    // 스트립을 자른 LED 개수 (이번 부품: 16구)
+const bool LED_RGBW       = false; // 이번 부품은 RGB(WS2812B) 스트립 = false · 흰 칩이 따로 있는 RGBW(SK6812)면 true
+const int  MAX_BRIGHTNESS = 128;   // 0~255 — 어댑터 보호 상한 (16구 RGB · 상한 128에서 약 0.5A)
 
 Adafruit_NeoPixel ring(LED_COUNT, LED_PIN, (LED_RGBW ? NEO_GRBW : NEO_GRB) + NEO_KHZ800);
 
@@ -66,7 +67,7 @@ bool setColor(String v) {
   for (const Preset& p : presets) {
     if (v == p.n) {
       colR = p.r; colG = p.g; colB = p.b; colW = p.w;
-      if (!LED_RGBW && colW) {                     // RGB 링에는 흰 칩이 없어서 섞어서 흉내
+      if (!LED_RGBW && colW) {                     // RGB 스트립에는 흰 칩이 없어서 섞어서 흉내
         bool white = (v == "white");
         colR = 255; colG = white ? 255 : 170; colB = white ? 255 : 80; colW = 0;
       }
@@ -90,7 +91,7 @@ void colorTest() {                                 // 색 순서 확인 — 이�
   Serial.println("초록"); fill(0, 255, 0, 0); delay(700);
   Serial.println("파랑"); fill(0, 0, 255, 0); delay(700);
   if (LED_RGBW) { Serial.println("흰색(W 채널)"); fill(0, 0, 0, 255); delay(700); }
-  Serial.println("→ 이름과 색이 다르면 LED_RGBW / NEO_GRBW 설정을 링에 맞추세요");
+  Serial.println("→ 이름과 색이 다르거나 LED마다 색이 다르면 LED_RGBW 설정을 스트립에 맞추세요");
   showRing();
 }
 
@@ -114,6 +115,7 @@ void setup() {
   ring.begin();
   ring.clear();
   ring.show();                                     // 부팅 직후 모두 끄기
+  setColor("warm");                                // 기본 색을 스트립 종류(RGB/RGBW)에 맞춰 준비
   Serial.printf("네오픽셀 테스트 — %d구 %s, 밝기 상한 %d/255\n", LED_COUNT, LED_RGBW ? "RGBW" : "RGB", MAX_BRIGHTNESS);
   colorTest();
 }

@@ -2,7 +2,7 @@
   IoT 무드등 V1 · 3단계 — 센서 받고 출력하기 (조도·PIR → 네오픽셀, 와이파이 없이)
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
-    네오픽셀 링 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27   (DIN에 330Ω, 링 5V–GND에 1000µF)
+    네오픽셀 스트립 → 실드 6번 (DIN→S, 5V→V, GND→G) = GPIO27   (DIN에 330Ω, 링 5V–GND에 1000µF)
     PIR          → 실드 3번                        = GPIO25
     조도센서     → 실드 A3 (VCC는 Bluetooth 헤더 3V3) = GPIO34
   라이브러리: Adafruit NeoPixel
@@ -34,9 +34,9 @@ const bool USE_PIR      = true;   // false면 PIR 없이 조도만으로 켜고 
 const unsigned long AUTO_OFF_MS = 5UL * 60 * 1000;   // 움직임이 없으면 이 시간 뒤 끔 (USE_PIR일 때)
 
 // ── 네오픽셀 ─────────────────────────────────────
-const int  LED_COUNT      = 24;    // 24구 링
-const bool LED_RGBW       = true;  // RGBW 링이면 true
-const int  MAX_BRIGHTNESS = 128;   // 어댑터 보호 상한 (24구 RGBW · 5V 2A 기준 약 1A)
+const int  LED_COUNT      = 16;    // 스트립을 자른 LED 개수 (이번 부품: 16구)
+const bool LED_RGBW       = false; // RGB(WS2812B) 스트립 = false · RGBW(SK6812)면 true
+const int  MAX_BRIGHTNESS = 128;   // 어댑터 보호 상한 (16구 RGB · 상한 128에서 약 0.5A)
 const unsigned long FADE_MS = 1000;
 
 const unsigned long LIGHT_READ_MS   = 200;
@@ -182,6 +182,7 @@ void setup() {
   ring.begin();
   ring.clear();
   ring.show();                                   // 부팅 직후 모두 끄기
+  setColor("warm");                              // 기본 색을 스트립 종류(RGB/RGBW)에 맞춰 준비
   lightAvg = analogRead(LIGHT_PIN);
   lightPct = lightPercent(lightAvg);
   updateDarkness();

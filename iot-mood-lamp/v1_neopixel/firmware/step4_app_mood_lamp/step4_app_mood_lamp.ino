@@ -45,9 +45,9 @@ const int PIR_PIN   = 25;   // 실드 3번
 const int LIGHT_PIN = 34;   // 실드 A3
 
 // ── 네오픽셀 ─────────────────────────────────────
-const int  LED_COUNT      = 24;    // 24구 링
-const bool LED_RGBW       = true;  // RGBW 링이면 true
-const int  MAX_BRIGHTNESS = 128;   // 어댑터 보호 상한 (24구 RGBW · 5V 2A 기준 약 1A)
+const int  LED_COUNT      = 16;    // 스트립을 자른 LED 개수 (이번 부품: 16구)
+const bool LED_RGBW       = false; // RGB(WS2812B) 스트립 = false · RGBW(SK6812)면 true
+const int  MAX_BRIGHTNESS = 128;   // 어댑터 보호 상한 (16구 RGB · 상한 128에서 약 0.5A)
 const unsigned long FADE_MS = 1000;
 
 // ── 통신 간격 ────────────────────────────────────────
@@ -138,7 +138,7 @@ bool setColor(String v) {
   for (const Preset& p : presets) {
     if (v == p.n) {
       colR = p.r; colG = p.g; colB = p.b; colW = p.w;
-      if (!LED_RGBW && colW) {                 // RGB 링에는 흰 칩이 없어서 섞어서 흉내
+      if (!LED_RGBW && colW) {                 // RGB 스트립에는 흰 칩이 없어서 섞어서 흉내
         bool white = (v == "white");
         colR = 255; colG = white ? 255 : 170; colB = white ? 255 : 80; colW = 0;
       }
@@ -360,6 +360,7 @@ void setup() {
   ring.begin();
   ring.clear();
   ring.show();                                   // 부팅 직후 모든 LED 끄기
+  setColor("warm");                              // 기본 색을 스트립 종류(RGB/RGBW)에 맞춰 준비
 
   prefs.begin("moodlamp", false);
   darkPct = prefs.getInt("dark", darkPct);
