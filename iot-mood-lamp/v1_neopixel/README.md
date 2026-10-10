@@ -31,6 +31,7 @@
 | 1 | [`firmware/step1_sensor_test/`](firmware/step1_sensor_test/) | 조도·PIR 값 시리얼로 보며 **`DARK_LEVEL` 정하기** | — |
 | 2 | [`firmware/step2_neopixel_test/`](firmware/step2_neopixel_test/) | 링 색 순서·밝기·웜화이트 확인 | — |
 | 3 | [`firmware/step3_auto_mood_lamp/`](firmware/step3_auto_mood_lamp/) | **센서 받고 출력하기** — 자동 무드등 완성 | — |
-| 4 | [`firmware/step4_app_mood_lamp/`](firmware/step4_app_mood_lamp/) | 앱·음성으로 색·밝기까지 제어 + 상태 보고 | ✅ |
+| 4 | [`firmware/step4_app_mood_lamp/`](firmware/step4_app_mood_lamp/) | 앱·음성으로 색·밝기까지 제어 + 상태 보고 (구글시트, 1~3초) | ✅ |
+| 5 | [`firmware/step5_app_mqtt/`](firmware/step5_app_mqtt/) | 같은 기능을 **MQTT로 0.1~0.5초** 안에 (4단계 대신) | ✅ |
 
-서버와 앱은 두 버전 공용 → [`../apps_script/`](../apps_script/README.md) · [`../app/`](../app/ai_studio_prompt.md)
+서버와 앱은 두 버전 공용 → [`../apps_script/`](../apps_script/README.md) · [`../docs/mqtt.md`](../docs/mqtt.md) · [`../app/`](../app/ai_studio_prompt.md)
