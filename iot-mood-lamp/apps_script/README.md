@@ -4,7 +4,7 @@
 학생은 펌웨어의 `TEAM_ID`만 자기 팀 번호로 바꾸면 됩니다.
 
 ```
-[학생 앱 12개] ─┐                          ┌─ [ESP32 무드등 12대]
+[학생 앱 12개] ─┐                          ┌─ [Wemos 무드등 12대]
   ?mode=set     │                          │   ?mode=next   (2초마다 내 팀 명령 꺼내기)
   ?mode=state   ├──▶  mood_lamp.gs  ◀──────┤   ?mode=report (바뀔 때 + 30초마다)
   ?mode=teams   │     (시트 1개)            │
@@ -35,17 +35,17 @@
 | 앱 | `?mode=set&team=TEAM01&cmd=ON` | `{"ok":true,...}` |
 | 앱 | `?mode=state&team=TEAM01` | 아래 상태 JSON + `online` · `age`(초) |
 | 앱 | `?mode=teams` | `{"teams":[{"team":"TEAM01","online":true,"type":"bulb"}, …]}` |
-| ESP32 | `?mode=next&team=TEAM01` | `{"cmd":"COLOR","value":"warm"}` / 없으면 `{"cmd":""}` |
-| ESP32 | `?mode=report&team=TEAM01&type=..&power=..&…` | `{"ok":true}` |
+| 보드 | `?mode=next&team=TEAM01` | `{"cmd":"COLOR","value":"warm"}` / 없으면 `{"cmd":""}` |
+| 보드 | `?mode=report&team=TEAM01&type=..&power=..&…` | `{"ok":true}` |
 
 ### 명령 (`cmd`)
 
-| cmd | value | 뜻 | V1 전구 | V2 네오픽셀 |
+| cmd | value | 뜻 | V1 네오픽셀 | V2 전구 |
 |---|---|---|:---:|:---:|
 | `ON` / `OFF` | — | 켜기 / 끄기 (수동 모드로) | ✅ | ✅ |
 | `AUTO` | — | 자동 모드로 | ✅ | ✅ |
-| `COLOR` | `warm` `white` `red` `orange` `yellow` `green` `blue` `purple` `pink` `rainbow` 또는 `FF8800` | 색 | 무시 | ✅ |
-| `BRIGHT` | `0`~`100` | 밝기 % | 무시 | ✅ |
+| `COLOR` | `warm` `white` `red` `orange` `yellow` `green` `blue` `purple` `pink` `rainbow` 또는 `FF8800` | 색 | ✅ | 무시 |
+| `BRIGHT` | `0`~`100` | 밝기 % | ✅ | 무시 |
 | `CONFIG` | — (`dark=0~100`, `off=10~3600` 따로) | 어두움 기준 % · 자동 꺼짐 초 | ✅ | ✅ |
 
 - 같은 종류 명령이 쌓이면 **마지막 것만** 남깁니다 (켜기·끄기·자동은 한 종류로 봄) — 슬라이더 연타 대비
@@ -55,7 +55,7 @@
 
 | 이름 | 값 | 비고 |
 |---|---|---|
-| `type` | `bulb` / `neopixel` | 앱이 이걸 보고 화면 1·2를 고름 |
+| `type` | `neopixel` (V1) / `bulb` (V2) | 앱이 이걸 보고 화면 1·2를 고름 |
 | `power` | `ON` / `OFF` | |
 | `auto` | `1` 자동 / `0` 수동 | |
 | `color` · `bright` | 색 이름·코드 · 0~100 | 네오픽셀만 |
