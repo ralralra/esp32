@@ -36,7 +36,7 @@ const char* TEAM_ID    = "TEAM01";
 // ── ② 조도 기준 — 1단계에서 정한 숫자 ───────────────────
 const int  DARK_LEVEL   = 30;     // 주변 밝기(%)가 이 숫자보다 낮으면 '어두움' → 켜짐 (앱 CONFIG로 바꿀 수 있음)
 const int  DARK_MARGIN  = 5;      // 기준 + 5% 이상이면 '밝음' → 꺼짐
-const bool DARK_IS_HIGH = false;  // 가렸는데 %가 올라가는 모듈이면 true
+const bool DARK_IS_HIGH = true;   // 어두울수록 값이 커지는 모듈(이번 부품) = true · 가렸는데 %가 내려가면 false
 const bool USE_PIR      = true;   // false면 PIR 없이 조도만으로 켜고 끔
 
 // ── 핀 ───────────────────────────────────────────

@@ -11,7 +11,7 @@
 
   이 단계에서 정할 것 → 아래 숫자 3개 (3·4단계에 똑같이 적는다)
     DARK_LEVEL   : 밝기 %가 이 숫자보다 낮으면 '어두움' → 램프 켜짐 / 이보다 밝아지면 꺼짐
-    DARK_IS_HIGH : 손으로 센서를 가렸는데 '밝기 %'가 올라가면 true (모듈마다 방향이 다름)
+    DARK_IS_HIGH : 이번 조도 모듈은 어두울수록 값이 커서 true. 가렸는데 '밝기 %'가 올라가면 false (모듈마다 방향이 다름)
     (PIR)        : 모듈의 감도·유지시간 다이얼은 이 화면을 보며 맞춘다
 
   시리얼 모니터: 115200
@@ -24,7 +24,7 @@ const int LIGHT_PIN = 34;   // 실드 A3 (ADC1 — 와이파이를 켜도 읽힘
 // ── 조도 기준 — 여기만 정하면 됨 ────────────────────
 const int  DARK_LEVEL   = 30;     // 주변 밝기(%)가 이 숫자보다 낮으면 '어두움'
 const int  DARK_MARGIN  = 5;      // 다시 '밝음'이 되려면 기준 + 5% 이상 (경계에서 깜빡임 방지 — 보통 그대로)
-const bool DARK_IS_HIGH = false;  // 가렸는데 %가 올라가면 true
+const bool DARK_IS_HIGH = true;   // 이 조도 모듈은 어두울수록 값이 커짐 — 가렸는데 %가 내려가면 false
 
 const unsigned long PRINT_MS = 1000;
 

@@ -29,7 +29,7 @@ const int LIGHT_PIN = 34;   // 실드 A3
 // ── 조도 기준 — 1단계에서 정한 숫자 ───────────────────
 const int  DARK_LEVEL   = 30;     // 주변 밝기(%)가 이 숫자보다 낮으면 '어두움' → 켜짐
 const int  DARK_MARGIN  = 5;      // 기준 + 5% 이상이면 '밝음' → 꺼짐 (경계에서 깜빡임 방지)
-const bool DARK_IS_HIGH = false;  // 가렸는데 %가 올라가는 모듈이면 true
+const bool DARK_IS_HIGH = true;   // 어두울수록 값이 커지는 모듈(이번 부품) = true · 가렸는데 %가 내려가면 false
 const bool USE_PIR      = true;   // false면 PIR 없이 조도만으로 켜고 끔
 const unsigned long AUTO_OFF_MS = 5UL * 60 * 1000;   // 움직임이 없으면 이 시간 뒤 끔 (USE_PIR일 때)
 
