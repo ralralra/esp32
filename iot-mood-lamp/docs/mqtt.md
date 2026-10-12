@@ -29,8 +29,8 @@
 ## ① EMQX Cloud Serverless 만들기 (선생님, 10분)
 
 1. [cloud.emqx.com](https://www.emqx.com/en/cloud) 가입 → **Create Deployment → Serverless** (무료 할당량 안에서 $0)
-2. 배포가 뜨면 **Overview**에서 주소 확인 → `xxxxxxxx.ala.asia-southeast1.emqxsl.com` 같은 형식
-3. **Access Control → Authentication → Add** 로 계정 하나 만들기 (예: `moodlamp` / 비밀번호). 반 전체가 같은 계정을 씁니다.
+2. 배포가 뜨면 **Overview**에서 주소 확인 → `if3426ad.ala.eu-central-1.emqxsl.com` 같은 형식
+3. **Access Control → Authentication → Add** 로 계정 하나 만들기 (예: `moodlamp` / `iotlamp`). 반 전체가 같은 계정을 씁니다.
 4. 학생에게 나눠 줄 것 — **주소 · 계정 · 비밀번호 · 우리 반 TOPIC_PREFIX**(예: `moodlamp/3반-a7x9`)
 5. 확인: 배포 페이지의 **Online MQTT Client**(또는 [MQTTX 웹](https://mqttx.app/web-client))에서 `moodlamp/3반-a7x9/#` 를 구독해 두고
    보드를 켜면 `…/TEAM01/status` = `online` 과 `…/TEAM01/state` JSON이 보여야 합니다.
