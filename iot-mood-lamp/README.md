@@ -42,17 +42,26 @@
 | 1 **센서 테스트** | [`step1_sensor_test`](v1_neopixel/firmware/step1_sensor_test/) | [`step1_sensor_test`](v2_relay_bulb/firmware/step1_sensor_test/) (같은 코드) | — |
 | 2 **출력 테스트** | [`step2_neopixel_test`](v1_neopixel/firmware/step2_neopixel_test/) — 색·밝기 | [`step2_relay_test`](v2_relay_bulb/firmware/step2_relay_test/) — 딸깍 | — |
 | 3 **센서 받고 출력하기** | [`step3_auto_mood_lamp`](v1_neopixel/firmware/step3_auto_mood_lamp/) | [`step3_auto_lamp`](v2_relay_bulb/firmware/step3_auto_lamp/) | — |
-| 4 **앱·음성 연동** | [`step4_app_mood_lamp`](v1_neopixel/firmware/step4_app_mood_lamp/) | [`step4_app_lamp`](v2_relay_bulb/firmware/step4_app_lamp/) | ✅ |
+| 4 **앱·음성 연동** (구글시트) | [`step4_app_mood_lamp`](v1_neopixel/firmware/step4_app_mood_lamp/) | [`step4_app_lamp`](v2_relay_bulb/firmware/step4_app_lamp/) | ✅ |
+| 5 **빠른 응답** (MQTT) | [`step5_app_mqtt`](v1_neopixel/firmware/step5_app_mqtt/) | [`step5_app_mqtt`](v2_relay_bulb/firmware/step5_app_mqtt/) | ✅ |
 
 3단계까지는 와이파이 없이 완성됩니다. 통신이 안 되는 날에도 무드등은 동작합니다.
+4단계와 5단계는 **둘 중 하나**를 고릅니다. 앱 화면과 명령 이름은 같고 통로만 다릅니다.
+
+| | 4단계 구글시트 + Apps Script | **5단계 MQTT** |
+|---|---|---|
+| 반응 | 1~3초 (보드가 2초마다 물어봄) | **0.1~0.5초** (브로커가 밀어줌) |
+| 준비 | 구글 계정만 | 브로커 계정 1개 (EMQX Cloud 무료) 또는 공개 브로커 |
+| 기록 | 시트에 명령·상태 자동 기록 | 없음 (브로커 웹 클라이언트로 실시간 확인) |
+| 문서 | [`apps_script/`](apps_script/README.md) | [`docs/mqtt.md`](docs/mqtt.md) |
 
 ## 앱 — 구글 시트 + Apps Script + AI Studio (12팀 · 시트 1개)
 
 | 누가 | 할 일 | 문서 |
 |---|---|---|
 | 선생님 (한 번) | 구글 시트 1개 + [`mood_lamp.gs`](apps_script/mood_lamp.gs) 배포 → `/exec` 주소를 학생에게 | [`apps_script/README.md`](apps_script/README.md) |
-| 학생 | 4단계 펌웨어 4줄(와이파이 · 주소 · **TEAM_ID**) 고쳐서 업로드 | V1 [`step4`](v1_neopixel/firmware/step4_app_mood_lamp/) · V2 [`step4`](v2_relay_bulb/firmware/step4_app_lamp/) |
-| 학생 | 프롬프트의 `[웹앱 URL]`을 바꿔 AI Studio로 앱 만들기 → 설정 탭에서 내 팀 선택 | [`app/ai_studio_prompt.md`](app/ai_studio_prompt.md) |
+| 학생 | 4단계(또는 5단계) 펌웨어 위쪽 설정(와이파이 · 주소 · **TEAM_ID**) 고쳐서 업로드 | V1 [`step4`](v1_neopixel/firmware/step4_app_mood_lamp/) · V2 [`step4`](v2_relay_bulb/firmware/step4_app_lamp/) · MQTT는 `step5_app_mqtt` |
+| 학생 | 프롬프트의 `[웹앱 URL]`을 바꿔 AI Studio로 앱 만들기 → 설정 탭에서 내 팀 선택 | [`app/ai_studio_prompt.md`](app/ai_studio_prompt.md) · MQTT판 [`ai_studio_prompt_mqtt.md`](app/ai_studio_prompt_mqtt.md) |
 
 - 팀 번호는 **TEAM01 ~ TEAM12**, 학생마다 다르게. 같은 번호를 쓰면 서로의 램프가 같이 움직입니다.
 - 앱은 보드가 보고한 종류(`neopixel` / `bulb`)를 보고 **색·밝기 화면**과 **켜기·끄기 화면**을 스스로 고릅니다.
@@ -70,7 +79,7 @@
 ```
 
 > 왜 중계 서버인가: AI Studio 앱은 HTTPS에서 실행되고 보드는 교실 와이파이의 HTTP 주소라, 브라우저가 직접 연결을 막습니다(혼합 콘텐츠 차단).
-> 폴링 구조라 반응이 **2~3초 늦을 수 있습니다.**
+> 폴링 구조라 반응이 **2~3초 늦을 수 있습니다.** 바로 반응해야 하면 5단계(MQTT)를 씁니다.
 
 ## 폴더 안내
 
@@ -80,10 +89,11 @@
 | [`docs/parts.md`](docs/parts.md) | 부품 목록과 고른 이유 (버전별 표시) |
 | [`docs/power.md`](docs/power.md) | V1은 플러그 1개, V2는 2개인 이유 · 전류 계산 |
 | [`docs/voice_control.md`](docs/voice_control.md) | 음성제어 방법 (Web Speech API · Gemini · Siri 단축어) |
+| [`docs/mqtt.md`](docs/mqtt.md) | **빠른 응답(5단계)** — MQTT 브로커 만들기 · 토픽 약속 · 12팀 사용량 |
 | [`apps_script/`](apps_script/README.md) | **중계 서버** — 시트 1개로 12팀 · `mood_lamp.gs` · 주소 약속 |
-| [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안 + 그대로 붙여넣는 프롬프트 |
-| [`v1_neopixel/`](v1_neopixel/) | **V1** — 배선 · 펌웨어 4단계 |
-| [`v2_relay_bulb/`](v2_relay_bulb/) | **V2** — 배선 · 펌웨어 4단계 |
+| [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안 + 그대로 붙여넣는 프롬프트 (구글시트판 · MQTT판) |
+| [`v1_neopixel/`](v1_neopixel/) | **V1** — 배선 · 펌웨어 5단계 |
+| [`v2_relay_bulb/`](v2_relay_bulb/) | **V2** — 배선 · 펌웨어 5단계 |
 
 ## 꼭 알아두기
 
