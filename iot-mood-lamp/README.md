@@ -90,6 +90,7 @@
 | [`docs/power.md`](docs/power.md) | V1은 플러그 1개, V2는 2개인 이유 · 전류 계산 |
 | [`docs/voice_control.md`](docs/voice_control.md) | 음성제어 방법 (Web Speech API · Gemini · Siri 단축어) |
 | [`docs/mqtt.md`](docs/mqtt.md) | **빠른 응답(5단계)** — MQTT 브로커 만들기 · 토픽 약속 · 12팀 사용량 |
+| [`docs/lesson_3h.pptx`](docs/lesson_3h.pptx) | **3시간 수업 운영안(교사용 PPT, 12장)** — V1 네오픽셀 · 1→2→3→5단계 · 타임라인 · 손절 기준 |
 | [`apps_script/`](apps_script/README.md) | **중계 서버** — 시트 1개로 12팀 · `mood_lamp.gs` · 주소 약속 |
 | [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안 + 그대로 붙여넣는 프롬프트 (구글시트판 · MQTT판) |
 | [`v1_neopixel/`](v1_neopixel/) | **V1** — 배선 · 펌웨어 5단계 |
