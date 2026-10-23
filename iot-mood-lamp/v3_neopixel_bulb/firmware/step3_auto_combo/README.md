@@ -24,7 +24,8 @@ const int  DARK_LEVEL   = 30;     // 1단계에서 정한 숫자
 const bool DARK_IS_HIGH = true;   // 1단계에서 확인한 방향
 const int  BULB_GLOW    = 0;      // 전구를 켜면 센서가 더 밝게 읽는 %  (램프 켬 − 불 끔)
 const unsigned long NP_HOLD_MS = 60UL * 1000;   // 사람이 없어진 뒤 네오픽셀 유지 시간
-const int  MAX_BRIGHTNESS = 64;   // 9V 건전지 기본값. 5V 2A 충전기면 128
+#define LED_COUNT 12              // V3 링은 12구 (V1 스트립은 16)
+const int  MAX_BRIGHTNESS = 64;   // 전원 A안(9V) 기본값. B·C안·5V 2A 충전기면 128
 const bool RELAY_ACTIVE_LOW = false;             // KY-019형. 전구만 반대로 동작하면 코드가 아니라 NC→NO
 ```
 
