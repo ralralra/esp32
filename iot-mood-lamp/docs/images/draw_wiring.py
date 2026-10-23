@@ -65,7 +65,7 @@ def relay_module(x, y):
     o += [f'<rect x="{x+96}" y="{y+8}" width="40" height="8" rx="3" fill="#444"/>',
           f'<rect x="{x+150}" y="{y+6}" width="14" height="12" rx="2" fill="#333"/>',
           f'<circle cx="{x+60}" cy="{y+28}" r="5" fill="#ff5252"/>', t(x + 60, y + 18, "LED", 8, "#aaa"),
-          t(x + 150, y - 10, "릴레이 모듈 KY-019형 (5V · HIGH 트리거)", 14, "#1b2536", "bold")]
+          t(x + 150, y - 10, "릴레이 모듈 KY-019형 (5V · LOW 트리거)", 14, "#1b2536", "bold")]
     pins = {"S": (x - 2, y + 48), "+": (x - 2, y + 75), "−": (x - 2, y + 102)}
     for lab, (px, py) in pins.items():
         o += module_pin(px, py, lab)

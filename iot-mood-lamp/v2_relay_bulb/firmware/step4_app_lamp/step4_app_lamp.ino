@@ -8,7 +8,7 @@
   ② 1단계에서 정한 DARK_LEVEL · DARK_IS_HIGH 를 3단계와 똑같이 적으세요.
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
-    릴레이(KY-019형, HIGH 트리거) → 실드 2번 (GPIO26)   PIR → 실드 3번 (GPIO25)   조도 → A3 (GPIO34, VCC는 3V3)
+    릴레이(KY-019형, LOW 트리거) → 실드 2번 (GPIO26)   PIR → 실드 3번 (GPIO25)   조도 → A3 (GPIO34, VCC는 3V3)
 
   동작
     - 자동 모드: 3단계와 같은 규칙 (어두움 + 사람 → 켜짐 / 밝아짐·사람 없음 → 꺼짐)
@@ -43,7 +43,7 @@ const int RELAY_PIN = 26;   // 실드 2번
 const int PIR_PIN   = 25;   // 실드 3번
 const int LIGHT_PIN = 34;   // 실드 A3 (ADC1 — 와이파이를 켜도 읽힘)
 
-const bool RELAY_ACTIVE_LOW = false;  // KY-019형(HIGH에서 켜짐) = false · LOW에서 켜지는 모듈이면 true
+const bool RELAY_ACTIVE_LOW = true;   // 이 모듈은 LOW에서 켜짐 = true · HIGH에서 켜지는 모듈이면 false
 
 // ── 통신 간격 ────────────────────────────────────────
 const unsigned long POLL_MS        = 2000;    // 명령 확인

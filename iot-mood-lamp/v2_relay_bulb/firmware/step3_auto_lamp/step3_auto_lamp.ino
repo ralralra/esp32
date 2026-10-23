@@ -2,7 +2,7 @@
   IoT 무드등 V2 · 3단계 — 센서 받고 출력하기 (조도·PIR → 릴레이 전구, 와이파이 없이)
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
-    릴레이(KY-019형, HIGH 트리거) → 실드 2번 (S→S, +→V, −→G) = GPIO26
+    릴레이(KY-019형, LOW 트리거) → 실드 2번 (S→S, +→V, −→G) = GPIO26
     PIR                          → 실드 3번                  = GPIO25
     조도센서                     → 실드 A3 (VCC는 Bluetooth 헤더 3V3) = GPIO34
 
@@ -30,7 +30,7 @@ const bool USE_PIR      = true;   // false면 PIR 없이 조도만으로 켜고 
 const unsigned long AUTO_OFF_MS = 5UL * 60 * 1000;   // 움직임이 없으면 이 시간 뒤 끔 (USE_PIR일 때)
 
 // ── 릴레이 ───────────────────────────────────────
-const bool RELAY_ACTIVE_LOW = false;  // KY-019형(HIGH에서 켜짐) = false
+const bool RELAY_ACTIVE_LOW = true;   // 이 모듈은 LOW에서 켜짐 = true · HIGH에서 켜지는 모듈이면 false
 
 const unsigned long LIGHT_READ_MS   = 200;
 const unsigned long SENSOR_PRINT_MS = 1000;
