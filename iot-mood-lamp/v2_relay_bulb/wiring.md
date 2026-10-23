@@ -12,7 +12,7 @@
 
 | 부품 | 실드 자리 | 부품 핀 → 헤더 | 비고 |
 |---|:---:|---|---|
-| 릴레이 (KY-019형) | **2번** (GPIO26) | **S → S · 가운데(+) → V · − → G** | 핀 순서가 헤더와 같아 3핀을 나란히 꽂음. 이 모듈은 LOW 트리거 → `RELAY_ACTIVE_LOW = true` |
+| 릴레이 (KY-019형) | **2번** (GPIO26) | **S → S · 가운데(+) → V · − → G** | 핀 순서가 헤더와 같아 3핀을 나란히 꽂음. HIGH 트리거 → `RELAY_ACTIVE_LOW = false` |
 | 인체감지(PIR) | **3번** (GPIO25) | OUT → S · VCC → V · GND → G | HC-SR501은 5V 전원, 출력 3.3V |
 | 조도센서 | **A3** (GPIO34) + Bluetooth 헤더 **3V3** | AO → S · GND → G · **VCC → 3V3** | 출력이 3.3V를 넘지 않도록 V만 3.3V |
 
@@ -39,15 +39,16 @@
 
 - **활선(L) 한 가닥만** 릴레이로 끊어 잇습니다. 중성선은 그대로 둡니다.
 - **NO(평상시 열림)** 단자를 써서 보드가 꺼지거나 리셋되면 전구도 꺼지게 합니다.
+  **NC**에 꽂으면 켜라고 할 때 꺼지고 끄라고 할 때 켜집니다 — 이때는 코드(`RELAY_ACTIVE_LOW`)를 건드리지 말고 선을 NO로 옮깁니다.
 - 릴레이 단자는 케이스나 수축튜브로 **완전히 덮어** 손이 닿지 않게 합니다.
 - 램프 코드의 중간 스위치는 남겨 둡니다 — 비상시 수동으로 끌 수 있게.
 
 ## 코드에서 주의할 점
 
-**부팅 순간 전구가 깜빡이지 않게:** `pinMode` 보다 **먼저** '꺼짐' 값을 써 둡니다. 이 모듈은 LOW에서 켜지므로 `true` (HIGH에서 켜지는 모듈이면 `false`).
+**부팅 순간 전구가 깜빡이지 않게:** `pinMode` 보다 **먼저** '꺼짐' 값을 써 둡니다. KY-019형(HIGH 트리거)은 `false`.
 
 ```cpp
-const bool RELAY_ACTIVE_LOW = true;                      // LOW에서 켜지는 모듈
+const bool RELAY_ACTIVE_LOW = false;                     // KY-019형
 digitalWrite(RELAY_PIN, RELAY_ACTIVE_LOW ? HIGH : LOW);  // 먼저 '꺼짐' 값을 써 두고
 pinMode(RELAY_PIN, OUTPUT);                              // 그다음 출력으로 전환
 ```

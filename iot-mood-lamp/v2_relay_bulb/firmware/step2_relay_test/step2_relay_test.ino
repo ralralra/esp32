@@ -2,7 +2,7 @@
   IoT 무드등 V2 · 2단계 — 출력 테스트 (릴레이 → 220V 전구)
 
   보드: Wemos D1 R32 + 센서쉴드 V5  (배선: ../../wiring.md)
-    릴레이 모듈(KY-019형, 5V · LOW 트리거) → 실드 2번 (S→S, +→V, −→G) = GPIO26
+    릴레이 모듈(KY-019형, 5V · HIGH 트리거) → 실드 2번 (S→S, +→V, −→G) = GPIO26
     SEL 점퍼 꽂음 (보드 5V 사용), 보드는 micro USB 5V 1A 충전기
 
   하는 일
@@ -15,7 +15,7 @@
 */
 
 const int  RELAY_PIN        = 26;     // 실드 2번
-const bool RELAY_ACTIVE_LOW = true;   // 이 모듈은 LOW에서 켜짐 = true · HIGH에서 켜지는 모듈이면 false
+const bool RELAY_ACTIVE_LOW = false;  // KY-019형(HIGH에서 켜짐) = false · LOW에서 켜지는 모듈이면 true
 
 bool relayOn = false;
 String inputLine;
@@ -41,7 +41,7 @@ void setup() {
   pinMode(RELAY_PIN, OUTPUT);
   Serial.begin(115200);
   Serial.println("릴레이 테스트 — 1(켜기) / 0(끄기) / t(토글) / blink");
-  Serial.println("보드 리셋 순간에 릴레이가 붙지 않아야 정상 · 1에서 꺼지고 0에서 켜지면 RELAY_ACTIVE_LOW 를 반대로");
+  Serial.println("보드 리셋 순간에 릴레이가 붙지 않아야 정상 · HIGH에서 켜지지 않으면 RELAY_ACTIVE_LOW = true");
 }
 
 void loop() {
