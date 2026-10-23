@@ -1,6 +1,6 @@
 """IoT 무드등 실물형 배선도 — Wemos D1 R32 + 아두이노 센서쉴드 V5.
 
-    python3 draw_wiring.py      → wiring_v1_neopixel.svg / wiring_v2_relay.svg
+    python3 draw_wiring.py      → wiring_v1_neopixel.svg / wiring_v2_relay.svg / wiring_v3_combo.svg
 PNG는 headless 크로미움으로 SVG를 1500×1190 으로 찍는다 (README 참고).
 핀: 네오픽셀 27(실드 6) · 릴레이 26(실드 2) · PIR 25(실드 3) · 조도 34(A3)
 """
@@ -257,9 +257,9 @@ def tags(o, items):
               t(x, y + 4, lab, 12, "#3a3000", "bold")]
 
 
-def pir_and_ldr(o):
-    po, pp = pir_module(860, 470)
-    lo, lp = ldr_module(880, 760)
+def pir_and_ldr(o, py=470, ly=760):
+    po, pp = pir_module(860, py)
+    lo, lp = ldr_module(880, ly)
     o += wire(dig(3, "V"), pp["VCC"], C_5V)
     o += wire(dig(3, "S"), pp["OUT"], C_SIG)
     o += wire(dig(3, "G"), pp["GND"], C_GND)
@@ -272,8 +272,8 @@ def pir_and_ldr(o):
     for k in ("S", "G"):
         o += dupont(*ana(3, k))
     o += dupont(*bt_3v3())
-    o += badge(1130, 540, "3", "PIR → 실드 3번 (GPIO25)")
-    o += badge(1090, 820, "4", "조도 → A3 (GPIO34) + VCC는 3V3")
+    o += badge(1130, py + 70, "3", "PIR → 실드 3번 (GPIO25)")
+    o += badge(1090, ly + 60, "4", "조도 → A3 (GPIO34) + VCC는 3V3")
 
 
 def v1():
@@ -354,8 +354,105 @@ def v2():
                    "릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) · 220V 쪽은 교사 작업")
 
 
+def battery_9v(x, y):
+    """9V 사각 건전지 — 위에 스냅 단자 2개"""
+    o = [f'<rect x="{x}" y="{y}" width="110" height="170" rx="10" fill="#1f1f1f" stroke="#000" stroke-width="2"/>',
+         f'<rect x="{x+8}" y="{y+40}" width="94" height="100" rx="6" fill="#d9a400"/>',
+         t(x + 55, y + 82, "9V", 26, "#1f1f1f", "bold"), t(x + 55, y + 112, "알카라인", 12, "#1f1f1f"),
+         f'<circle cx="{x+32}" cy="{y}" r="9" fill="#c8ccd0" stroke="#666" stroke-width="2"/>',
+         f'<rect x="{x+68}" y="{y-9}" width="18" height="18" rx="9" fill="#c8ccd0" stroke="#666" stroke-width="2"/>',
+         t(x + 32, y - 16, "+", 14, "#d93025", "bold"), t(x + 77, y - 16, "−", 14, "#222", "bold"),
+         f'<rect x="{x+20}" y="{y-26}" width="70" height="20" rx="4" fill="#2b2b2b"/>',
+         t(x + 55, y + 158, "9V 건전지", 12, "#ffffff", "bold")]
+    return o, (x + 55, y - 26)   # 스냅 커넥터 위치
+
+
+def buck_module(x, y):
+    """소형 강압(벅) 컨버터 — LM2596/MP1584형, 입력 IN+ IN− · 출력 OUT+ OUT− · 전압 조절 다이얼"""
+    o = [f'<rect x="{x}" y="{y}" width="200" height="110" rx="8" fill="#1f5fae" stroke="#0e3a70" stroke-width="2"/>',
+         f'<rect x="{x+60}" y="{y+30}" width="60" height="50" rx="6" fill="#2b2b2b" stroke="#111"/>',
+         f'<circle cx="{x+90}" cy="{y+55}" r="12" fill="#4a4a4a" stroke="#111"/>', f'<path d="M{x+82} {y+47} l16 16" stroke="#ddd" stroke-width="3"/>',
+         f'<rect x="{x+138}" y="{y+28}" width="44" height="54" rx="6" fill="#111" stroke="#444"/>', f'<circle cx="{x+160}" cy="{y+55}" r="16" fill="#1a1a1a" stroke="#777"/>',
+         f'<rect x="{x+6}" y="{y+8}" width="48" height="20" rx="3" fill="#8fd3ff"/>', t(x + 30, y + 23, "5.0V", 13, "#0e3a70", "bold"),
+         t(x + 100, y - 10, "벅 컨버터 (강압 모듈, 5.0V로 맞춤)", 14, "#1b2536", "bold"),
+         t(x + 90, y + 100, "다이얼", 10, "#cfe1ff"), t(x + 160, y + 100, "코일", 10, "#cfe1ff")]
+    pins = {"IN+": (x - 2, y + 40), "IN−": (x - 2, y + 75), "OUT+": (x + 202, y + 40), "OUT−": (x + 202, y + 75)}
+    for lab, (px, py) in pins.items():
+        side_end = lab.startswith("OUT")
+        o += [f'<rect x="{px-7}" y="{py-4}" width="14" height="8" fill="#d4af37"/>',
+              t(px - 14 if side_end else px + 14, py + 4, lab, 12, "#ffffff", "bold", "end" if side_end else "start")]
+    return o, pins
+
+
+def v3():
+    """V3 네오픽셀 + 전구 — 9V 건전지 두 갈래: DC 잭(보드) + 벅 컨버터 5V(EXT PWR) · SEL 점퍼 뺌"""
+    o = shield(sel_on=False)
+    # 네오픽셀 (6번)
+    no_, npads = neopixel_ring(1040, 180)
+    o += wire(dig(6, "S"), npads["DIN"], C_SIG)
+    o += wire(dig(6, "V"), npads["5V"], C_5V)
+    o += wire(dig(6, "G"), npads["GND"], C_GND)
+    o += no_
+    for k in ("S", "V", "G"):
+        o += dupont(*dig(6, k))
+    # 릴레이 (2번)
+    ro, rp, rt = relay_module(860, 385)
+    o += wire(dig(2, "S"), rp["S"], C_SIG)
+    o += wire(dig(2, "V"), rp["+"], C_5V)
+    o += wire(dig(2, "G"), rp["−"], C_GND)
+    o += ro
+    for k in ("S", "V", "G"):
+        o += dupont(*dig(2, k))
+    # PIR · 조도
+    pir_and_ldr(o, py=575, ly=815)
+    # 220V (교사)
+    com, no = rt["COM"], rt["NO"]
+    bx, by, px, py = 1400, 150, 1400, 560
+    o += [f'<path d="M{com[0]} {com[1]} C 1260 {com[1]}, 1300 {py}, {px-40} {py}" fill="none" stroke="{C_AC}" stroke-width="6"/>',
+          f'<path d="M{no[0]} {no[1]} C 1260 {no[1]}, 1330 {by+60}, {bx-12} {by+62}" fill="none" stroke="{C_AC}" stroke-width="6"/>',
+          f'<path d="M{px+20} {py-22} C {px+80} {py-140}, {bx+80} {by+120}, {bx+12} {by+62}" fill="none" stroke="#3b6ea5" stroke-width="6" stroke-dasharray="14 8"/>',
+          f'<circle cx="{bx}" cy="{by}" r="40" fill="#fff6c8" stroke="#d4b100" stroke-width="3"/>',
+          f'<rect x="{bx-15}" y="{by+38}" width="30" height="26" rx="4" fill="#9aa1a8"/>',
+          t(bx, by + 6, "전구", 15, "#6b5a00", "bold"),
+          f'<rect x="{px-40}" y="{py-22}" width="80" height="44" rx="8" fill="#e8e8e8" stroke="#777"/>',
+          t(px, py + 6, "220V", 15, "#333", "bold"), t(px, py + 40, "콘센트", 13, "#333")]
+    o += badge(1215, 720, "!", "220V는 교사 작업 · COM–NO", "#c62828", 250)
+    # 9V 건전지 → 두 갈래
+    bo, snap = battery_9v(50, 108)
+    o += bo
+    bko, bk = buck_module(300, 150)
+    sx, sy = snap
+    # ① DC 플러그 → DC 잭 (보드)
+    o += [f'<path d="M{sx-12} {sy} C {sx-12} 100, 10 120, 14 300 C 16 450, 14 600, 22 727" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="9" stroke-linecap="round"/>',
+          f'<path d="M{sx-12} {sy} C {sx-12} 100, 10 120, 14 300 C 16 450, 14 600, 22 727" fill="none" stroke="#333" stroke-width="7" stroke-linecap="round"/>',
+          f'<rect x="2" y="716" width="34" height="22" rx="4" fill="#111" stroke="#666"/>',
+          t(8, 846, "DC 플러그 5.5×2.1 · 가운데가 +", 11, "#56677e", anchor="start")]
+    # ② 벅 컨버터 IN → OUT 5V → EXT PWR
+    o += wire((sx + 12, sy), bk["IN+"], C_5V, bend=0.2)
+    o += wire((sx + 24, sy + 6), bk["IN−"], C_GND, bend=0.2)
+    ex, ey = EXT_XY
+    o += [f'<path d="M{bk["OUT+"][0]} {bk["OUT+"][1]} C 560 190, 170 470, {ex+22} {ey}" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7"/>',
+          f'<path d="M{bk["OUT+"][0]} {bk["OUT+"][1]} C 560 190, 170 470, {ex+22} {ey}" fill="none" stroke="{C_5V}" stroke-width="5"/>',
+          f'<path d="M{bk["OUT−"][0]} {bk["OUT−"][1]} C 580 240, 150 500, {ex-4} {ey}" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7"/>',
+          f'<path d="M{bk["OUT−"][0]} {bk["OUT−"][1]} C 580 240, 150 500, {ex-4} {ey}" fill="none" stroke="{C_GND}" stroke-width="5"/>']
+    o += bko
+    o += [f'<circle cx="{SEL_XY[0]+12}" cy="{SEL_XY[1]}" r="34" fill="none" stroke="#f5d75d" stroke-width="4"/>']
+    o += badge(250, 690, "1", "SEL 점퍼 빼기 → 외부 5V 사용", "#b8860b")
+    o += badge(530, 108, "2", "9V → ① DC 잭(보드) · ② 벅 5V → EXT PWR(실드)", "#1758a8", 420)
+    o += badge(1175, 85, "3", "네오픽셀 → 6번 (GPIO27)")
+    o += badge(860, 342, "4", "릴레이 → 2번 (GPIO26)")
+    tags(o, [((dig(6, "G")[0], DIG_Y["G"] + 30), "6번"), ((dig(2, "G")[0], DIG_Y["G"] + 30), "2번"),
+             ((dig(3, "G")[0] - 26, DIG_Y["G"] + 30), "3번"), ((ana(3, "G")[0], ANA_Y["G"] - 30), "A3")])
+    o += legend(1040)
+    o += notes(1085, ["① 9V는 보드 DC 잭에만 직접 — 실드(EXT PWR)는 반드시 벅 컨버터로 5.0V로 낮춘 뒤 · 연결 전에 멀티미터로 5.0V 먼저 맞춤 · SEL 점퍼 뺌",
+                      "② 네오픽셀·릴레이·PIR은 EXT PWR 5V에서, 조도센서 VCC만 Bluetooth 헤더 3V3 · 업로드는 PC USB(건전지 빼도 됨)"],
+                 "⚠ 9V를 EXT PWR이나 모듈에 직접 넣으면 네오픽셀·릴레이가 탑니다 · SEL 점퍼 꽂은 채 EXT PWR 금지 · 220V는 교사")
+    return svg_doc(o, "IoT 무드등 V3 — 네오픽셀 + 전구 배선도 (9V 건전지 두 갈래 + 벅 컨버터)",
+                   "네오픽셀 GPIO27(실드 6) · 릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) · 전원 B안")
+
+
 if __name__ == "__main__":
-    for name, fn in (("wiring_v1_neopixel.svg", v1), ("wiring_v2_relay.svg", v2)):
+    for name, fn in (("wiring_v1_neopixel.svg", v1), ("wiring_v2_relay.svg", v2), ("wiring_v3_combo.svg", v3)):
         with open(os.path.join(HERE, name), "w", encoding="utf-8") as f:
             f.write(fn())
         print(name)
