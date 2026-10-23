@@ -33,6 +33,7 @@ const int  MAX_BRIGHTNESS = 128;   // 전원 B·C안 기준. 9V 건전지 A안�
 | `NP ON` / `NP OFF` | 네오픽셀만 |
 | `BULB ON` / `BULB OFF` | 전구만 |
 | `AUTO` | 자동 모드 — 사람 → 네오픽셀, 어두움 → 전구 |
+| `MANUAL` | 자동만 끔, 지금 켜진 것은 그대로 (앱 [수동] 버튼) |
 | `COLOR blue` · `COLOR FF8800` | 네오픽셀 색 |
 | `BRIGHT 50` | 네오픽셀 밝기 % |
 | `CONFIG 30 60` | 어두움 기준 % · 사람 없을 때 네오픽셀 유지 초 (보드에 저장) |
@@ -48,7 +49,7 @@ const int  MAX_BRIGHTNESS = 128;   // 전원 B·C안 기준. 9V 건전지 A안�
 - `off` 는 V1·V2의 '자동 꺼짐 초'가 아니라 **네오픽셀 유지 초**입니다.
 
 ## 시리얼 모니터 (115200)
-`on` · `off` · `np on|off` · `bulb on|off` · `auto` · `s`(상태 + 브로커 연결 상태) · `c <색>` · `b <0~100>`
+`on` · `off` · `np on|off` · `bulb on|off` · `auto` · `manual` · `s`(상태 + 브로커 연결 상태) · `c <색>` · `b <0~100>`
 
 ## 확인
 - [ ] 시리얼에 "브로커 연결됨 — 앱 명령 대기 (moodlamp/…/TEAM01/cmd)"

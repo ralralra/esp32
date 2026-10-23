@@ -116,6 +116,7 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
   · combo 스위치: "NP ON" / "NP OFF" (네오픽셀), "BULB ON" / "BULB OFF" (전구)
   · 세그먼트 [자동] 또는 자동화 토글 켜기: "AUTO"
   · 세그먼트 [수동] 또는 자동화 토글 끄기: 지금 켜져 있으면 "ON", 꺼져 있으면 "OFF"
+    — combo 보드에서는 대신 "MANUAL"을 보내 (지금 켜진 것은 그대로 두고 자동만 끔. "ON"을 보내면 꺼져 있던 쪽까지 켜짐)
   · 프리셋 색: "COLOR warm" / "COLOR white" / "COLOR purple" / "COLOR rainbow"
   · 컬러휠: "COLOR " + 6자리 색 코드(# 없이, 예: "COLOR FF8800")
   · 밝기 슬라이더: "BRIGHT " + 0~100 — 손을 뗄 때(change 이벤트) 한 번만 보내. 움직이는 동안 보내지 마.

@@ -76,7 +76,7 @@ int lightPercent(int raw) {
 }
 
 void updateDarkness() {
-  int offLevel = DARK_LEVEL + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0);   // 전구가 켜져 있으면 그 빛만큼 더 밝아야 '밝음'
+  int offLevel = min(100, DARK_LEVEL + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0));   // 전구가 켜져 있으면 그 빛만큼 더 밝아야 '밝음' (상한 100)
   if (!isDark && lightPct < DARK_LEVEL) isDark = true;
   if (isDark  && lightPct >= offLevel)  isDark = false;
 }

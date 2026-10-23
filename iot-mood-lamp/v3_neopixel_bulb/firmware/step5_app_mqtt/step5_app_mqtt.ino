@@ -16,7 +16,8 @@
   라이브러리: Adafruit NeoPixel, PubSubClient
 
   토픽 (TOPIC_PREFIX/TEAM_ID/… )
-    …/cmd     ← 앱이 보냄: ON · OFF (둘 다) · NP ON · NP OFF · BULB ON · BULB OFF · AUTO · COLOR blue · BRIGHT 50 · CONFIG 30 60
+    …/cmd     ← 앱이 보냄: ON · OFF (둘 다) · NP ON · NP OFF · BULB ON · BULB OFF · AUTO · MANUAL · COLOR blue · BRIGHT 50 · CONFIG 30 60
+                MANUAL = 지금 켜진 것은 그대로 둔 채 자동만 끔 (앱의 [수동] 버튼용)
                 CONFIG <어두움%> <초> — 초는 '사람 없으면 네오픽셀 꺼짐' 시간
     …/state   → 보드가 보냄 (retained):
                 {"type":"combo","power":"ON","np":"ON","bulb":"OFF","auto":1,"color":"warm","bright":60,"light":32,"motion":1,"dark":30,"off":60}
@@ -76,7 +77,7 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 // ── 상태 (loop 전용) ───────────────────────────────
 bool npOn = false, bulbOn = false, autoMode = true, isDark = false, motion = false;
-int  lightPct = 0;
+int  lightAvg = 0, lightPct = 0;
 int  darkPct = DARK_LEVEL;
 unsigned long npHoldMs = NP_HOLD_DEFAULT_MS;
 unsigned long lastMotionMs = 0, lastLightMs = 0, bulbOnSince = 0;
@@ -161,13 +162,13 @@ void setBulb(bool on) {
   digitalWrite(RELAY_PIN, (on != RELAY_ACTIVE_LOW) ? HIGH : LOW);
 }
 
-int readLightPct() {
-  int pct = (long)analogRead(LIGHT_PIN) * 100 / 4095;
+int lightPercent(int raw) {              // 원시값을 평균한 뒤 %로 — 완전히 밝으면 정확히 100이 된다
+  int pct = (long)raw * 100 / 4095;
   return DARK_IS_HIGH ? 100 - pct : pct;
 }
 
 void updateDarkness() {
-  int offLevel = darkPct + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0);
+  int offLevel = min(100, darkPct + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0));   // 기준이 높아도 100%에서는 꺼지게
   if (!isDark && lightPct < darkPct) isDark = true;
   if (isDark  && lightPct >= offLevel) isDark = false;
 }
@@ -204,6 +205,7 @@ void applyCommand(const Command& c) {
   else if (cmd == "NP")   { if (!onOffValue(c.value, v)) { Serial.println("NP 는 ON/OFF"); return; }   autoMode = false; setNp(v);   Serial.printf("명령: 네오픽셀 %s (수동)\n", v ? "켜기" : "끄기"); }
   else if (cmd == "BULB") { if (!onOffValue(c.value, v)) { Serial.println("BULB 는 ON/OFF"); return; } autoMode = false; setBulb(v); Serial.printf("명령: 전구 %s (수동)\n", v ? "켜기" : "끄기"); }
   else if (cmd == "AUTO") { autoMode = true; lastMotionMs = millis(); Serial.println("명령: 자동 모드 — 사람→네오픽셀 · 어두움→전구"); }
+  else if (cmd == "MANUAL") { autoMode = false; Serial.println("명령: 수동 모드 (지금 상태 유지)"); }
   else if (cmd == "COLOR") {
     if (!setColor(c.value)) { Serial.printf("모르는 색: %s\n", c.value); return; }
     showStrip();
@@ -246,9 +248,9 @@ void handleSerial(String line) {
   if (lower == "s") { printStatus(); return; }
   if (lower.startsWith("c ")) line = "COLOR " + line.substring(2);
   else if (lower.startsWith("b ")) line = "BRIGHT " + line.substring(2);
-  else if (lower == "on" || lower == "off" || lower == "auto" ||
+  else if (lower == "on" || lower == "off" || lower == "auto" || lower == "manual" ||
            lower == "np on" || lower == "np off" || lower == "bulb on" || lower == "bulb off") line = lower;
-  else { if (line.length()) Serial.println("명령: on / off / np on|off / bulb on|off / auto / s / c <색> / b <0~100>"); return; }
+  else { if (line.length()) Serial.println("명령: on / off / np on|off / bulb on|off / auto / manual / s / c <색> / b <0~100>"); return; }
   if (parseCommand(line, c)) applyCommand(c);
 }
 
@@ -334,7 +336,9 @@ void networkStep(unsigned long now) {
 
   mqtt.loop();                                   // 명령 받기 (onMessage) + keepalive
   if (reportNow || (reportSoon && now - lastReport >= SOFT_REPORT_MS) || now - lastReport >= HEARTBEAT_MS) {
-    if (mqtt.publish(topicState.c_str(), stateJson().c_str(), true)) { reportNow = false; reportSoon = false; lastReport = now; }
+    reportNow = false; reportSoon = false;        // 스냅샷을 뜨기 '전에' 요청을 지운다 — 발행 중 생긴 변화는 다음 보고로 이어짐
+    if (mqtt.publish(topicState.c_str(), stateJson().c_str(), true)) lastReport = now;
+    else reportNow = true;                        // 실패하면 다시 시도
   }
 }
 
@@ -361,7 +365,8 @@ void setup() {
   darkPct  = prefs.getInt("dark", darkPct);
   npHoldMs = (unsigned long)prefs.getInt("off", (int)(npHoldMs / 1000)) * 1000;
 
-  lightPct = readLightPct();
+  lightAvg = analogRead(LIGHT_PIN);
+  lightPct = lightPercent(lightAvg);
   updateDarkness();
   publish();
 
@@ -388,7 +393,8 @@ void loop() {
 
   if (now - lastLightMs >= LIGHT_READ_MS) {
     lastLightMs = now;
-    lightPct = (lightPct * 3 + readLightPct()) / 4;
+    lightAvg = (lightAvg * 3 + analogRead(LIGHT_PIN)) / 4;
+    lightPct = lightPercent(lightAvg);
     updateDarkness();
   }
 
