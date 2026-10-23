@@ -128,8 +128,11 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
 ━━━━━━━━━━ 음성 명령 ━━━━━━━━━━
 - 브라우저 Web Speech API(SpeechRecognition, 없으면 webkitSpeechRecognition), lang='ko-KR'
 - "눌러서 말하기" 버튼을 누르면 한 문장을 듣고, 들은 문장을 화면에 잠깐 보여준 뒤 아래 규칙으로 바로 publish해:
-  · '꺼' 포함 → "OFF" / '켜' 포함 → "ON" / '자동' 포함 → "AUTO"   ('꺼'를 '켜'보다 먼저 검사)
-  · combo 보드에서 '네오픽셀'·'무드등'·'LED' 단어가 함께 들리면 "NP ON"/"NP OFF", '전구'·'램프' 단어면 "BULB ON"/"BULB OFF", 둘 다 없으면 "ON"/"OFF"(둘 다)
+  · (combo 보드는 이 줄을 먼저) 문장에 '네오픽셀'·'무드등'·'LED'가 있으면 대상 = NP, '전구'·'램프'가 있으면 대상 = BULB, 없으면 대상 = 둘 다.
+    그다음 '꺼' 포함이면 대상이 NP → "NP OFF", BULB → "BULB OFF", 둘 다 → "OFF"; '켜' 포함이면 같은 식으로 "NP ON"/"BULB ON"/"ON".
+    즉 "전구 꺼 줘"는 "BULB OFF" 하나만 보내고, 일반 "OFF"로 떨어지면 안 돼. (대상 단어 검사가 켜/꺼 검사보다 먼저)
+  · neopixel·bulb 보드: '꺼' 포함 → "OFF" / '켜' 포함 → "ON"   ('꺼'를 '켜'보다 먼저 검사)
+  · '자동' 포함 → "AUTO" (모든 보드)
   · 색 단어 → "COLOR …": 빨강→red, 주황→orange, 노랑→yellow, 초록→green, 파랑·파란→blue,
     보라→purple, 분홍→pink, 따뜻→warm, 하양·흰→white, 무지개→rainbow
   · '밝기'와 숫자 → "BRIGHT 숫자", '밝게' → 현재 밝기+20, '어둡게' → 현재 밝기−20 (0~100으로 제한)

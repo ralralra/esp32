@@ -71,7 +71,7 @@ String inputLine;
 // 센서
 // ─────────────────────────────────────────────────
 int lightPercent(int raw) {
-  int pct = (long)raw * 100 / 4095;
+  int pct = ((long)raw * 100 + 2047) / 4095;       // 반올림 — 평균이 끝값에 몇 단위 못 미쳐도 0%·100%
   return DARK_IS_HIGH ? 100 - pct : pct;          // 100 = 밝음
 }
 

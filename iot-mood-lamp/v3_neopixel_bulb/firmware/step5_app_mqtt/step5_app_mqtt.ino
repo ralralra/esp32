@@ -162,10 +162,12 @@ void setBulb(bool on) {
   digitalWrite(RELAY_PIN, (on != RELAY_ACTIVE_LOW) ? HIGH : LOW);
 }
 
-int lightPercent(int raw) {              // 원시값을 평균한 뒤 %로 — 완전히 밝으면 정확히 100이 된다
-  int pct = (long)raw * 100 / 4095;
+int lightPercent(int raw) {              // 반올림 — 평균이 0 또는 4095에 몇 단위 못 미쳐도 0%·100%가 된다
+  int pct = ((long)raw * 100 + 2047) / 4095;
   return DARK_IS_HIGH ? 100 - pct : pct;
 }
+
+int darkMax() { return 100 - DARK_MARGIN - BULB_GLOW; }   // 이 값보다 큰 기준은 꺼짐 조건(기준+여유+전구빛)이 100%를 넘어 영영 못 끔
 
 void updateDarkness() {
   int offLevel = min(100, darkPct + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0));   // 기준이 높아도 100%에서는 꺼지게
@@ -213,7 +215,7 @@ void applyCommand(const Command& c) {
   }
   else if (cmd == "BRIGHT") { brightPct = constrain(atoi(c.value), 0, 100); startFade(); Serial.printf("명령: 밝기 → %d%%\n", brightPct); }
   else if (cmd == "CONFIG") {
-    darkPct = constrain(c.dark, 0, 100);
+    darkPct = constrain(c.dark, 0, darkMax());        // 꺼짐 기준이 100%를 넘지 않게
     npHoldMs = (unsigned long)constrain(c.off, 10, 3600) * 1000;
     prefs.putInt("dark", darkPct);
     prefs.putInt("off", (int)(npHoldMs / 1000));
@@ -362,7 +364,7 @@ void setup() {
   strip.show();
 
   prefs.begin("moodlamp", false);
-  darkPct  = prefs.getInt("dark", darkPct);
+  darkPct  = constrain(prefs.getInt("dark", darkPct), 0, darkMax());
   npHoldMs = (unsigned long)prefs.getInt("off", (int)(npHoldMs / 1000)) * 1000;
 
   lightAvg = analogRead(LIGHT_PIN);
@@ -400,7 +402,7 @@ void loop() {
 
   bool m = digitalRead(PIR_PIN) == HIGH;
   if (m) lastMotionMs = now;
-  if (m != motion) { motion = m; reportSoon = true; }
+  if (m != motion) { motion = m; publish(); reportSoon = true; }   // 스냅샷을 먼저 갱신한 뒤 보고 요청 — 통신 쪽이 플래그를 지우고 스냅샷을 읽으므로 순서가 중요
 
   if (autoMode) {
     bool npAllowed = !NP_ONLY_WHEN_DARK || isDark;
