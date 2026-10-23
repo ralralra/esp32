@@ -27,10 +27,10 @@
 #include <Preferences.h>
 
 // ── ① 여기만 바꾸기 ─────────────────────────────────
-const char* WIFI_SSID  = "와이파이이름";
-const char* WIFI_PASS  = "와이파이비밀번호";
-const char* SERVER_URL = "https://script.google.com/macros/s/배포ID/exec";
-const char* TEAM_ID    = "TEAM01";
+const char* WIFI_SSID  = "OJM";
+const char* WIFI_PASS  = "ojm4656812";
+const char* SERVER_URL = "https://script.google.com/macros/s/AKfycbzkI1PM1oYaMUgq27PoneJ2D7pzfhVkP7sL8wSSYXfUvTS-CtNSt5TqYeDOVL1dDelE/exec";
+const char* TEAM_ID    = "팀번호";
 
 // ── ② 조도 기준 — 1단계에서 정한 숫자 ───────────────────
 const int  DARK_LEVEL   = 30;     // 주변 밝기(%)가 이 숫자보다 낮으면 '어두움' → 켜짐 (앱 CONFIG로 바꿀 수 있음)
