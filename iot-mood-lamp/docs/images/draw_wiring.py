@@ -1,6 +1,6 @@
 """IoT 무드등 실물형 배선도 — Wemos D1 R32 + 아두이노 센서쉴드 V5.
 
-    python3 draw_wiring.py      → wiring_v1_neopixel.svg / wiring_v2_relay.svg / wiring_v3_combo.svg
+    python3 draw_wiring.py      → wiring_v1_neopixel.svg / wiring_v2_relay.svg / wiring_v3_combo.svg / wiring_v3_combo_ac.svg
 PNG는 headless 크로미움으로 SVG를 1500×1190 으로 찍는다 (README 참고).
 핀: 네오픽셀 27(실드 6) · 릴레이 26(실드 2) · PIR 25(실드 3) · 조도 34(A3)
 """
@@ -98,16 +98,16 @@ def ldr_module(x, y):
     return o, pins
 
 
-def neopixel_ring(cx, cy, r=105):
+def neopixel_ring(cx, cy, r=105, n=16):
     o = [f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="#1a1a1a" stroke="#000" stroke-width="2"/>',
          f'<circle cx="{cx}" cy="{cy}" r="{r-38}" fill="#ffffff"/>']
-    for i in range(16):
-        a = 2 * math.pi * i / 16 - math.pi / 2
+    for i in range(n):
+        a = 2 * math.pi * i / n - math.pi / 2
         lx, ly = cx + (r - 19) * math.cos(a), cy + (r - 19) * math.sin(a)
         o.append(f'<rect x="{lx-8:.1f}" y="{ly-8:.1f}" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate({math.degrees(a):.1f} {lx:.1f} {ly:.1f})"/>')
         o.append(f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4" fill="#ffd36b"/>')
     o.append(t(cx, cy - 6, "네오픽셀 스트립", 14, "#1b2536", "bold"))
-    o.append(t(cx, cy + 14, "16구 RGB · 소켓에 감음", 12, "#56677e"))
+    o.append(t(cx, cy + 14, f"{n}구 RGB · 소켓에 감음", 12, "#56677e"))
     pads = {"DIN": (cx - 70, cy + r + 18), "5V": (cx - 20, cy + r + 18), "GND": (cx + 30, cy + r + 18)}
     for lab, (px, py) in pads.items():
         o += [f'<rect x="{px-9}" y="{py-24}" width="18" height="18" rx="3" fill="#d4af37"/>',
@@ -384,18 +384,30 @@ def buck_module(x, y):
     return o, pins
 
 
-def v3():
-    """V3 네오픽셀 + 전구 — 9V 건전지 두 갈래: DC 잭(보드) + 벅 컨버터 5V(EXT PWR) · SEL 점퍼 뺌"""
+def ac_dc_module(x, y):
+    """220V → 5V 직류 모듈 (HLK-5M05형, 5V 1A) — 오른쪽 AC 입력 L·N, 왼쪽 DC 출력 +5V·GND"""
+    o = [f'<rect x="{x}" y="{y}" width="220" height="110" rx="8" fill="#2b2b2b" stroke="#000" stroke-width="2"/>',
+         f'<rect x="{x+40}" y="{y+22}" width="140" height="66" rx="6" fill="#efefef" stroke="#999"/>',
+         t(x + 110, y + 48, "HLK-5M05", 14, "#1b2536", "bold"), t(x + 110, y + 68, "AC 100~240V → DC 5V 1A", 10, "#56677e"),
+         t(x + 110, y - 10, "220V → 5V 모듈 (케이스에 넣어 절연)", 14, "#1b2536", "bold")]
+    pins = {"+5V": (x - 2, y + 40), "GND": (x - 2, y + 75), "L": (x + 222, y + 40), "N": (x + 222, y + 75)}
+    for lab, (px, py) in pins.items():
+        right = lab in ("L", "N")
+        o += [f'<rect x="{px-7}" y="{py-4}" width="14" height="8" fill="#d4af37"/>',
+              t(px - 14 if not right else px + 14, py + 4, lab, 12, "#ffffff", "bold", "end" if not right else "start")]
+    return o, pins
+
+
+def v3_body():
+    """V3 공통: 실드(SEL 뺌) + 네오픽셀 6번 + 릴레이 2번 + PIR·조도 + 전구 220V. 전원 부분은 호출자가 그린다."""
     o = shield(sel_on=False)
-    # 네오픽셀 (6번)
-    no_, npads = neopixel_ring(1040, 180)
+    no_, npads = neopixel_ring(1040, 180, n=12)
     o += wire(dig(6, "S"), npads["DIN"], C_SIG)
     o += wire(dig(6, "V"), npads["5V"], C_5V)
     o += wire(dig(6, "G"), npads["GND"], C_GND)
     o += no_
     for k in ("S", "V", "G"):
         o += dupont(*dig(6, k))
-    # 릴레이 (2번)
     ro, rp, rt = relay_module(860, 385)
     o += wire(dig(2, "S"), rp["S"], C_SIG)
     o += wire(dig(2, "V"), rp["+"], C_5V)
@@ -403,9 +415,7 @@ def v3():
     o += ro
     for k in ("S", "V", "G"):
         o += dupont(*dig(2, k))
-    # PIR · 조도
     pir_and_ldr(o, py=575, ly=815)
-    # 220V (교사)
     com, no = rt["COM"], rt["NO"]
     bx, by, px, py = 1400, 150, 1400, 560
     o += [f'<path d="M{com[0]} {com[1]} C 1260 {com[1]}, 1300 {py}, {px-40} {py}" fill="none" stroke="{C_AC}" stroke-width="6"/>',
@@ -416,18 +426,27 @@ def v3():
           t(bx, by + 6, "전구", 15, "#6b5a00", "bold"),
           f'<rect x="{px-40}" y="{py-22}" width="80" height="44" rx="8" fill="#e8e8e8" stroke="#777"/>',
           t(px, py + 6, "220V", 15, "#333", "bold"), t(px, py + 40, "콘센트", 13, "#333")]
+    o += [f'<circle cx="{SEL_XY[0]+12}" cy="{SEL_XY[1]}" r="34" fill="none" stroke="#f5d75d" stroke-width="4"/>']
+    o += badge(250, 690, "1", "SEL 점퍼 빼기 → 외부 5V 사용", "#b8860b")
+    o += badge(1175, 85, "3", "네오픽셀 → 6번 (GPIO27)")
+    o += badge(860, 342, "4", "릴레이 → 2번 (GPIO26)")
+    tags(o, [((dig(6, "G")[0], DIG_Y["G"] + 30), "6번"), ((dig(2, "G")[0], DIG_Y["G"] + 30), "2번"),
+             ((dig(3, "G")[0] - 26, DIG_Y["G"] + 30), "3번"), ((ana(3, "G")[0], ANA_Y["G"] - 30), "A3")])
+    return o, (px, py)
+
+
+def v3():
+    """V3 전원 B안 — 9V 건전지 두 갈래: DC 잭(보드) + 벅 컨버터 5V(EXT PWR) · SEL 점퍼 뺌"""
+    o, _ = v3_body()
     o += badge(1215, 720, "!", "220V는 교사 작업 · COM–NO", "#c62828", 250)
-    # 9V 건전지 → 두 갈래
     bo, snap = battery_9v(50, 108)
     o += bo
     bko, bk = buck_module(300, 150)
     sx, sy = snap
-    # ① DC 플러그 → DC 잭 (보드)
     o += [f'<path d="M{sx-12} {sy} C {sx-12} 100, 10 120, 14 300 C 16 450, 14 600, 22 727" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="9" stroke-linecap="round"/>',
           f'<path d="M{sx-12} {sy} C {sx-12} 100, 10 120, 14 300 C 16 450, 14 600, 22 727" fill="none" stroke="#333" stroke-width="7" stroke-linecap="round"/>',
           f'<rect x="2" y="716" width="34" height="22" rx="4" fill="#111" stroke="#666"/>',
           t(8, 846, "DC 플러그 5.5×2.1 · 가운데가 +", 11, "#56677e", anchor="start")]
-    # ② 벅 컨버터 IN → OUT 5V → EXT PWR
     o += wire((sx + 12, sy), bk["IN+"], C_5V, bend=0.2)
     o += wire((sx + 24, sy + 6), bk["IN−"], C_GND, bend=0.2)
     ex, ey = EXT_XY
@@ -436,13 +455,7 @@ def v3():
           f'<path d="M{bk["OUT−"][0]} {bk["OUT−"][1]} C 580 240, 150 500, {ex-4} {ey}" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7"/>',
           f'<path d="M{bk["OUT−"][0]} {bk["OUT−"][1]} C 580 240, 150 500, {ex-4} {ey}" fill="none" stroke="{C_GND}" stroke-width="5"/>']
     o += bko
-    o += [f'<circle cx="{SEL_XY[0]+12}" cy="{SEL_XY[1]}" r="34" fill="none" stroke="#f5d75d" stroke-width="4"/>']
-    o += badge(250, 690, "1", "SEL 점퍼 빼기 → 외부 5V 사용", "#b8860b")
     o += badge(530, 108, "2", "9V → ① DC 잭(보드) · ② 벅 5V → EXT PWR(실드)", "#1758a8", 420)
-    o += badge(1175, 85, "3", "네오픽셀 → 6번 (GPIO27)")
-    o += badge(860, 342, "4", "릴레이 → 2번 (GPIO26)")
-    tags(o, [((dig(6, "G")[0], DIG_Y["G"] + 30), "6번"), ((dig(2, "G")[0], DIG_Y["G"] + 30), "2번"),
-             ((dig(3, "G")[0] - 26, DIG_Y["G"] + 30), "3번"), ((ana(3, "G")[0], ANA_Y["G"] - 30), "A3")])
     o += legend(1040)
     o += notes(1085, ["① 9V는 보드 DC 잭에만 직접 — 실드(EXT PWR)는 반드시 벅 컨버터로 5.0V로 낮춘 뒤 · 연결 전에 멀티미터로 5.0V 먼저 맞춤 · SEL 점퍼 뺌",
                       "② 네오픽셀·릴레이·PIR은 EXT PWR 5V에서, 조도센서 VCC만 Bluetooth 헤더 3V3 · 업로드는 PC USB(건전지 빼도 됨)"],
@@ -451,8 +464,39 @@ def v3():
                    "네오픽셀 GPIO27(실드 6) · 릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) · 전원 B안")
 
 
+def v3c():
+    """V3 전원 C안 — 220V를 릴레이 앞에서 분기 → 220V→5V 모듈 → EXT PWR(실드) + micro USB(보드) · SEL 점퍼 뺌 · 플러그 1개"""
+    o, (px, py) = v3_body()
+    mo, mp = ac_dc_module(1225, 690)
+    # 콘센트 → 모듈 AC 입력 (L 갈색 · N 파란 점선) — 릴레이 앞에서 분기
+    o += [f'<path d="M{px-40} {py} C 1320 {py+40}, 1480 {py+80}, {mp["L"][0]+40} {mp["L"][1]}" fill="none" stroke="{C_AC}" stroke-width="6"/>',
+          f'<path d="M{mp["L"][0]+40} {mp["L"][1]} h-40" stroke="{C_AC}" stroke-width="6"/>',
+          f'<path d="M{px+20} {py-22} C {px+70} {py+10}, {mp["N"][0]+60} {mp["N"][1]-20}, {mp["N"][0]} {mp["N"][1]}" fill="none" stroke="#3b6ea5" stroke-width="6" stroke-dasharray="14 8"/>']
+    # 모듈 5V 출력 → 아래로 내려 왼쪽으로 → ① EXT PWR ② micro USB
+    ex, ey = EXT_XY
+    p5, pg = mp["+5V"], mp["GND"]
+    route5 = f'M{p5[0]} {p5[1]} C 1150 {p5[1]}, 1180 975, 1100 975 L 760 975 C 400 975, 230 980, 180 900 C 150 850, 140 700, {ex+22} {ey}'
+    routeg = f'M{pg[0]} {pg[1]} C 1150 {pg[1]}, 1190 990, 1100 990 L 760 990 C 380 990, 210 995, 160 910 C 128 850, 120 700, {ex-4} {ey}'
+    usb5 = f'M760 975 C 600 975, 20 980, 14 600 C 10 500, 12 430, 40 408'
+    for d, c in ((route5, C_5V), (routeg, C_GND)):
+        o += [f'<path d="{d}" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7"/>', f'<path d="{d}" fill="none" stroke="{c}" stroke-width="5"/>']
+    o += [f'<path d="{usb5}" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="9" stroke-linecap="round"/>',
+          f'<path d="{usb5}" fill="none" stroke="#333" stroke-width="7" stroke-linecap="round"/>',
+          f'<circle cx="760" cy="982" r="9" fill="#333"/>',
+          t(770, 1010, "5V 출력을 두 갈래로: ① EXT PWR(실드) · ② USB 케이블 끝을 잘라 5V·GND → micro USB(보드)", 12, "#56677e", anchor="start"),
+          t(8, 272, "USB 케이블 5V·GND → micro USB", 11, "#56677e", anchor="start")]
+    o += mo
+    o += badge(1230, 835, "!", "220V 분기·모듈은 교사 작업", "#c62828", 250)
+    o += badge(530, 108, "2", "220V → 5V 모듈 → ① EXT PWR(실드) · ② micro USB(보드)", "#1758a8", 430)
+    o += legend(1040)
+    o += notes(1085, ["① 램프 코드 L·N을 릴레이 앞에서 갈라 220V→5V 모듈(5V 1A, 예: HLK-5M05)에 — 릴레이는 L 한 가닥만 전구로. 플러그는 1개, 건전지 없음",
+                      "② 모듈 5V를 두 갈래로: EXT PWR(실드, SEL 뺌) + micro USB(보드). DC 잭은 7V 이상이 필요해 5V를 넣으면 안 됨 · 조도센서 VCC는 3V3"],
+                 "⚠ 220V 분기·모듈 연결·절연(케이스, 입력 1A 퓨즈 권장)은 교사 작업 · 1A 모듈이면 네오픽셀 상한 128, 0.6A 모듈이면 64")
+    return svg_doc(o, "IoT 무드등 V3 — 네오픽셀 + 전구 배선도 (220V 분기 → 5V 모듈, 플러그 1개)",
+                   "네오픽셀 GPIO27(실드 6) · 릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) · 전원 C안")
+
 if __name__ == "__main__":
-    for name, fn in (("wiring_v1_neopixel.svg", v1), ("wiring_v2_relay.svg", v2), ("wiring_v3_combo.svg", v3)):
+    for name, fn in (("wiring_v1_neopixel.svg", v1), ("wiring_v2_relay.svg", v2), ("wiring_v3_combo.svg", v3), ("wiring_v3_combo_ac.svg", v3c)):
         with open(os.path.join(HERE, name), "w", encoding="utf-8") as f:
             f.write(fn())
         print(name)

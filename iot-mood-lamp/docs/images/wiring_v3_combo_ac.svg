@@ -1,0 +1,338 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1190" viewBox="0 0 1500 1190" font-family="Pretendard, 'Noto Sans CJK KR', 'WenQuanYi Zen Hei', sans-serif">
+<rect width="1500" height="1190" fill="#ffffff"/>
+<text x="750.0" y="40.0" font-size="28" font-weight="bold" fill="#1b2536" text-anchor="middle">IoT 무드등 V3 — 네오픽셀 + 전구 배선도 (220V 분기 → 5V 모듈, 플러그 1개)</text>
+<text x="750.0" y="68.0" font-size="15" fill="#56677e" text-anchor="middle">네오픽셀 GPIO27(실드 6) · 릴레이 GPIO26(실드 2) · PIR GPIO25(실드 3) · 조도 GPIO34(A3) · 전원 C안</text>
+<rect x="44" y="282" width="690" height="540" rx="14" fill="#14385f"/>
+<rect x="14" y="380" width="70" height="56" rx="4" fill="#c9ced3" stroke="#8a9096"/>
+<rect x="26" y="396" width="34" height="22" rx="3" fill="#5a5f64"/>
+<text x="8.0" y="372.0" font-size="12" fill="#56677e" text-anchor="start">micro USB</text>
+<rect x="6" y="690" width="92" height="74" rx="4" fill="#0b0b0b" stroke="#444"/>
+<circle cx="34" cy="727" r="12" fill="#2a2a2a" stroke="#777"/>
+<text x="8.0" y="784.0" font-size="12" fill="#56677e" text-anchor="start">DC 잭</text>
+<text x="390.0" y="840.0" font-size="14" font-weight="bold" fill="#56677e" text-anchor="middle">Wemos D1 R32 (아래) + 센서쉴드 V5 (위)</text>
+<rect x="70" y="300" width="640" height="500" rx="12" fill="#b3261e" stroke="#7a1712" stroke-width="2"/>
+<text x="390.0" y="560.0" font-size="22" font-weight="bold" fill="#ffd9d4" text-anchor="middle">Sensor Shield V5.0</text>
+<text x="390.0" y="586.0" font-size="14" fill="#ffd9d4" text-anchor="middle">핀마다 G·V·S 헤더</text>
+<rect x="224" y="338" width="418" height="76" fill="#121212"/>
+<text x="628.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">0</text>
+<rect x="622" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="622" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="622" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="598.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">1</text>
+<rect x="592" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="592" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="592" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="568.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">2</text>
+<rect x="562" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="562" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="562" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="538.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">3</text>
+<rect x="532" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="532" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="532" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="508.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">4</text>
+<rect x="502" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="502" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="502" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="478.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">5</text>
+<rect x="472" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="472" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="472" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="448.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">6</text>
+<rect x="442" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="442" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="442" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="418.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">7</text>
+<rect x="412" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="412" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="412" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="388.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">8</text>
+<rect x="382" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="382" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="382" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="358.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">9</text>
+<rect x="352" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="352" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="352" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="328.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">10</text>
+<rect x="322" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="322" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="322" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="298.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">11</text>
+<rect x="292" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="292" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="292" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="268.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">12</text>
+<rect x="262" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="262" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="262" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="238.0" y="332.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">13</text>
+<rect x="232" y="346" width="12" height="12" fill="#2e9d3e"/>
+<rect x="232" y="370" width="12" height="12" fill="#c0392b"/>
+<rect x="232" y="394" width="12" height="12" fill="#2e9d3e"/>
+<text x="208.0" y="357.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">S</text>
+<text x="208.0" y="381.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">V</text>
+<text x="208.0" y="405.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">G</text>
+<text x="433.0" y="316.0" font-size="12" fill="#ffd9d4" text-anchor="middle">디지털 0~13 (실드 숫자 = 우노 라벨)</text>
+<rect x="390" y="686" width="198" height="76" fill="#121212"/>
+<text x="404.0" y="774.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">A0</text>
+<rect x="398" y="694" width="12" height="12" fill="#2e9d3e"/>
+<rect x="398" y="718" width="12" height="12" fill="#c0392b"/>
+<rect x="398" y="742" width="12" height="12" fill="#2e9d3e"/>
+<text x="438.0" y="774.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">A1</text>
+<rect x="432" y="694" width="12" height="12" fill="#2e9d3e"/>
+<rect x="432" y="718" width="12" height="12" fill="#c0392b"/>
+<rect x="432" y="742" width="12" height="12" fill="#2e9d3e"/>
+<text x="472.0" y="774.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">A2</text>
+<rect x="466" y="694" width="12" height="12" fill="#2e9d3e"/>
+<rect x="466" y="718" width="12" height="12" fill="#c0392b"/>
+<rect x="466" y="742" width="12" height="12" fill="#2e9d3e"/>
+<text x="506.0" y="774.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">A3</text>
+<rect x="500" y="694" width="12" height="12" fill="#2e9d3e"/>
+<rect x="500" y="718" width="12" height="12" fill="#c0392b"/>
+<rect x="500" y="742" width="12" height="12" fill="#2e9d3e"/>
+<text x="540.0" y="774.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">A4</text>
+<rect x="534" y="694" width="12" height="12" fill="#2e9d3e"/>
+<rect x="534" y="718" width="12" height="12" fill="#c0392b"/>
+<rect x="534" y="742" width="12" height="12" fill="#2e9d3e"/>
+<text x="574.0" y="774.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">A5</text>
+<rect x="568" y="694" width="12" height="12" fill="#2e9d3e"/>
+<rect x="568" y="718" width="12" height="12" fill="#c0392b"/>
+<rect x="568" y="742" width="12" height="12" fill="#2e9d3e"/>
+<text x="374.0" y="705.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">G</text>
+<text x="374.0" y="729.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">V</text>
+<text x="374.0" y="753.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">S</text>
+<rect x="664" y="458" width="24" height="96" fill="#121212"/>
+<rect x="670" y="464" width="12" height="12" fill="#9aa1a8"/>
+<rect x="670" y="488" width="12" height="12" fill="#9aa1a8"/>
+<rect x="670" y="512" width="12" height="12" fill="#9aa1a8"/>
+<rect x="670" y="536" width="12" height="12" fill="#c0392b"/>
+<text x="658.0" y="547.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="end">3V3</text>
+<text x="676.0" y="450.0" font-size="11" fill="#ffd9d4" text-anchor="middle">Bluetooth</text>
+<rect x="70" y="580" width="60" height="62" rx="4" fill="#2a9d4b" stroke="#1d6d34"/>
+<circle cx="88" cy="610" r="10" fill="#c8ccd0" stroke="#666"/>
+<circle cx="114" cy="610" r="10" fill="#c8ccd0" stroke="#666"/>
+<text x="88.0" y="656.0" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">GND</text>
+<text x="114.0" y="656.0" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">VCC</text>
+<text x="100.0" y="570.0" font-size="11" fill="#ffd9d4" text-anchor="middle">EXT PWR</text>
+<rect x="184" y="634" width="12" height="12" fill="#d4af37"/>
+<rect x="208" y="634" width="12" height="12" fill="#d4af37"/>
+<text x="202.0" y="670.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">SEL</text>
+<rect x="98" y="460" width="34" height="34" rx="4" fill="#d8dcdf"/>
+<circle cx="115" cy="477" r="10" fill="#2b2b2b"/>
+<text x="115.0" y="512.0" font-size="10" fill="#ffd9d4" text-anchor="middle">RESET</text>
+<path d="M448.0 352.0 C 682.9 352.0, 735.1 288.0, 970.0 288.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M448.0 352.0 C 682.9 352.0, 735.1 288.0, 970.0 288.0" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round"/>
+<path d="M448.0 376.0 C 705.4 376.0, 762.6 288.0, 1020.0 288.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M448.0 376.0 C 705.4 376.0, 762.6 288.0, 1020.0 288.0" fill="none" stroke="#d93025" stroke-width="5" stroke-linecap="round"/>
+<path d="M448.0 400.0 C 727.9 400.0, 790.1 288.0, 1070.0 288.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M448.0 400.0 C 727.9 400.0, 790.1 288.0, 1070.0 288.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<circle cx="1040" cy="180" r="105" fill="#1a1a1a" stroke="#000" stroke-width="2"/>
+<circle cx="1040" cy="180" r="67" fill="#ffffff"/>
+<rect x="1032.0" y="86.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(-90.0 1040.0 94.0)"/>
+<circle cx="1040.0" cy="94.0" r="4" fill="#ffd36b"/>
+<rect x="1075.0" y="97.5" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(-60.0 1083.0 105.5)"/>
+<circle cx="1083.0" cy="105.5" r="4" fill="#ffd36b"/>
+<rect x="1106.5" y="129.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(-30.0 1114.5 137.0)"/>
+<circle cx="1114.5" cy="137.0" r="4" fill="#ffd36b"/>
+<rect x="1118.0" y="172.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(0.0 1126.0 180.0)"/>
+<circle cx="1126.0" cy="180.0" r="4" fill="#ffd36b"/>
+<rect x="1106.5" y="215.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(30.0 1114.5 223.0)"/>
+<circle cx="1114.5" cy="223.0" r="4" fill="#ffd36b"/>
+<rect x="1075.0" y="246.5" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(60.0 1083.0 254.5)"/>
+<circle cx="1083.0" cy="254.5" r="4" fill="#ffd36b"/>
+<rect x="1032.0" y="258.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(90.0 1040.0 266.0)"/>
+<circle cx="1040.0" cy="266.0" r="4" fill="#ffd36b"/>
+<rect x="989.0" y="246.5" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(120.0 997.0 254.5)"/>
+<circle cx="997.0" cy="254.5" r="4" fill="#ffd36b"/>
+<rect x="957.5" y="215.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(150.0 965.5 223.0)"/>
+<circle cx="965.5" cy="223.0" r="4" fill="#ffd36b"/>
+<rect x="946.0" y="172.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(180.0 954.0 180.0)"/>
+<circle cx="954.0" cy="180.0" r="4" fill="#ffd36b"/>
+<rect x="957.5" y="129.0" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(210.0 965.5 137.0)"/>
+<circle cx="965.5" cy="137.0" r="4" fill="#ffd36b"/>
+<rect x="989.0" y="97.5" width="16" height="16" rx="2" fill="#fff6dc" stroke="#d8c48c" transform="rotate(240.0 997.0 105.5)"/>
+<circle cx="997.0" cy="105.5" r="4" fill="#ffd36b"/>
+<text x="1040.0" y="174.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">네오픽셀 스트립</text>
+<text x="1040.0" y="194.0" font-size="12" fill="#56677e" text-anchor="middle">12구 RGB · 소켓에 감음</text>
+<rect x="961" y="279" width="18" height="18" rx="3" fill="#d4af37"/>
+<text x="970.0" y="315.0" font-size="12" font-weight="bold" fill="#1b2536" text-anchor="middle">DIN</text>
+<rect x="1011" y="279" width="18" height="18" rx="3" fill="#d4af37"/>
+<text x="1020.0" y="315.0" font-size="12" font-weight="bold" fill="#1b2536" text-anchor="middle">5V</text>
+<rect x="1061" y="279" width="18" height="18" rx="3" fill="#d4af37"/>
+<text x="1070.0" y="315.0" font-size="12" font-weight="bold" fill="#1b2536" text-anchor="middle">GND</text>
+<rect x="440" y="344" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="440" y="368" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="440" y="392" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<path d="M568.0 352.0 C 698.5 352.0, 727.5 433.0, 858.0 433.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M568.0 352.0 C 698.5 352.0, 727.5 433.0, 858.0 433.0" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round"/>
+<path d="M568.0 376.0 C 698.5 376.0, 727.5 460.0, 858.0 460.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M568.0 376.0 C 698.5 376.0, 727.5 460.0, 858.0 460.0" fill="none" stroke="#d93025" stroke-width="5" stroke-linecap="round"/>
+<path d="M568.0 400.0 C 698.5 400.0, 727.5 487.0, 858.0 487.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M568.0 400.0 C 698.5 400.0, 727.5 487.0, 858.0 487.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<rect x="860" y="385" width="300" height="150" rx="8" fill="#1a1a1a" stroke="#000" stroke-width="2"/>
+<circle cx="874" cy="399" r="7" fill="#ffffff"/>
+<circle cx="1146" cy="399" r="7" fill="#ffffff"/>
+<circle cx="874" cy="521" r="7" fill="#ffffff"/>
+<circle cx="1146" cy="521" r="7" fill="#ffffff"/>
+<rect x="938" y="415" width="134" height="96" rx="4" fill="#2f7fd8" stroke="#1a4f8f"/>
+<text x="1005.0" y="441.0" font-size="12" font-weight="bold" fill="#eaf2ff" text-anchor="middle">TONGLING</text>
+<text x="1005.0" y="461.0" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">5VDC</text>
+<text x="1005.0" y="479.0" font-size="10" fill="#cfe1ff" text-anchor="middle">10A 250VAC</text>
+<text x="1005.0" y="497.0" font-size="10" fill="#cfe1ff" text-anchor="middle">JQC-3FF-S-Z</text>
+<rect x="1088" y="407" width="62" height="112" rx="3" fill="#2a5fd0" stroke="#1a3f90"/>
+<circle cx="1119" cy="427" r="11" fill="#c8ccd0" stroke="#666"/>
+<path d="M1112 427 h14" stroke="#555" stroke-width="3"/>
+<text x="1082.0" y="431.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="end">NC</text>
+<circle cx="1119" cy="463" r="11" fill="#c8ccd0" stroke="#666"/>
+<path d="M1112 463 h14" stroke="#555" stroke-width="3"/>
+<text x="1082.0" y="467.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="end">COM</text>
+<circle cx="1119" cy="499" r="11" fill="#c8ccd0" stroke="#666"/>
+<path d="M1112 499 h14" stroke="#555" stroke-width="3"/>
+<text x="1082.0" y="503.0" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="end">NO</text>
+<rect x="956" y="393" width="40" height="8" rx="3" fill="#444"/>
+<rect x="1010" y="391" width="14" height="12" rx="2" fill="#333"/>
+<circle cx="920" cy="413" r="5" fill="#ff5252"/>
+<text x="920.0" y="403.0" font-size="8" fill="#aaa" text-anchor="middle">LED</text>
+<text x="1010.0" y="375.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">릴레이 모듈 KY-019형 (5V · HIGH 트리거)</text>
+<rect x="851" y="429" width="14" height="8" fill="#d4af37"/>
+<text x="872.0" y="437.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">S</text>
+<rect x="851" y="456" width="14" height="8" fill="#d4af37"/>
+<text x="872.0" y="464.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">+</text>
+<rect x="851" y="483" width="14" height="8" fill="#d4af37"/>
+<text x="872.0" y="491.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">−</text>
+<rect x="560" y="344" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="560" y="368" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="560" y="392" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<path d="M538.0 376.0 C 682.0 376.0, 714.0 620.0, 858.0 620.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M538.0 376.0 C 682.0 376.0, 714.0 620.0, 858.0 620.0" fill="none" stroke="#d93025" stroke-width="5" stroke-linecap="round"/>
+<path d="M538.0 352.0 C 682.0 352.0, 714.0 655.0, 858.0 655.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M538.0 352.0 C 682.0 352.0, 714.0 655.0, 858.0 655.0" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round"/>
+<path d="M538.0 400.0 C 682.0 400.0, 714.0 690.0, 858.0 690.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M538.0 400.0 C 682.0 400.0, 714.0 690.0, 858.0 690.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M506.0 748.0 C 673.4 748.0, 710.6 843.0, 878.0 843.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M506.0 748.0 C 673.4 748.0, 710.6 843.0, 878.0 843.0" fill="none" stroke="#f2b705" stroke-width="5" stroke-linecap="round"/>
+<path d="M506.0 700.0 C 673.4 700.0, 710.6 875.0, 878.0 875.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M506.0 700.0 C 673.4 700.0, 710.6 875.0, 878.0 875.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M676.0 542.0 C 766.9 542.0, 787.1 907.0, 878.0 907.0" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7" stroke-linecap="round"/>
+<path d="M676.0 542.0 C 766.9 542.0, 787.1 907.0, 878.0 907.0" fill="none" stroke="#ff7a00" stroke-width="5" stroke-linecap="round"/>
+<rect x="860" y="575" width="230" height="160" rx="8" fill="#1e7a3c" stroke="#0f4d24" stroke-width="2"/>
+<circle cx="990" cy="655" r="62" fill="#f4f4f1" stroke="#c9c9c2" stroke-width="2"/>
+<circle cx="990" cy="655" r="48" fill="none" stroke="#dcdcd4" stroke-width="2"/>
+<circle cx="990" cy="655" r="34" fill="none" stroke="#dcdcd4" stroke-width="2"/>
+<circle cx="990" cy="655" r="20" fill="none" stroke="#dcdcd4" stroke-width="2"/>
+<circle cx="1070" cy="615" r="9" fill="#f08c00" stroke="#a35f00"/>
+<circle cx="1070" cy="695" r="9" fill="#f08c00" stroke="#a35f00"/>
+<text x="975.0" y="565.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">인체감지 PIR (HC-SR501)</text>
+<rect x="851" y="616" width="14" height="8" fill="#d4af37"/>
+<text x="872.0" y="624.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">VCC</text>
+<rect x="851" y="651" width="14" height="8" fill="#d4af37"/>
+<text x="872.0" y="659.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">OUT</text>
+<rect x="851" y="686" width="14" height="8" fill="#d4af37"/>
+<text x="872.0" y="694.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">GND</text>
+<rect x="880" y="815" width="190" height="120" rx="8" fill="#1f5fae" stroke="#0e3a70" stroke-width="2"/>
+<circle cx="1010" cy="875" r="24" fill="#f3e3c3" stroke="#b08a4a" stroke-width="2"/>
+<path d="M994 865 q4 -8 8 0 t8 0 t8 0 t8 0 M994 877 q4 -8 8 0 t8 0 t8 0 t8 0 M994 889 q4 -8 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#b5452b" stroke-width="2"/>
+<text x="975.0" y="805.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">조도센서 모듈 (LDR, 아날로그 AO)</text>
+<rect x="871" y="839" width="14" height="8" fill="#d4af37"/>
+<text x="892.0" y="847.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">AO</text>
+<rect x="871" y="871" width="14" height="8" fill="#d4af37"/>
+<text x="892.0" y="879.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">GND</text>
+<rect x="871" y="903" width="14" height="8" fill="#d4af37"/>
+<text x="892.0" y="911.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">VCC</text>
+<rect x="530" y="344" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="530" y="368" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="530" y="392" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="498" y="740" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="498" y="692" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="668" y="534" width="16" height="16" rx="2" fill="#141414" stroke="#555" stroke-width="1"/>
+<rect x="1130" y="628" width="306" height="30" rx="15" fill="#1758a8"/>
+<circle cx="1145" cy="643" r="11" fill="#ffffff"/>
+<text x="1145.0" y="648.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">3</text>
+<text x="1162.0" y="648.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">PIR → 실드 3번 (GPIO25)</text>
+<rect x="1090" y="858" width="397" height="30" rx="15" fill="#1758a8"/>
+<circle cx="1105" cy="873" r="11" fill="#ffffff"/>
+<text x="1105.0" y="878.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">4</text>
+<text x="1122.0" y="878.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">조도 → A3 (GPIO34) + VCC는 3V3</text>
+<path d="M1119 463 C 1260 463, 1300 560, 1360 560" fill="none" stroke="#8d5524" stroke-width="6"/>
+<path d="M1119 499 C 1260 499, 1330 210, 1388 212" fill="none" stroke="#8d5524" stroke-width="6"/>
+<path d="M1420 538 C 1480 420, 1480 270, 1412 212" fill="none" stroke="#3b6ea5" stroke-width="6" stroke-dasharray="14 8"/>
+<circle cx="1400" cy="150" r="40" fill="#fff6c8" stroke="#d4b100" stroke-width="3"/>
+<rect x="1385" y="188" width="30" height="26" rx="4" fill="#9aa1a8"/>
+<text x="1400.0" y="156.0" font-size="15" font-weight="bold" fill="#6b5a00" text-anchor="middle">전구</text>
+<rect x="1360" y="538" width="80" height="44" rx="8" fill="#e8e8e8" stroke="#777"/>
+<text x="1400.0" y="566.0" font-size="15" font-weight="bold" fill="#333" text-anchor="middle">220V</text>
+<text x="1400.0" y="600.0" font-size="13" fill="#333" text-anchor="middle">콘센트</text>
+<circle cx="202" cy="640" r="34" fill="none" stroke="#f5d75d" stroke-width="4"/>
+<rect x="250" y="673" width="306" height="30" rx="15" fill="#b8860b"/>
+<circle cx="265" cy="688" r="11" fill="#ffffff"/>
+<text x="265.0" y="693.0" font-size="13" font-weight="bold" fill="#b8860b" text-anchor="middle">1</text>
+<text x="282.0" y="693.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">SEL 점퍼 빼기 → 외부 5V 사용</text>
+<rect x="1175" y="68" width="280" height="30" rx="15" fill="#1758a8"/>
+<circle cx="1190" cy="83" r="11" fill="#ffffff"/>
+<text x="1190.0" y="88.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">3</text>
+<text x="1207.0" y="88.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">네오픽셀 → 6번 (GPIO27)</text>
+<rect x="860" y="325" width="267" height="30" rx="15" fill="#1758a8"/>
+<circle cx="875" cy="340" r="11" fill="#ffffff"/>
+<text x="875.0" y="345.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">4</text>
+<text x="892.0" y="345.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">릴레이 → 2번 (GPIO26)</text>
+<rect x="424" y="419" width="48" height="21" rx="4" fill="#f5d75d" stroke="#3a3000"/>
+<text x="448.0" y="434.0" font-size="12" font-weight="bold" fill="#3a3000" text-anchor="middle">6번</text>
+<rect x="544" y="419" width="48" height="21" rx="4" fill="#f5d75d" stroke="#3a3000"/>
+<text x="568.0" y="434.0" font-size="12" font-weight="bold" fill="#3a3000" text-anchor="middle">2번</text>
+<rect x="488" y="419" width="48" height="21" rx="4" fill="#f5d75d" stroke="#3a3000"/>
+<text x="512.0" y="434.0" font-size="12" font-weight="bold" fill="#3a3000" text-anchor="middle">3번</text>
+<rect x="482" y="659" width="48" height="21" rx="4" fill="#f5d75d" stroke="#3a3000"/>
+<text x="506.0" y="674.0" font-size="12" font-weight="bold" fill="#3a3000" text-anchor="middle">A3</text>
+<path d="M1360 560 C 1320 600, 1480 640, 1487 730" fill="none" stroke="#8d5524" stroke-width="6"/>
+<path d="M1487 730 h-40" stroke="#8d5524" stroke-width="6"/>
+<path d="M1420 538 C 1470 570, 1507 745, 1447 765" fill="none" stroke="#3b6ea5" stroke-width="6" stroke-dasharray="14 8"/>
+<path d="M1223 730 C 1150 730, 1180 975, 1100 975 L 760 975 C 400 975, 230 980, 180 900 C 150 850, 140 700, 114 610" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7"/>
+<path d="M1223 730 C 1150 730, 1180 975, 1100 975 L 760 975 C 400 975, 230 980, 180 900 C 150 850, 140 700, 114 610" fill="none" stroke="#d93025" stroke-width="5"/>
+<path d="M1223 765 C 1150 765, 1190 990, 1100 990 L 760 990 C 380 990, 210 995, 160 910 C 128 850, 120 700, 88 610" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="7"/>
+<path d="M1223 765 C 1150 765, 1190 990, 1100 990 L 760 990 C 380 990, 210 995, 160 910 C 128 850, 120 700, 88 610" fill="none" stroke="#222222" stroke-width="5"/>
+<path d="M760 975 C 600 975, 20 980, 14 600 C 10 500, 12 430, 40 408" fill="none" stroke="#000" stroke-opacity="0.25" stroke-width="9" stroke-linecap="round"/>
+<path d="M760 975 C 600 975, 20 980, 14 600 C 10 500, 12 430, 40 408" fill="none" stroke="#333" stroke-width="7" stroke-linecap="round"/>
+<circle cx="760" cy="982" r="9" fill="#333"/>
+<text x="770.0" y="1010.0" font-size="12" fill="#56677e" text-anchor="start">5V 출력을 두 갈래로: ① EXT PWR(실드) · ② USB 케이블 끝을 잘라 5V·GND → micro USB(보드)</text>
+<text x="8.0" y="272.0" font-size="11" fill="#56677e" text-anchor="start">USB 케이블 5V·GND → micro USB</text>
+<rect x="1225" y="690" width="220" height="110" rx="8" fill="#2b2b2b" stroke="#000" stroke-width="2"/>
+<rect x="1265" y="712" width="140" height="66" rx="6" fill="#efefef" stroke="#999"/>
+<text x="1335.0" y="738.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">HLK-5M05</text>
+<text x="1335.0" y="758.0" font-size="10" fill="#56677e" text-anchor="middle">AC 100~240V → DC 5V 1A</text>
+<text x="1335.0" y="680.0" font-size="14" font-weight="bold" fill="#1b2536" text-anchor="middle">220V → 5V 모듈 (케이스에 넣어 절연)</text>
+<rect x="1216" y="726" width="14" height="8" fill="#d4af37"/>
+<text x="1209.0" y="734.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="end">+5V</text>
+<rect x="1216" y="761" width="14" height="8" fill="#d4af37"/>
+<text x="1209.0" y="769.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="end">GND</text>
+<rect x="1440" y="726" width="14" height="8" fill="#d4af37"/>
+<text x="1461.0" y="734.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">L</text>
+<rect x="1440" y="761" width="14" height="8" fill="#d4af37"/>
+<text x="1461.0" y="769.0" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="start">N</text>
+<rect x="1230" y="818" width="250" height="30" rx="15" fill="#c62828"/>
+<circle cx="1245" cy="833" r="11" fill="#ffffff"/>
+<text x="1245.0" y="838.0" font-size="13" font-weight="bold" fill="#c62828" text-anchor="middle">!</text>
+<text x="1262.0" y="838.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">220V 분기·모듈은 교사 작업</text>
+<rect x="530" y="91" width="430" height="30" rx="15" fill="#1758a8"/>
+<circle cx="545" cy="106" r="11" fill="#ffffff"/>
+<text x="545.0" y="111.0" font-size="13" font-weight="bold" fill="#1758a8" text-anchor="middle">2</text>
+<text x="562.0" y="111.0" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="start">220V → 5V 모듈 → ① EXT PWR(실드) · ② micro USB(보드)</text>
+<text x="50.0" y="1040.0" font-size="13" font-weight="bold" fill="#56677e" text-anchor="start">선 색</text>
+<path d="M100 1035 h34" stroke="#f2b705" stroke-width="6" stroke-linecap="round"/>
+<text x="142.0" y="1040.0" font-size="13" fill="#1b2536" text-anchor="start">신호(S)</text>
+<path d="M250 1035 h34" stroke="#d93025" stroke-width="6" stroke-linecap="round"/>
+<text x="292.0" y="1040.0" font-size="13" fill="#1b2536" text-anchor="start">5V (V)</text>
+<path d="M400 1035 h34" stroke="#ff7a00" stroke-width="6" stroke-linecap="round"/>
+<text x="442.0" y="1040.0" font-size="13" fill="#1b2536" text-anchor="start">3.3V</text>
+<path d="M550 1035 h34" stroke="#222222" stroke-width="6" stroke-linecap="round"/>
+<text x="592.0" y="1040.0" font-size="13" fill="#1b2536" text-anchor="start">GND (G)</text>
+<path d="M700 1035 h34" stroke="#8d5524" stroke-width="6" stroke-linecap="round"/>
+<text x="742.0" y="1040.0" font-size="13" fill="#1b2536" text-anchor="start">220V (교사 작업)</text>
+<text x="1450.0" y="1040.0" font-size="13" fill="#56677e" text-anchor="end">모든 연결은 암-암 점퍼선 · 브레드보드 없음</text>
+<rect x="50" y="1060" width="1400" height="34" rx="8" fill="#f2f5f9"/>
+<text x="70.0" y="1083.0" font-size="15" fill="#1b2536" text-anchor="start">① 램프 코드 L·N을 릴레이 앞에서 갈라 220V→5V 모듈(5V 1A, 예: HLK-5M05)에 — 릴레이는 L 한 가닥만 전구로. 플러그는 1개, 건전지 없음</text>
+<rect x="50" y="1100" width="1400" height="34" rx="8" fill="#f2f5f9"/>
+<text x="70.0" y="1123.0" font-size="15" fill="#1b2536" text-anchor="start">② 모듈 5V를 두 갈래로: EXT PWR(실드, SEL 뺌) + micro USB(보드). DC 잭은 7V 이상이 필요해 5V를 넣으면 안 됨 · 조도센서 VCC는 3V3</text>
+<rect x="50" y="1140" width="1400" height="34" rx="8" fill="#fdecea"/>
+<text x="70.0" y="1163.0" font-size="15" font-weight="bold" fill="#9a1c12" text-anchor="start">⚠ 220V 분기·모듈 연결·절연(케이스, 입력 1A 퓨즈 권장)은 교사 작업 · 1A 모듈이면 네오픽셀 상한 128, 0.6A 모듈이면 64</text>
+</svg>

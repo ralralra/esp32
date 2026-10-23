@@ -6,7 +6,7 @@
     릴레이(KY-019형, HIGH 트리거) → 실드 2번 (S→S, +→V, −→G) = GPIO26 · 전구는 COM–NO
     PIR          → 실드 3번                          = GPIO25
     조도센서     → 실드 A3 (VCC는 Bluetooth 헤더 3V3) = GPIO34
-  라이브러리: Adafruit NeoPixel (NEO_GRB + NEO_KHZ800, 16구 — V1과 같은 설정)
+  라이브러리: Adafruit NeoPixel (NEO_GRB + NEO_KHZ800) · V3 링은 12구 (V1 스트립은 16구)
 
   규칙 (자동 모드) — 두 조명이 서로 다른 센서를 본다
     네오픽셀: 사람이 감지되면 켜짐 → 움직임 없이 NP_HOLD_MS 지나면 서서히 꺼짐        (조도와 무관)
@@ -41,8 +41,8 @@ const unsigned long NP_HOLD_MS = 60UL * 1000;      // 움직임이 없으면 이
 const bool NP_ONLY_WHEN_DARK   = false;            // true면 어두울 때만 사람에 반응
 
 // ── 네오픽셀 ─────────────────────────────────────
-#define LED_COUNT 16
-const int  MAX_BRIGHTNESS = 64;    // 9V 건전지 + 보드 레귤레이터로 전원을 받으므로 상한을 낮춤 (약 0.15A). 5V 2A 충전기면 128까지
+#define LED_COUNT 12
+const int  MAX_BRIGHTNESS = 64;    // 전원 A안(9V → 보드 레귤레이터)용 상한 (12구 약 0.11A). B·C안이나 5V 2A 충전기면 128까지
 const unsigned long FADE_MS = 1000;
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
