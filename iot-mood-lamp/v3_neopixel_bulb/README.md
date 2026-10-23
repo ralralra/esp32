@@ -31,5 +31,6 @@ V1의 네오픽셀과 V2의 220V 전구를 **한 보드에 같이** 달고, 자�
 | 1 | [`../v1_neopixel/firmware/step1_sensor_test/`](../v1_neopixel/firmware/step1_sensor_test/) | 조도·PIR 값 보며 `DARK_LEVEL` 정하기 |
 | 2 | [`../v1_neopixel/firmware/step2_neopixel_test/`](../v1_neopixel/firmware/step2_neopixel_test/) · [`../v2_relay_bulb/firmware/step2_relay_test/`](../v2_relay_bulb/firmware/step2_relay_test/) | 네오픽셀 무지개 · 릴레이 딸깍 (한 보드에 둘 다 꽂은 채 차례로 업로드) |
 | 3 | [`firmware/step3_auto_combo/`](firmware/step3_auto_combo/) | **사람 → 네오픽셀 · 어두움 → 전구** 자동 + 시리얼 수동 제어 |
+| 5 | [`firmware/step5_app_mqtt/`](firmware/step5_app_mqtt/) | 앱·음성으로 네오픽셀·전구 **따로** 켜기·끄기, 색·밝기, 자동 — MQTT 0.1~0.5초 (와이파이 → 전원 B·C안) |
 
-앱·음성 연동(4·5단계)은 아직 없습니다. 필요하면 V1·V2의 5단계(MQTT)를 합쳐 `NP ON` · `BULB ON` 명령을 추가하면 됩니다.
+4단계(구글시트 폴링)는 V3에 없습니다. 앱은 V1·V2와 같은 MQTT판 프롬프트를 쓰고, 보드가 `type:"combo"`를 보고하면 스위치가 둘인 화면이 나옵니다 → [`../app/ai_studio_prompt_mqtt.md`](../app/ai_studio_prompt_mqtt.md)
