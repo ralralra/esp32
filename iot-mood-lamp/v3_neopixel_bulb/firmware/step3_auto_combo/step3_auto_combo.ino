@@ -71,12 +71,12 @@ String inputLine;
 // 센서
 // ─────────────────────────────────────────────────
 int lightPercent(int raw) {
-  int pct = (long)raw * 100 / 4095;
+  int pct = ((long)raw * 100 + 2047) / 4095;       // 반올림 — 평균이 끝값에 몇 단위 못 미쳐도 0%·100%
   return DARK_IS_HIGH ? 100 - pct : pct;          // 100 = 밝음
 }
 
 void updateDarkness() {
-  int offLevel = DARK_LEVEL + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0);   // 전구가 켜져 있으면 그 빛만큼 더 밝아야 '밝음'
+  int offLevel = min(100, DARK_LEVEL + DARK_MARGIN + (bulbOn ? BULB_GLOW : 0));   // 전구가 켜져 있으면 그 빛만큼 더 밝아야 '밝음' (상한 100)
   if (!isDark && lightPct < DARK_LEVEL) isDark = true;
   if (isDark  && lightPct >= offLevel)  isDark = false;
 }

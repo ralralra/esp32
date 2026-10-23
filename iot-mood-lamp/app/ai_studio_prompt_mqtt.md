@@ -66,6 +66,17 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
 5) 맨 아래 "🎤 눌러서 말하기" 버튼
 (색상·밝기 카드는 전구 보드에서는 숨김 — 전구는 켜기/끄기만 가능)
 
+━━━━━━━━━━ 화면 4 · 조명 탭 (내 보드가 둘 다일 때: type = "combo") ━━━━━━━━━━
+네오픽셀과 전구가 한 보드에 같이 있는 경우야. 화면 1의 틀에 스위치가 둘이야:
+1) 상태 카드: 갓 그림은 네오픽셀 색으로 칠하고, 그 아래 작은 전구 아이콘은 bulb가 ON이면 노랗게 빛나게.
+   오른쪽에 작은 글씨 "네오픽셀 + 전구", 큰 글씨는 "둘 다 켜짐" / "네오픽셀만" / "전구만" / "모두 꺼짐".
+2) 스위치 카드 2줄: "💡 네오픽셀" 토글(np ON/OFF) · "🔆 전구" 토글(bulb ON/OFF). 토글을 바꾸면 각각 "NP ON"/"NP OFF", "BULB ON"/"BULB OFF"를 보내.
+   그 아래 작은 버튼 두 개: "모두 켜기"(→ "ON") · "모두 끄기"(→ "OFF")
+3) [수동 | 자동] 세그먼트 버튼 — 자동일 때 설명 한 줄: "사람이 오면 네오픽셀, 어두워지면 전구"
+4) "색상 · 밝기" 카드(화면 1과 같음 — 네오픽셀에만 적용)
+5) 센서 카드 2개 · 6) "🎤 눌러서 말하기"
+자동화 탭의 "움직임이 없으면" 드롭다운은 combo에서는 **네오픽셀이 꺼지는 시간**이야 (30초/1분/5분/10분, 처음 값은 state의 off).
+
 내 보드의 state를 한 번도 받지 못했으면(type 없음) 조명 탭에 "보드를 켜고 와이파이에 연결해 주세요" 안내 카드만 보여줘.
 
 ━━━━━━━━━━ 화면 3 · 자동화 탭 ━━━━━━━━━━
@@ -82,7 +93,7 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
 ━━━━━━━━━━ 설정 탭 ━━━━━━━━━━
 - "내 팀" 선택: TEAM01 ~ TEAM12 중 하나 (localStorage에 저장, 헤더 드롭다운과 같은 값)
 - "반 전체 연결 현황": 12팀을 3열 격자로, 팀마다 초록/회색 점 + 보드 종류(전구/네오픽셀) 표시
-  — [TOPIC_PREFIX]/+/status 와 [TOPIC_PREFIX]/+/state 를 구독해서 만들어 (status가 "online"이면 초록)
+  — [TOPIC_PREFIX]/+/status 와 [TOPIC_PREFIX]/+/state 를 구독해서 만들어 (status가 "online"이면 초록, 종류는 전구/네오픽셀/둘 다)
 - 브로커 주소는 화면에 작게 표시만 (수정 불가)
 
 ━━━━━━━━━━ 통신 규칙 (가장 중요) ━━━━━━━━━━
@@ -93,16 +104,19 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
   헤더의 "연결됨"은 (앱이 브로커에 붙어 있음) AND (내 팀 status == "online") 일 때만.
 - state 메시지는 JSON이야. 예:
   {"type":"neopixel","power":"ON","auto":1,"color":"warm","bright":60,"light":32,"motion":1,"dark":30,"off":300}
-  · type → "neopixel"이면 화면 1, "bulb"이면 화면 2
+  · type → "neopixel"이면 화면 1, "bulb"이면 화면 2, "combo"이면 화면 4
+  · combo일 때는 np "ON"/"OFF", bulb "ON"/"OFF"가 따로 오고, power는 둘 중 하나라도 켜져 있으면 "ON"
   · power "ON"/"OFF" → 켜짐/꺼짐,  auto 1/0 → 자동/수동
   · color, bright → 색·밝기 (color는 warm·white·red·orange·yellow·green·blue·purple·pink·rainbow 또는 6자리 색 코드)
   · light → 주변 밝기 % 그대로 표시,  motion 1/0 → "감지됨"/"감지 없음"
   · dark, off → 자동화 탭 처음 값
   state는 retained라서 접속 직후 마지막 값이 바로 온다. 팀을 바꾸면 그 팀의 마지막 state로 화면을 갱신해.
 - 명령 보내기: [TOPIC_PREFIX]/내팀/cmd 토픽에 한 줄 글자를 publish (qos 0, retain false). 대문자 그대로:
-  · 켜기/끄기 버튼: "ON" / "OFF"
+  · 켜기/끄기 버튼: "ON" / "OFF"   (combo는 둘 다에 적용)
+  · combo 스위치: "NP ON" / "NP OFF" (네오픽셀), "BULB ON" / "BULB OFF" (전구)
   · 세그먼트 [자동] 또는 자동화 토글 켜기: "AUTO"
   · 세그먼트 [수동] 또는 자동화 토글 끄기: 지금 켜져 있으면 "ON", 꺼져 있으면 "OFF"
+    — combo 보드에서는 대신 "MANUAL"을 보내 (지금 켜진 것은 그대로 두고 자동만 끔. "ON"을 보내면 꺼져 있던 쪽까지 켜짐)
   · 프리셋 색: "COLOR warm" / "COLOR white" / "COLOR purple" / "COLOR rainbow"
   · 컬러휠: "COLOR " + 6자리 색 코드(# 없이, 예: "COLOR FF8800")
   · 밝기 슬라이더: "BRIGHT " + 0~100 — 손을 뗄 때(change 이벤트) 한 번만 보내. 움직이는 동안 보내지 마.
@@ -114,7 +128,11 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
 ━━━━━━━━━━ 음성 명령 ━━━━━━━━━━
 - 브라우저 Web Speech API(SpeechRecognition, 없으면 webkitSpeechRecognition), lang='ko-KR'
 - "눌러서 말하기" 버튼을 누르면 한 문장을 듣고, 들은 문장을 화면에 잠깐 보여준 뒤 아래 규칙으로 바로 publish해:
-  · '꺼' 포함 → "OFF" / '켜' 포함 → "ON" / '자동' 포함 → "AUTO"   ('꺼'를 '켜'보다 먼저 검사)
+  · 가장 먼저 '자동' 포함 → "AUTO" 하고 끝 (모든 보드. "자동 모드 켜 줘"처럼 '켜'가 같이 있어도 AUTO)
+  · (combo 보드는 다음으로 이 줄) 문장에 '네오픽셀'·'무드등'·'LED'가 있으면 대상 = NP, '전구'·'램프'가 있으면 대상 = BULB, 없으면 대상 = 둘 다.
+    그다음 '꺼' 포함이면 대상이 NP → "NP OFF", BULB → "BULB OFF", 둘 다 → "OFF"; '켜' 포함이면 같은 식으로 "NP ON"/"BULB ON"/"ON".
+    즉 "전구 꺼 줘"는 "BULB OFF" 하나만 보내고, 일반 "OFF"로 떨어지면 안 돼. (대상 단어 검사가 켜/꺼 검사보다 먼저)
+  · neopixel·bulb 보드: '꺼' 포함 → "OFF" / '켜' 포함 → "ON"   ('꺼'를 '켜'보다 먼저 검사)
   · 색 단어 → "COLOR …": 빨강→red, 주황→orange, 노랑→yellow, 초록→green, 파랑·파란→blue,
     보라→purple, 분홍→pink, 따뜻→warm, 하양·흰→white, 무지개→rainbow
   · '밝기'와 숫자 → "BRIGHT 숫자", '밝게' → 현재 밝기+20, '어둡게' → 현재 밝기−20 (0~100으로 제한)
@@ -144,5 +162,5 @@ ESP32로 만든 무드등을 폰으로 켜고 끄고, 색·밝기를 바꾸고, 
 ## 함께 보는 문서
 
 - 브로커 만들기 · 토픽 약속: [`../docs/mqtt.md`](../docs/mqtt.md)
-- 보드 펌웨어: [V1 네오픽셀 5단계](../v1_neopixel/firmware/step5_app_mqtt/) · [V2 전구 5단계](../v2_relay_bulb/firmware/step5_app_mqtt/)
+- 보드 펌웨어: [V1 네오픽셀 5단계](../v1_neopixel/firmware/step5_app_mqtt/) · [V2 전구 5단계](../v2_relay_bulb/firmware/step5_app_mqtt/) · [V3 네오픽셀+전구 5단계](../v3_neopixel_bulb/firmware/step5_app_mqtt/)
 - 음성 규칙: [`../docs/voice_control.md`](../docs/voice_control.md)

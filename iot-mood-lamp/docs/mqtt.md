@@ -55,8 +55,8 @@ const char* TOPIC_PREFIX = "moodlamp/k7q2-x9z1-3ban";
 
 | 토픽 | 방향 | 내용 |
 |---|---|---|
-| `…/cmd` | 앱 → 보드 | 한 줄 글자: `ON` · `OFF` · `AUTO` · `COLOR blue` · `COLOR FF8800` · `BRIGHT 50` · `CONFIG 30 300` |
-| `…/state` | 보드 → 앱 (retained) | `{"type":"neopixel","power":"ON","auto":1,"color":"warm","bright":60,"light":32,"motion":1,"dark":30,"off":300}` (전구형은 `type:"bulb"`, color·bright 없음) |
+| `…/cmd` | 앱 → 보드 | 한 줄 글자: `ON` · `OFF` · `AUTO` · `COLOR blue` · `COLOR FF8800` · `BRIGHT 50` · `CONFIG 30 300` · V3만 `NP ON/OFF` · `BULB ON/OFF` |
+| `…/state` | 보드 → 앱 (retained) | `{"type":"neopixel","power":"ON","auto":1,"color":"warm","bright":60,"light":32,"motion":1,"dark":30,"off":300}` (전구형은 `type:"bulb"`, color·bright 없음 · V3는 `type:"combo"` + `np`·`bulb` 항목, `off`는 네오픽셀 유지 초) |
 | `…/status` | 보드 → 앱 (retained) | `online` / `offline` — 보드가 끊기면 브로커가 유언(LWT)으로 `offline`을 대신 남김 |
 
 - **retained**: 브로커가 마지막 값을 기억해 두어, 앱이 나중에 접속해도 현재 상태가 바로 보입니다.
@@ -76,8 +76,8 @@ const char* TOPIC_PREFIX = "moodlamp/k7q2-x9z1-3ban";
 
 ## 펌웨어·앱
 
-| | V1 네오픽셀 | V2 릴레이 전구 |
-|---|---|---|
-| 펌웨어 | [`step5_app_mqtt`](../v1_neopixel/firmware/step5_app_mqtt/) | [`step5_app_mqtt`](../v2_relay_bulb/firmware/step5_app_mqtt/) |
-| 라이브러리 | Adafruit NeoPixel + **PubSubClient** | **PubSubClient** |
-| 앱 프롬프트 | [`app/ai_studio_prompt_mqtt.md`](../app/ai_studio_prompt_mqtt.md) (공통) | |
+| | V1 네오픽셀 | V2 릴레이 전구 | V3 둘 다 |
+|---|---|---|---|
+| 펌웨어 | [`step5_app_mqtt`](../v1_neopixel/firmware/step5_app_mqtt/) | [`step5_app_mqtt`](../v2_relay_bulb/firmware/step5_app_mqtt/) | [`step5_app_mqtt`](../v3_neopixel_bulb/firmware/step5_app_mqtt/) |
+| 라이브러리 | Adafruit NeoPixel + **PubSubClient** | **PubSubClient** | Adafruit NeoPixel + **PubSubClient** |
+| 앱 프롬프트 | [`app/ai_studio_prompt_mqtt.md`](../app/ai_studio_prompt_mqtt.md) (공통 — type 으로 화면이 갈림) | | |
