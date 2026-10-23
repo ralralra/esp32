@@ -20,6 +20,11 @@
 
 두 버전의 보드·센서·센서 코드·서버·앱은 **같습니다.** 출력 부품(네오픽셀 ↔ 릴레이)만 다릅니다.
 
+### V3 — 네오픽셀 + 전구를 한 보드에 ([`v3_neopixel_bulb/`](v3_neopixel_bulb/))
+
+두 출력을 같이 달고 자동 모드에서 **사람이 오면 네오픽셀**, **어두워지면 전구**가 켜집니다 (수동은 `np on` · `bulb on` 처럼 따로).
+보드는 DC 잭에 **9V 건전지**(시연용, 네오픽셀 상한 64), 전구는 220V. 3단계까지(와이파이 없이) 있습니다.
+
 ## 자동 동작 규칙 (두 버전 공통)
 
 **기준 숫자 하나(`DARK_LEVEL`, 주변 밝기 %)** 를 정하면, 그보다 **어두워지면 켜지고 밝아지면 꺼집니다.**
@@ -90,10 +95,12 @@
 | [`docs/power.md`](docs/power.md) | V1은 플러그 1개, V2는 2개인 이유 · 전류 계산 |
 | [`docs/voice_control.md`](docs/voice_control.md) | 음성제어 방법 (Web Speech API · Gemini · Siri 단축어) |
 | [`docs/mqtt.md`](docs/mqtt.md) | **빠른 응답(5단계)** — MQTT 브로커 만들기 · 토픽 약속 · 12팀 사용량 |
+| [`docs/lesson_3h_student.pptx`](docs/lesson_3h_student.pptx) | **3시간 수업 PPT (학생용 14장)** — 네오픽셀·릴레이 두 버전 · 다섯 걸음과 성공 기준 · 배선 · 체크리스트. 교사용 준비·손절 기준·전원·220V 주의는 각 장 **발표자 노트**에 |
 | [`apps_script/`](apps_script/README.md) | **중계 서버** — 시트 1개로 12팀 · `mood_lamp.gs` · 주소 약속 |
 | [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안 + 그대로 붙여넣는 프롬프트 (구글시트판 · MQTT판) |
 | [`v1_neopixel/`](v1_neopixel/) | **V1** — 배선 · 펌웨어 5단계 |
 | [`v2_relay_bulb/`](v2_relay_bulb/) | **V2** — 배선 · 펌웨어 5단계 |
+| [`v3_neopixel_bulb/`](v3_neopixel_bulb/) | **V3** — 네오픽셀 + 전구 동시 · 9V 건전지 전원 계산 · 펌웨어 3단계 |
 
 ## 꼭 알아두기
 
