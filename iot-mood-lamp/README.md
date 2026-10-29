@@ -66,7 +66,7 @@
 |---|---|---|
 | 선생님 (한 번) | 구글 시트 1개 + [`mood_lamp.gs`](apps_script/mood_lamp.gs) 배포 → `/exec` 주소를 학생에게 | [`apps_script/README.md`](apps_script/README.md) |
 | 학생 | 4단계(또는 5단계) 펌웨어 위쪽 설정(와이파이 · 주소 · **TEAM_ID**) 고쳐서 업로드 | V1 [`step4`](v1_neopixel/firmware/step4_app_mood_lamp/) · V2 [`step4`](v2_relay_bulb/firmware/step4_app_lamp/) · MQTT는 `step5_app_mqtt` |
-| 학생 | 프롬프트의 `[웹앱 URL]`을 바꿔 AI Studio로 앱 만들기 → 설정 탭에서 내 팀 선택 | [`app/ai_studio_prompt.md`](app/ai_studio_prompt.md) · MQTT판 [`ai_studio_prompt_mqtt.md`](app/ai_studio_prompt_mqtt.md) |
+| 학생 | 프롬프트의 `[웹앱 URL]`을 바꿔 AI Studio로 앱 만들기 → 설정 탭에서 내 팀 선택 | [`app/ai_studio_prompt.md`](app/ai_studio_prompt.md) · MQTT판 [`ai_studio_prompt_mqtt.md`](app/ai_studio_prompt_mqtt.md) · **간단판(디자인 자유, 팀만 바꿈)** [`ai_studio_prompt_mqtt_simple.md`](app/ai_studio_prompt_mqtt_simple.md) |
 
 - 팀 번호는 **TEAM01 ~ TEAM12**, 학생마다 다르게. 같은 번호를 쓰면 서로의 램프가 같이 움직입니다.
 - 앱은 보드가 보고한 종류(`neopixel` / `bulb`)를 보고 **색·밝기 화면**과 **켜기·끄기 화면**을 스스로 고릅니다.
@@ -97,7 +97,7 @@
 | [`docs/mqtt.md`](docs/mqtt.md) | **빠른 응답(5단계)** — MQTT 브로커 만들기 · 토픽 약속 · 12팀 사용량 |
 | [`docs/lesson_3h_student.pptx`](docs/lesson_3h_student.pptx) | **3시간 수업 PPT (학생용 14장)** — 네오픽셀·릴레이 두 버전 · 다섯 걸음과 성공 기준 · 배선 · 체크리스트. 교사용 준비·손절 기준·전원·220V 주의는 각 장 **발표자 노트**에 |
 | [`apps_script/`](apps_script/README.md) | **중계 서버** — 시트 1개로 12팀 · `mood_lamp.gs` · 주소 약속 |
-| [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안 + 그대로 붙여넣는 프롬프트 (구글시트판 · MQTT판) |
+| [`app/`](app/ai_studio_prompt.md) | **AI Studio 앱 프롬프트** — 화면 시안 + 그대로 붙여넣는 프롬프트 (구글시트판 · MQTT판 · MQTT 간단판) |
 | [`v1_neopixel/`](v1_neopixel/) | **V1** — 배선 · 펌웨어 5단계 |
 | [`v2_relay_bulb/`](v2_relay_bulb/) | **V2** — 배선 · 펌웨어 5단계 |
 | [`v3_neopixel_bulb/`](v3_neopixel_bulb/) | **V3** — 네오픽셀 + 전구 동시 · 9V 건전지 전원 계산 · 펌웨어 3단계 |
